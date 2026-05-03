@@ -632,6 +632,7 @@ function createRenderer(canvas) {
     alpha: true
   });
   renderer.setPixelRatio(window.devicePixelRatio || 1);
+
   const resize = () => {
     const rect = canvas.getBoundingClientRect();
     if (rect.width && rect.height) {
@@ -643,7 +644,7 @@ function createRenderer(canvas) {
   return renderer;
 }
 
-/* HERO: silver π floating in dramatic sunset sky */
+/* HERO — stylized Greek π, silver, no rotation, gentle float, light sweep */
 function initHero() {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
@@ -656,6 +657,7 @@ function initHero() {
   camera.position.set(0, 0.8, 7.5);
   camera.lookAt(0, 0.5, 0);
 
+  // Sky
   const skyGeo = new THREE.SphereGeometry(60, 32, 32);
   const skyMat = new THREE.ShaderMaterial({
     side: THREE.BackSide,
@@ -678,93 +680,101 @@ function initHero() {
       uniform vec3 bottomColor;
       void main() {
         float h = normalize(vPos).y * 0.5 + 0.5;
-        vec3 col;
-        if (h < 0.5) {
-          float t = h / 0.5;
-          col = mix(bottomColor, midColor, t);
-        } else {
-          float t = (h - 0.5) / 0.5;
-          col = mix(midColor, topColor, t);
-        }
+        vec3 col = (h < 0.5)
+          ? mix(bottomColor, midColor, h / 0.5)
+          : mix(midColor, topColor, (h - 0.5) / 0.5);
         gl_FragColor = vec4(col, 1.0);
       }
     `
   });
-  const sky = new THREE.Mesh(skyGeo, skyMat);
-  scene.add(sky);
+  scene.add(new THREE.Mesh(skyGeo, skyMat));
 
-  const sunGeo = new THREE.CircleGeometry(1.6, 64);
-  const sunMat = new THREE.MeshBasicMaterial({
-    color: 0xffc070,
-    transparent: true,
-    opacity: 0.95
-  });
-  const sun = new THREE.Mesh(sunGeo, sunMat);
+  // Sun
+  const sun = new THREE.Mesh(
+    new THREE.CircleGeometry(1.6, 64),
+    new THREE.MeshBasicMaterial({ color: 0xffc070, transparent: true, opacity: 0.95 })
+  );
   sun.position.set(0, -0.2, -10);
   scene.add(sun);
 
-  const sunGlowGeo = new THREE.CircleGeometry(2.6, 64);
-  const sunGlowMat = new THREE.MeshBasicMaterial({
-    color: 0xffa050,
-    transparent: true,
-    opacity: 0.35
-  });
-  const sunGlow = new THREE.Mesh(sunGlowGeo, sunGlowMat);
+  const sunGlow = new THREE.Mesh(
+    new THREE.CircleGeometry(2.6, 64),
+    new THREE.MeshBasicMaterial({ color: 0xffa050, transparent: true, opacity: 0.35 })
+  );
   sunGlow.position.set(0, -0.2, -10.1);
   scene.add(sunGlow);
 
-  const hemi = new THREE.HemisphereLight(0xffb080, 0x1a0030, 0.8);
-  scene.add(hemi);
+  // Lights
+  scene.add(new THREE.HemisphereLight(0xffb080, 0x1a0030, 0.8));
 
-  const keyLight = new THREE.DirectionalLight(0xfff0d0, 1.4);
-  keyLight.position.set(-2.5, 2.5, 3.0);
-  scene.add(keyLight);
+  const sweepLight = new THREE.DirectionalLight(0xffffff, 1.4);
+  sweepLight.position.set(3, 4, 2);
+  scene.add(sweepLight);
 
-  const rimLight = new THREE.DirectionalLight(0xff7a2a, 0.9);
-  rimLight.position.set(2.0, -0.5, -3.0);
+  const rimLight = new THREE.DirectionalLight(0xff7a2a, 0.6);
+  rimLight.position.set(-2, -1, -3);
   scene.add(rimLight);
 
+  // Stylized π (chai‑like)
   const piGroup = new THREE.Group();
   const piMat = new THREE.MeshStandardMaterial({
     color: 0xdedede,
     metalness: 1.0,
-    roughness: 0.18
+    roughness: 0.18,
+    emissive: 0xffffff,
+    emissiveIntensity: 0.12
   });
 
-  const barThickness = 0.35;
-  const barHeight = 2.4;
-  const barWidth = 2.8;
-  const depth = 0.5;
+  // Curved top bar
+  const topShape = new THREE.Shape();
+  topShape.moveTo(-1.4, 0.0);
+  topShape.quadraticCurveTo(0, 0.35, 1.4, 0.0);
+  topShape.lineTo(1.4, -0.3);
+  topShape.quadraticCurveTo(0, 0.05, -1.4, -0.3);
+  topShape.closePath();
 
-  const leftGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
-  const rightGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
-  const topGeo = new THREE.BoxGeometry(barWidth, barThickness, depth);
+  const topExtrude = new THREE.ExtrudeGeometry(topShape, {
+    depth: 0.4,
+    bevelEnabled: true,
+    bevelSize: 0.05,
+    bevelThickness: 0.05
+  });
+  const topMesh = new THREE.Mesh(topExtrude, piMat);
+  topMesh.position.y = 1.2;
+  piGroup.add(topMesh);
 
-  const leftBar = new THREE.Mesh(leftGeo, piMat);
-  const rightBar = new THREE.Mesh(rightGeo, piMat);
-  const topBar = new THREE.Mesh(topGeo, piMat);
+  // Left leg
+  const leftLeg = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.22, 0.22, 2.4, 32),
+    piMat
+  );
+  leftLeg.position.set(-1.0, -0.2, 0);
+  leftLeg.rotation.z = 0.18;
+  piGroup.add(leftLeg);
 
-  leftBar.position.set(-barWidth/2 + barThickness/2, 0, 0);
-  rightBar.position.set(barWidth/2 - barThickness/2, 0, 0);
-  topBar.position.set(0, barHeight/2 - barThickness/2, 0);
-
-  piGroup.add(leftBar);
-  piGroup.add(rightBar);
-  piGroup.add(topBar);
+  // Right leg
+  const rightLeg = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.22, 0.22, 2.4, 32),
+    piMat
+  );
+  rightLeg.position.set(1.0, -0.2, 0);
+  rightLeg.rotation.z = -0.18;
+  piGroup.add(rightLeg);
 
   piGroup.position.set(0, 0.5, 0);
   scene.add(piGroup);
 
-  const baseGlowGeo = new THREE.CircleGeometry(1.8, 64);
-  const baseGlowMat = new THREE.MeshBasicMaterial({
-    color: 0xff7a2a,
-    transparent: true,
-    opacity: 0.18
-  });
-  const baseGlow = new THREE.Mesh(baseGlowGeo, baseGlowMat);
-  baseGlow.rotation.x = -Math.PI / 2;
-  baseGlow.position.set(0, -0.9, 0);
-  scene.add(baseGlow);
+  // Center glow
+  const centerGlow = new THREE.Mesh(
+    new THREE.CircleGeometry(0.6, 32),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.25
+    })
+  );
+  centerGlow.position.set(0, 0.4, -0.2);
+  scene.add(centerGlow);
 
   const clock = new THREE.Clock();
 
@@ -772,12 +782,16 @@ function initHero() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    const rotationSpeed = (2 * Math.PI) / 9.0;
-    piGroup.rotation.y = t * rotationSpeed;
+    // Gentle float
     piGroup.position.y = 0.5 + Math.sin(t * 0.6) * 0.15;
 
-    baseGlow.material.opacity = 0.14 + 0.06 * Math.sin(t * 0.8);
+    // Light sweep
+    sweepLight.position.x = 3 + Math.sin(t * 0.8) * 1.2;
 
+    // Center glow pulse
+    centerGlow.material.opacity = 0.18 + 0.10 * Math.sin(t * 1.2);
+
+    // Camera drift
     camera.position.x = 0.6 * Math.sin(t * 0.12);
     camera.position.z = 7.5 + 0.3 * Math.cos(t * 0.12);
     camera.lookAt(0, 0.5, 0);
@@ -788,10 +802,11 @@ function initHero() {
 
     renderer.render(scene, camera);
   }
+
   animate();
 }
 
-/* Survival Summit: platform + ball + stylized water background */
+/* Survival Summit: platform + ball + grass background */
 function initArena() {
   const canvas = document.getElementById('arenaCanvas');
   if (!canvas) return;
@@ -812,18 +827,17 @@ function initArena() {
   dir.position.set(4, 6, 3);
   scene.add(dir);
 
-  const waterGeo = new THREE.PlaneGeometry(80, 80, 120, 120);
-  const waterMat = new THREE.MeshStandardMaterial({
-    color: 0x15153a,
-    metalness: 0.9,
-    roughness: 0.18,
-    emissive: 0x120824,
-    emissiveIntensity: 0.4
+  // Grass ground instead of water
+  const grassGeo = new THREE.PlaneGeometry(80, 80, 1, 1);
+  const grassMat = new THREE.MeshStandardMaterial({
+    color: 0x1f4d1f,
+    metalness: 0.1,
+    roughness: 0.9
   });
-  const water = new THREE.Mesh(waterGeo, waterMat);
-  water.rotation.x = -Math.PI / 2;
-  water.position.y = -0.25;
-  scene.add(water);
+  const grass = new THREE.Mesh(grassGeo, grassMat);
+  grass.rotation.x = -Math.PI / 2;
+  grass.position.y = -0.25;
+  scene.add(grass);
 
   const platformGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.4, 64);
   const platformMat = new THREE.MeshStandardMaterial({
@@ -921,27 +935,17 @@ function initArena() {
 
     platform.rotation.y = Math.sin(t * 0.25) * 0.08;
 
-    const waterPos = water.geometry.attributes.position;
-    for (let i = 0; i < waterPos.count; i++) {
-      const x = waterPos.getX(i);
-      const y = waterPos.getY(i);
-      const wave = Math.sin(x * 0.22 + t * 0.7) * 0.06 +
-                   Math.cos(y * 0.19 + t * 0.5) * 0.05;
-      waterPos.setZ(i, wave);
-    }
-    waterPos.needsUpdate = true;
-    water.geometry.computeVertexNormals();
-
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
     camera.updateProjectionMatrix();
 
     renderer.render(scene, camera);
   }
+
   animate();
 }
 
-/* Scarring Recall: original-style spotlight + lamp + fog, full door open */
+/* Scarring Recall: no fog, camera moves after door fully opens */
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
   if (!canvas) return;
@@ -949,7 +953,6 @@ function initDoor() {
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  scene.fog = new THREE.FogExp2(0x000000, 0.22);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 1.8, 5.2);
@@ -1002,9 +1005,9 @@ function initDoor() {
     emissiveIntensity: 0.25
   });
   const door = new THREE.Mesh(doorGeo, doorMat);
-
   door.position.x = doorWidth / 2;
   doorGroup.add(door);
+
   doorGroup.position.set(-doorWidth / 2, 1.5, 0);
 
   const frameGeo = new THREE.BoxGeometry(doorWidth + 0.18, doorHeight + 0.18, 0.12);
@@ -1033,44 +1036,31 @@ function initDoor() {
   knob.position.set(doorWidth - 0.1, 1.4, 0.12);
   door.add(knob);
 
-  const fogSphereGeo = new THREE.SphereGeometry(2.4, 32, 32);
-  const fogSphereMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.12
-  });
-  const fogSphere = new THREE.Mesh(fogSphereGeo, fogSphereMat);
-  fogSphere.position.set(0, 1.6, 0.2);
-  scene.add(fogSphere);
-
-  const floorFogGeo = new THREE.PlaneGeometry(4, 3);
-  const floorFogMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.10
-  });
-  const floorFog = new THREE.Mesh(floorFogGeo, floorFogMat);
-  floorFog.rotation.x = -Math.PI / 2;
-  floorFog.position.set(0, 0.01, 0.4);
-  scene.add(floorFog);
-
   const clock = new THREE.Clock();
+  const openDuration = 3.0;   // seconds to fully open
+  const moveDuration = 2.0;   // seconds for camera move
 
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    const cycle = 6.0;
-    const phase = (t % cycle) / cycle;
-    const ease = phase < 0.5
-      ? 2 * phase * phase
-      : -2 * (phase - 1) * (phase - 1) + 1;
+    if (t < openDuration) {
+      // Door opening phase
+      const openT = t / openDuration;
+      const eased = openT * openT * (3 - 2 * openT);
+      doorGroup.rotation.y = - (Math.PI / 2) * eased;
+      camera.position.set(0, 1.8, 5.2);
+      camera.lookAt(0, 1.4, 0);
+    } else {
+      // Door fully open, camera moves forward
+      doorGroup.rotation.y = -Math.PI / 2;
+      const camT = Math.min((t - openDuration) / moveDuration, 1.0);
+      const smooth = camT * camT * (3 - 2 * camT);
 
-    const angle = - (Math.PI / 2) * ease;
-    doorGroup.rotation.y = angle;
-
-    fogSphere.material.opacity = 0.10 + 0.05 * Math.sin(t * 0.6);
-    floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
+      camera.position.z = 5.2 - smooth * 6.0;
+      camera.position.y = 1.8 - smooth * 0.2;
+      camera.lookAt(0, 1.8 - smooth * 0.2, -5);
+    }
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -1078,11 +1068,12 @@ function initDoor() {
 
     renderer.render(scene, camera);
   }
+
   animate();
 }
 
-/* CarbIQ button sync */
-function initCarbIQButtons() {
+/* CarbIQ — merge typing + button presses, faster 1 and 4, 5 in sync */
+function initCarbIQ() {
   const buttons = document.querySelectorAll('.carbiq-btn');
   if (!buttons.length) return;
 
@@ -1091,25 +1082,41 @@ function initCarbIQButtons() {
     keyMap[btn.dataset.key] = btn;
   });
 
-  function cycle() {
+  // CSS typing animation is 4s; we sync presses to that cycle
+  const cycleMs = 4000;
+
+  // Times in ms within the 4s cycle
+  const sequence = [
+    { key: '1', time: 200 },   // earlier, quick
+    { key: '4', time: 600 },   // earlier
+    { key: '5', time: 1000 }   // still feels in sync with "1 + 4 + 5"
+  ];
+
+  function triggerSequence() {
     buttons.forEach(b => b.classList.remove('active'));
 
-    setTimeout(() => keyMap['1']?.classList.add('active'), 150);
-    setTimeout(() => keyMap['1']?.classList.remove('active'), 550);
-
-    setTimeout(() => keyMap['4']?.classList.add('active'), 800);
-    setTimeout(() => keyMap['4']?.classList.remove('active'), 1200);
+    sequence.forEach(step => {
+      setTimeout(() => {
+        const btn = keyMap[step.key];
+        if (!btn) return;
+        btn.classList.add('active');
+        setTimeout(() => btn.classList.remove('active'), 160);
+      }, step.time);
+    });
   }
 
-  cycle();
-  setInterval(cycle, 4000);
+  triggerSequence();
+  setInterval(triggerSequence, cycleMs);
 }
 
 /* Init all */
-initHero();
-initArena();
-initDoor();
-initCarbIQButtons();
+window.addEventListener('DOMContentLoaded', () => {
+  initHero();
+  initArena();
+  initDoor();
+  initCarbIQ();
+});
+
 </script>
 </body>
 </html>
