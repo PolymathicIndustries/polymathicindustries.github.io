@@ -355,7 +355,7 @@ nav {
   background: linear-gradient(145deg, #e4ddff, #c5b8ff);
 }
 
-/* Hardware visual (no progress bar) */
+/* Hardware visual */
 .hardware-visual {
   display: flex;
   align-items: center;
@@ -407,8 +407,6 @@ nav {
   text-shadow:
     0 0 18px rgba(255, 255, 255, 0.9),
     0 0 40px rgba(179, 140, 255, 0.9);
-  transform: scale(1);
-  transition: transform 0.4s ease, text-shadow 0.4s ease;
 }
 .hardware-rays {
   position: absolute;
@@ -424,7 +422,6 @@ nav {
   mix-blend-mode: screen;
   opacity: 0.5;
   filter: blur(4px);
-  transition: opacity 0.4s ease;
   animation: hardwareSpin 16s linear infinite;
 }
 @keyframes hardwareSpin {
@@ -569,6 +566,7 @@ footer {
         <div class="product-visual carbiq-visual">
           <div class="carbiq-glow"></div>
           <div class="carbiq-icon">
+            <!-- Use your actual filename here, e.g. ic_launcher.png -->
             <img src="ic_launcher.png" alt="CarbIQ icon" />
           </div>
           <div class="carbiq-calculator">
@@ -646,7 +644,7 @@ function createRenderer(canvas) {
   return renderer;
 }
 
-/* HERO: soft-chrome π, visible sun, ground, fog, slow motion */
+/* HERO: chrome π floating over misty mountains with sunrise */
 function initHero() {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
@@ -656,45 +654,80 @@ function initHero() {
   scene.background = new THREE.Color(0x050008);
   scene.fog = new THREE.FogExp2(0x050008, 0.08);
 
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 2.2, 7);
-  camera.lookAt(0, 1.2, 0);
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
+  camera.position.set(0, 3.0, 9.0);
+  camera.lookAt(0, 2.0, 0);
 
-  const hemi = new THREE.HemisphereLight(0x8888ff, 0x050008, 0.7);
+  const hemi = new THREE.HemisphereLight(0x8899ff, 0x050008, 0.7);
   scene.add(hemi);
 
-  const sunLight = new THREE.DirectionalLight(0xffe0b0, 1.4);
-  sunLight.position.set(0, 0.5, -6);
+  const sunLight = new THREE.DirectionalLight(0xffe0b0, 1.6);
+  sunLight.position.set(-2, 3, -6);
   scene.add(sunLight);
 
-  const sunGeo = new THREE.SphereGeometry(1.4, 32, 32);
+  const sunGeo = new THREE.SphereGeometry(2.0, 32, 32);
   const sunMat = new THREE.MeshBasicMaterial({ color: 0xffe0b0 });
   const sun = new THREE.Mesh(sunGeo, sunMat);
-  sun.position.set(0, 1.4, -7);
+  sun.position.set(0, 3.0, -12);
   scene.add(sun);
 
-  const groundGeo = new THREE.PlaneGeometry(30, 30, 40, 40);
-  const groundMat = new THREE.MeshStandardMaterial({
-    color: 0x05000c,
-    metalness: 0.5,
-    roughness: 0.55
+  const skyGeo = new THREE.SphereGeometry(60, 32, 32);
+  const skyMat = new THREE.MeshBasicMaterial({
+    color: 0x120020,
+    side: THREE.BackSide
   });
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = 0;
-  scene.add(ground);
+  const sky = new THREE.Mesh(skyGeo, skyMat);
+  scene.add(sky);
+
+  const terrainGeo = new THREE.PlaneGeometry(60, 40, 120, 80);
+  const terrainMat = new THREE.MeshStandardMaterial({
+    color: 0x1a1028,
+    metalness: 0.3,
+    roughness: 0.8
+  });
+  const terrain = new THREE.Mesh(terrainGeo, terrainMat);
+  terrain.rotation.x = -Math.PI / 2;
+  terrain.position.z = -10;
+  terrain.position.y = -2.0;
+
+  const pos = terrain.geometry.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    const dist = Math.sqrt(x * x + y * y);
+    const height =
+      Math.sin(x * 0.12) * 0.8 +
+      Math.cos(y * 0.08) * 0.6 +
+      Math.sin((x + y) * 0.06) * 0.5;
+    const falloff = Math.exp(-Math.pow(dist / 30, 2));
+    pos.setZ(i, height * falloff * 2.2);
+  }
+  pos.needsUpdate = true;
+  terrain.geometry.computeVertexNormals();
+  scene.add(terrain);
+
+  const fogPlaneGeo = new THREE.PlaneGeometry(60, 30);
+  const fogPlaneMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.08
+  });
+  const fogPlane = new THREE.Mesh(fogPlaneGeo, fogPlaneMat);
+  fogPlane.rotation.x = -Math.PI / 2;
+  fogPlane.position.set(0, -1.2, -8);
+  scene.add(fogPlane);
 
   const piGroup = new THREE.Group();
   const piMat = new THREE.MeshStandardMaterial({
     color: 0xdedede,
-    metalness: 0.95,
-    roughness: 0.2
+    metalness: 1.0,
+    roughness: 0.15
   });
 
-  const barThickness = 0.25;
-  const barHeight = 2.0;
-  const barWidth = 2.4;
-  const depth = 0.4;
+  const barThickness = 0.35;
+  const barHeight = 2.4;
+  const barWidth = 2.8;
+  const depth = 0.5;
 
   const leftGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
   const rightGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
@@ -704,37 +737,16 @@ function initHero() {
   const rightBar = new THREE.Mesh(rightGeo, piMat);
   const topBar = new THREE.Mesh(topGeo, piMat);
 
-  leftBar.position.set(-barWidth/2 + barThickness/2, 1.0, 0);
-  rightBar.position.set(barWidth/2 - barThickness/2, 1.0, 0);
-  topBar.position.set(0, 1.0 + barHeight/2 - barThickness/2, 0);
+  leftBar.position.set(-barWidth/2 + barThickness/2, 0, 0);
+  rightBar.position.set(barWidth/2 - barThickness/2, 0, 0);
+  topBar.position.set(0, barHeight/2 - barThickness/2, 0);
 
   piGroup.add(leftBar);
   piGroup.add(rightBar);
   piGroup.add(topBar);
 
-  piGroup.position.set(0, 1.0, 0);
+  piGroup.position.set(0, 2.4, -4);
   scene.add(piGroup);
-
-  const glowGeo = new THREE.SphereGeometry(2.2, 32, 32);
-  const glowMat = new THREE.MeshBasicMaterial({
-    color: 0xfff0d0,
-    transparent: true,
-    opacity: 0.18
-  });
-  const glow = new THREE.Mesh(glowGeo, glowMat);
-  glow.position.set(0, 1.3, -6.5);
-  scene.add(glow);
-
-  const fogPlaneGeo = new THREE.PlaneGeometry(20, 6);
-  const fogPlaneMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.08
-  });
-  const fogPlane = new THREE.Mesh(fogPlaneGeo, fogPlaneMat);
-  fogPlane.rotation.x = -Math.PI / 2;
-  fogPlane.position.set(0, 0.01, -1);
-  scene.add(fogPlane);
 
   const clock = new THREE.Clock();
 
@@ -742,19 +754,19 @@ function initHero() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    const sunBaseY = 0.2;
-    const sunRise = 1.8;
-    const sunT = Math.min(t / 6.0, 1.0);
-    sunLight.position.y = sunBaseY + sunRise * sunT;
-    sun.position.y = 1.0 + sunRise * sunT * 0.6;
+    const sunRiseT = Math.min(t / 8.0, 1.0);
+    sun.position.y = 1.5 + 2.5 * sunRiseT;
+    sunLight.position.y = 1.0 + 3.0 * sunRiseT;
 
-    piGroup.rotation.y = 0.03 * Math.sin(t * 0.2);
+    const rotationSpeed = (2 * Math.PI) / 9.0;
+    piGroup.rotation.y = t * rotationSpeed;
+    piGroup.position.y = 2.4 + Math.sin(t * 0.6) * 0.15;
 
-    camera.position.x = 0.35 * Math.sin(t * 0.1);
-    camera.position.z = 7 + 0.25 * Math.cos(t * 0.1);
-    camera.lookAt(0, 1.2, 0);
+    camera.position.x = 0.6 * Math.sin(t * 0.12);
+    camera.position.z = 9.0 + 0.4 * Math.cos(t * 0.12);
+    camera.lookAt(0, 2.0, -4);
 
-    fogPlane.position.z = -1 + Math.sin(t * 0.05) * 0.6;
+    fogPlane.position.z = -8 + Math.sin(t * 0.05) * 1.0;
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -765,26 +777,37 @@ function initHero() {
   animate();
 }
 
-/* Survival Summit: full platform visible */
+/* Survival Summit: platform + ball floating on water */
 function initArena() {
   const canvas = document.getElementById('arenaCanvas');
   if (!canvas) return;
 
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050008);
-  scene.fog = new THREE.FogExp2(0x050008, 0.06);
+  scene.background = new THREE.Color(0x050010);
+  scene.fog = new THREE.FogExp2(0x050010, 0.05);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 6.0, 8.0);
+  camera.position.set(0, 6.0, 8.5);
   camera.lookAt(0, 0, 0);
 
-  const ambient = new THREE.AmbientLight(0x8888ff, 0.8);
+  const ambient = new THREE.AmbientLight(0x8899ff, 0.8);
   scene.add(ambient);
 
   const dir = new THREE.DirectionalLight(0xffffff, 1.1);
   dir.position.set(4, 6, 3);
   scene.add(dir);
+
+  const waterGeo = new THREE.PlaneGeometry(40, 40, 80, 80);
+  const waterMat = new THREE.MeshStandardMaterial({
+    color: 0x101a3a,
+    metalness: 0.8,
+    roughness: 0.25
+  });
+  const water = new THREE.Mesh(waterGeo, waterMat);
+  water.rotation.x = -Math.PI / 2;
+  water.position.y = -0.2;
+  scene.add(water);
 
   const platformGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.4, 64);
   const platformMat = new THREE.MeshStandardMaterial({
@@ -857,6 +880,7 @@ function initArena() {
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
+
     const timeInCycle = t % totalDuration;
     const segIndex = Math.floor(timeInCycle / segmentDuration);
     const segT = (timeInCycle - segIndex * segmentDuration) / segmentDuration;
@@ -881,6 +905,17 @@ function initArena() {
 
     platform.rotation.y = Math.sin(t * 0.25) * 0.08;
 
+    const waterPos = water.geometry.attributes.position;
+    for (let i = 0; i < waterPos.count; i++) {
+      const x = waterPos.getX(i);
+      const y = waterPos.getY(i);
+      const wave = Math.sin(x * 0.25 + t * 0.6) * 0.05 +
+                   Math.cos(y * 0.22 + t * 0.4) * 0.04;
+      waterPos.setZ(i, wave);
+    }
+    waterPos.needsUpdate = true;
+    water.geometry.computeVertexNormals();
+
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
     camera.updateProjectionMatrix();
@@ -890,7 +925,7 @@ function initArena() {
   animate();
 }
 
-/* Scarring Recall: overhead light visible, black wall, fog around door */
+/* Scarring Recall: lamp above door, black wall, fog around door */
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
   if (!canvas) return;
@@ -907,17 +942,17 @@ function initDoor() {
   const ambient = new THREE.AmbientLight(0x444466, 0.6);
   scene.add(ambient);
 
-  const spot = new THREE.SpotLight(0xffffff, 1.4, 20, Math.PI / 6, 0.4, 1.0);
-  spot.position.set(0, 4, 2);
+  const spot = new THREE.SpotLight(0xfff4d0, 1.6, 20, Math.PI / 6, 0.4, 1.0);
+  spot.position.set(0, 3.6, 1.2);
   scene.add(spot);
 
-  const lampGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.3, 16);
+  const lampGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16);
   const lampMat = new THREE.MeshStandardMaterial({
     color: 0xdddddd,
     metalness: 0.7,
     roughness: 0.3,
     emissive: 0xffffee,
-    emissiveIntensity: 0.4
+    emissiveIntensity: 0.5
   });
   const lamp = new THREE.Mesh(lampGeo, lampMat);
   lamp.position.set(0, 3.4, 0.2);
@@ -980,15 +1015,15 @@ function initDoor() {
   knob.position.set(doorWidth - 0.1, 1.4, 0.12);
   door.add(knob);
 
-  const fogGeo = new THREE.PlaneGeometry(3.2, 2.4);
-  const fogMat = new THREE.MeshBasicMaterial({
+  const fogSphereGeo = new THREE.SphereGeometry(2.4, 32, 32);
+  const fogSphereMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.2
+    opacity: 0.16
   });
-  const fog = new THREE.Mesh(fogGeo, fogMat);
-  fog.position.set(0, 1.4, -0.05);
-  scene.add(fog);
+  const fogSphere = new THREE.Mesh(fogSphereGeo, fogSphereMat);
+  fogSphere.position.set(0, 1.6, 0.2);
+  scene.add(fogSphere);
 
   const floorFogGeo = new THREE.PlaneGeometry(4, 3);
   const floorFogMat = new THREE.MeshBasicMaterial({
@@ -1026,7 +1061,7 @@ function initDoor() {
     const angle = - (Math.PI / 2) * ease;
     doorGroup.rotation.y = angle;
 
-    fog.position.y = 1.4 + Math.sin(t * 0.3) * 0.08;
+    fogSphere.material.opacity = 0.12 + 0.06 * Math.sin(t * 0.6);
     floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
     innerGlow.material.opacity = 0.12 + 0.06 * ease;
 
