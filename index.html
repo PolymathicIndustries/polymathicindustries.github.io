@@ -4,7 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Polymathic Industries</title>
+
 <style>
+/* ——————————————————————————————————————————————— */
+/* GLOBAL THEME */
+/* ——————————————————————————————————————————————— */
 :root {
   --bg: #070010;
   --bg-alt: #120021;
@@ -18,6 +22,7 @@
   --shadow-soft: 0 24px 80px rgba(0,0,0,0.7);
   --max-width: 1120px;
 }
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -34,7 +39,9 @@ main { min-height: 100vh; }
   padding: 0 20px;
 }
 
-/* Header */
+/* ——————————————————————————————————————————————— */
+/* HEADER + LOGO */
+/* ——————————————————————————————————————————————— */
 header {
   position: sticky;
   top: 0;
@@ -49,27 +56,54 @@ header {
   gap: 16px;
   padding: 14px 0 10px;
 }
+
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
+
+/* Option B — Silver π on soft radial purple gradient */
 .brand-logo-wrap {
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   border-radius: 14px;
-  overflow: hidden;
-  background: #4b0082;
+  background: radial-gradient(circle at center, #7a3cff 0%, #2a0050 90%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+  box-shadow:
+    0 0 0 0 rgba(255,255,255,0),
+    0 12px 40px rgba(0,0,0,0.9);
+  animation: piGlow 4s ease-in-out infinite;
 }
-.brand-logo-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+.brand-logo-pi {
+  font-size: 26px;
+  font-weight: 700;
+  color: #e6e6e6;
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.8),
+    0 0 18px rgba(255,255,255,0.6),
+    0 0 32px rgba(255,255,255,0.4);
 }
+
+/* Medium bloom glow */
+@keyframes piGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 12px 40px rgba(0,0,0,0.9);
+  }
+  40% {
+    box-shadow: 0 0 26px 10px rgba(255,255,255,0.55), 0 18px 60px rgba(0,0,0,1);
+  }
+  70% {
+    box-shadow: 0 0 32px 14px rgba(255,255,255,0.35), 0 16px 52px rgba(0,0,0,0.95);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 12px 40px rgba(0,0,0,0.9);
+  }
+}
+
 .brand-text {
   display: flex;
   flex-direction: column;
@@ -86,6 +120,7 @@ header {
   font-size: 12px;
   color: var(--muted);
 }
+
 nav {
   display: flex;
   align-items: center;
@@ -115,7 +150,9 @@ nav {
   font-weight: 500;
 }
 
-/* Hero */
+/* ——————————————————————————————————————————————— */
+/* HERO SECTION */
+/* ——————————————————————————————————————————————— */
 .hero { padding: 32px 0 28px; }
 .hero-inner {
   border-radius: var(--radius-lg);
@@ -129,6 +166,7 @@ nav {
   gap: 24px;
   align-items: center;
 }
+
 .hero-pill {
   display: inline-flex;
   align-items: center;
@@ -148,6 +186,7 @@ nav {
   background: #5be7a9;
   box-shadow: 0 0 0 4px rgba(91,231,169,0.18);
 }
+
 .hero-title {
   font-size: clamp(30px, 4vw, 38px);
   line-height: 1.05;
@@ -164,6 +203,7 @@ nav {
   font-size: 12px;
   color: var(--muted);
 }
+
 .hero-visual {
   position: relative;
   min-height: 220px;
@@ -178,7 +218,9 @@ nav {
   height: 100%;
 }
 
-/* Product sections */
+/* ——————————————————————————————————————————————— */
+/* PRODUCT SECTIONS */
+/* ——————————————————————————————————————————————— */
 .section-label {
   font-size: 11px;
   text-transform: uppercase;
@@ -186,6 +228,7 @@ nav {
   color: var(--muted);
   margin-bottom: 6px;
 }
+
 .product-section {
   position: relative;
   margin: 24px 0;
@@ -202,6 +245,7 @@ nav {
   box-shadow: 0 28px 90px rgba(0,0,0,0.85);
   border-color: rgba(179,140,255,0.6);
 }
+
 .product-inner {
   display: grid;
   grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
@@ -209,6 +253,7 @@ nav {
   padding: 26px 24px;
   align-items: center;
 }
+
 .product-text-sub {
   font-size: 13px;
   text-transform: uppercase;
@@ -230,6 +275,7 @@ nav {
   font-size: 12px;
   color: var(--accent);
 }
+
 .product-visual {
   position: relative;
   min-height: 220px;
@@ -239,6 +285,7 @@ nav {
   border: 1px solid rgba(255,255,255,0.08);
   overflow: hidden;
 }
+
 .product-full {
   min-height: 100vh;
   display: flex;
@@ -250,7 +297,9 @@ nav {
   align-items: center;
 }
 
-/* Canvas containers */
+/* ——————————————————————————————————————————————— */
+/* CANVAS WRAPPERS */
+/* ——————————————————————————————————————————————— */
 .canvas-wrap {
   width: 100%;
   height: 100%;
@@ -262,7 +311,9 @@ nav {
   display: block;
 }
 
-/* CarbIQ visual */
+/* ——————————————————————————————————————————————— */
+/* CARBIQ VISUAL */
+/* ——————————————————————————————————————————————— */
 .carbiq-visual {
   display: flex;
   align-items: center;
@@ -291,6 +342,7 @@ nav {
   filter: blur(6px);
   opacity: 0.8;
 }
+
 .carbiq-calculator {
   width: 150px;
   height: 210px;
@@ -303,6 +355,7 @@ nav {
   flex-direction: column;
   gap: 10px;
 }
+
 .carbiq-screen {
   height: 42px;
   border-radius: 10px;
@@ -310,28 +363,34 @@ nav {
   display: flex;
   align-items: center;
   padding: 0 10px;
-  font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: "SF Mono", ui-monospace;
   font-size: 13px;
   color: #1b2330;
 }
+
 .carbiq-screen-text {
   white-space: nowrap;
   overflow: hidden;
   border-right: 2px solid rgba(27, 35, 48, 0.7);
   animation:
-    carbiqType 4s steps(10, end) infinite,
+    carbiqType 2.2s steps(6, end) infinite,
     carbiqCaret 0.8s step-end infinite;
 }
+
+/* Typing animation shortened to sync with button presses */
 @keyframes carbiqType {
   0%   { width: 0ch; }
-  45%  { width: 10ch; }
-  65%  { width: 10ch; }
+  30%  { width: 2ch; } /* "1 " */
+  55%  { width: 4ch; } /* "1 +4" */
+  80%  { width: 6ch; } /* "1 + 4 + 5" */
   100% { width: 0ch; }
 }
+
 @keyframes carbiqCaret {
   0%, 100% { border-color: transparent; }
   50%      { border-color: rgba(27, 35, 48, 0.7); }
 }
+
 .carbiq-buttons {
   flex: 1;
   display: grid;
@@ -355,7 +414,9 @@ nav {
   background: linear-gradient(145deg, #e4ddff, #c5b8ff);
 }
 
-/* Hardware visual */
+/* ——————————————————————————————————————————————— */
+/* HARDWARE ORB */
+/* ——————————————————————————————————————————————— */
 .hardware-visual {
   display: flex;
   align-items: center;
@@ -424,692 +485,6 @@ nav {
   filter: blur(4px);
   animation: hardwareSpin 16s linear infinite;
 }
-@keyframes hardwareSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
+@keyframes
 
-/* Footer */
-footer {
-  margin: 32px 0 40px;
-  font-size: 11px;
-  color: var(--muted);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 14px;
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-/* Responsive */
-@media (max-width: 880px) {
-  .site-shell { padding-inline:16px; }
-  .header-inner { flex-direction:column; align-items:flex-start; }
-  nav { flex-wrap:wrap; justify-content:flex-start; }
-  .hero-inner { grid-template-columns:minmax(0,1fr); }
-  .product-inner { grid-template-columns:minmax(0,1fr); }
-  .product-full, .product-half { min-height:auto; }
-  .product-visual { min-height:220px; }
-}
-</style>
-</head>
-<body>
-<header>
-  <div class="site-shell">
-    <div class="header-inner">
-      <a href="index.html" class="brand">
-        <div class="brand-logo-wrap">
-          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
-        </div>
-        <div class="brand-text">
-          <div class="brand-name">Polymathic Industries</div>
-          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
-        </div>
-      </a>
-      <nav>
-        <a href="#survival-summit" class="nav-link">Survival Summit</a>
-        <a href="#scarring-recall" class="nav-link">Scarring Recall</a>
-        <a href="#carbiq" class="nav-link">CarbIQ</a>
-        <a href="#hardware" class="nav-link">Stealth Hardware</a>
-        <a href="contact.html" class="nav-cta">Contact</a>
-      </nav>
-    </div>
-  </div>
-</header>
-
-<main>
-  <div class="site-shell">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-inner">
-        <div>
-          <div class="hero-pill">
-            <div class="hero-pill-dot"></div>
-            Polymathic Industries · Emotionally intelligent entertainment
-          </div>
-          <h1 class="hero-title">Play that actually changes you.</h1>
-          <p class="hero-subtitle">
-            Polymathic Industries builds emotionally intelligent games and hardware that turn pressure, memory,
-            and everyday moments into chances to grow.
-          </p>
-          <p class="hero-note">
-            The worlds below are different ways of understanding how you think, feel, and move through life — all through play.
-          </p>
-        </div>
-        <div class="hero-visual">
-          <div class="canvas-wrap">
-            <canvas id="heroCanvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Survival Summit -->
-    <section id="survival-summit" class="product-section product-full" onclick="location.href='survivalsummit.html'">
-      <div class="product-inner">
-        <div>
-          <div class="section-label">01 — Game</div>
-          <div class="product-text-sub">Survival Summit</div>
-          <div class="product-text-title">A high-energy arena where pressure reveals who you are.</div>
-          <p class="product-text-body">
-            Survival Summit is a high‑energy action game built around fast decisions, tight movement,
-            and the constant pressure of incoming waves. Each arena is handcrafted with its own personality,
-            hazards, and rhythm, creating a series of intense challenges that reward focus and adaptability.
-          </p>
-          <p class="product-cta">Enter the arena →</p>
-        </div>
-        <div class="product-visual">
-          <div class="canvas-wrap">
-            <canvas id="arenaCanvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Scarring Recall -->
-    <section id="scarring-recall" class="product-section product-full" onclick="location.href='scarringrecall.html'">
-      <div class="product-inner">
-        <div>
-          <div class="section-label">02 — Game</div>
-          <div class="product-text-sub">Scarring Recall</div>
-          <div class="product-text-title">A mystery about memory, brothers, and the things left unsaid.</div>
-          <p class="product-text-body">
-            Scarring Recall is a narrative mystery game about a man returning to the memories he has avoided
-            for most of his life. What begins as a simple attempt to understand the past becomes a journey
-            through the emotional weight he and his brother carried but never spoke about.
-          </p>
-          <p class="product-cta">Open the door →</p>
-        </div>
-        <div class="product-visual">
-          <div class="canvas-wrap">
-            <canvas id="doorCanvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CarbIQ -->
-    <section id="carbiq" class="product-section product-half" onclick="location.href='carbiq.html'">
-      <div class="product-inner">
-        <div>
-          <div class="section-label">03 — App</div>
-          <div class="product-text-sub">CarbIQ</div>
-          <div class="product-text-title">Simple, fast carb tracking that fits into real life.</div>
-          <p class="product-text-body">
-            CarbIQ makes it easy to track your carbs wherever you are — at home, out with friends,
-            or in the grocery aisle. Log meals quickly, scan labels, and see how everything fits into your daily goals
-            without complicated setup or calculations.
-          </p>
-          <p class="product-cta">See CarbIQ →</p>
-        </div>
-        <div class="product-visual carbiq-visual">
-          <div class="carbiq-glow"></div>
-          <div class="carbiq-icon">
-            <img src="ic_launcher.png" alt="CarbIQ icon" />
-          </div>
-          <div class="carbiq-calculator">
-            <div class="carbiq-screen">
-              <div class="carbiq-screen-text">1 + 4 + 5</div>
-            </div>
-            <div class="carbiq-buttons">
-              <div class="carbiq-btn" data-key="1">1</div>
-              <div class="carbiq-btn" data-key="2">2</div>
-              <div class="carbiq-btn" data-key="3">3</div>
-              <div class="carbiq-btn" data-key="4">4</div>
-              <div class="carbiq-btn" data-key="5">5</div>
-              <div class="carbiq-btn" data-key="6">6</div>
-              <div class="carbiq-btn" data-key="7">7</div>
-              <div class="carbiq-btn" data-key="8">8</div>
-              <div class="carbiq-btn" data-key="9">9</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stealth Hardware -->
-    <section id="hardware" class="product-section product-half" onclick="location.href='hardware.html'">
-      <div class="product-inner">
-        <div>
-          <div class="section-label">04 — Hardware</div>
-          <div class="product-text-sub">Stealth wearable</div>
-          <div class="product-text-title">A quiet device for ending loneliness, boredom, and conflict.</div>
-          <p class="product-text-body">
-            A wearable built to end loneliness, boredom, and conflict — the three forces pulling people apart.
-            It turns everyday moments into connection, momentum, and fulfillment, without shouting for attention.
-          </p>
-          <p class="product-cta">Watch this space →</p>
-        </div>
-        <div class="product-visual hardware-visual">
-          <div class="hardware-stack">
-            <div class="hardware-orb">
-              <div class="hardware-haze"></div>
-              <div class="hardware-core">
-                <div class="hardware-rays"></div>
-                <div class="hardware-question">?</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div>© Polymathic Industries · 2026</div>
-      <div>Emotionally intelligent play for human growth.</div>
-    </footer>
-  </div>
-</main>
-
-<script type="module">
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-
-function createRenderer(canvas) {
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true
-  });
-  renderer.setPixelRatio(window.devicePixelRatio || 1);
-  const resize = () => {
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width && rect.height) {
-      renderer.setSize(rect.width, rect.height, false);
-    }
-  };
-  resize();
-  window.addEventListener('resize', resize);
-  return renderer;
-}
-
-/* HERO: silver π floating in dramatic sunset sky */
-function initHero() {
-  const canvas = document.getElementById('heroCanvas');
-  if (!canvas) return;
-
-  const renderer = createRenderer(canvas);
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050008, 0.03);
-
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
-  camera.position.set(0, 0.8, 7.5);
-  camera.lookAt(0, 0.5, 0);
-
-  const skyGeo = new THREE.SphereGeometry(60, 32, 32);
-  const skyMat = new THREE.ShaderMaterial({
-    side: THREE.BackSide,
-    uniforms: {
-      topColor: { value: new THREE.Color(0x1a0030) },
-      midColor: { value: new THREE.Color(0x5a1040) },
-      bottomColor: { value: new THREE.Color(0xff7a2a) }
-    },
-    vertexShader: `
-      varying vec3 vPos;
-      void main() {
-        vPos = position;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      varying vec3 vPos;
-      uniform vec3 topColor;
-      uniform vec3 midColor;
-      uniform vec3 bottomColor;
-      void main() {
-        float h = normalize(vPos).y * 0.5 + 0.5;
-        vec3 col;
-        if (h < 0.5) {
-          float t = h / 0.5;
-          col = mix(bottomColor, midColor, t);
-        } else {
-          float t = (h - 0.5) / 0.5;
-          col = mix(midColor, topColor, t);
-        }
-        gl_FragColor = vec4(col, 1.0);
-      }
-    `
-  });
-  const sky = new THREE.Mesh(skyGeo, skyMat);
-  scene.add(sky);
-
-  const sunGeo = new THREE.CircleGeometry(1.6, 64);
-  const sunMat = new THREE.MeshBasicMaterial({
-    color: 0xffc070,
-    transparent: true,
-    opacity: 0.95
-  });
-  const sun = new THREE.Mesh(sunGeo, sunMat);
-  sun.position.set(0, -0.2, -10);
-  scene.add(sun);
-
-  const sunGlowGeo = new THREE.CircleGeometry(2.6, 64);
-  const sunGlowMat = new THREE.MeshBasicMaterial({
-    color: 0xffa050,
-    transparent: true,
-    opacity: 0.35
-  });
-  const sunGlow = new THREE.Mesh(sunGlowGeo, sunGlowMat);
-  sunGlow.position.set(0, -0.2, -10.1);
-  scene.add(sunGlow);
-
-  const hemi = new THREE.HemisphereLight(0xffb080, 0x1a0030, 0.8);
-  scene.add(hemi);
-
-  const keyLight = new THREE.DirectionalLight(0xfff0d0, 1.4);
-  keyLight.position.set(-2.5, 2.5, 3.0);
-  scene.add(keyLight);
-
-  const rimLight = new THREE.DirectionalLight(0xff7a2a, 0.9);
-  rimLight.position.set(2.0, -0.5, -3.0);
-  scene.add(rimLight);
-
-  const piGroup = new THREE.Group();
-  const piMat = new THREE.MeshStandardMaterial({
-    color: 0xdedede,
-    metalness: 1.0,
-    roughness: 0.18
-  });
-
-  const barThickness = 0.35;
-  const barHeight = 2.4;
-  const barWidth = 2.8;
-  const depth = 0.5;
-
-  const leftGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
-  const rightGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
-  const topGeo = new THREE.BoxGeometry(barWidth, barThickness, depth);
-
-  const leftBar = new THREE.Mesh(leftGeo, piMat);
-  const rightBar = new THREE.Mesh(rightGeo, piMat);
-  const topBar = new THREE.Mesh(topGeo, piMat);
-
-  leftBar.position.set(-barWidth/2 + barThickness/2, 0, 0);
-  rightBar.position.set(barWidth/2 - barThickness/2, 0, 0);
-  topBar.position.set(0, barHeight/2 - barThickness/2, 0);
-
-  piGroup.add(leftBar);
-  piGroup.add(rightBar);
-  piGroup.add(topBar);
-
-  piGroup.position.set(0, 0.5, 0);
-  scene.add(piGroup);
-
-  const baseGlowGeo = new THREE.CircleGeometry(1.8, 64);
-  const baseGlowMat = new THREE.MeshBasicMaterial({
-    color: 0xff7a2a,
-    transparent: true,
-    opacity: 0.18
-  });
-  const baseGlow = new THREE.Mesh(baseGlowGeo, baseGlowMat);
-  baseGlow.rotation.x = -Math.PI / 2;
-  baseGlow.position.set(0, -0.9, 0);
-  scene.add(baseGlow);
-
-  const clock = new THREE.Clock();
-
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    const rotationSpeed = (2 * Math.PI) / 9.0;
-    piGroup.rotation.y = t * rotationSpeed;
-    piGroup.position.y = 0.5 + Math.sin(t * 0.6) * 0.15;
-
-    baseGlow.material.opacity = 0.14 + 0.06 * Math.sin(t * 0.8);
-
-    camera.position.x = 0.6 * Math.sin(t * 0.12);
-    camera.position.z = 7.5 + 0.3 * Math.cos(t * 0.12);
-    camera.lookAt(0, 0.5, 0);
-
-    const rect = canvas.getBoundingClientRect();
-    camera.aspect = rect.width / rect.height;
-    camera.updateProjectionMatrix();
-
-    renderer.render(scene, camera);
-  }
-  animate();
-}
-
-/* Survival Summit: platform + ball + stylized water background */
-function initArena() {
-  const canvas = document.getElementById('arenaCanvas');
-  if (!canvas) return;
-
-  const renderer = createRenderer(canvas);
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050010);
-  scene.fog = new THREE.FogExp2(0x050010, 0.05);
-
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 6.0, 8.5);
-  camera.lookAt(0, 0, 0);
-
-  const ambient = new THREE.AmbientLight(0x8899ff, 0.8);
-  scene.add(ambient);
-
-  const dir = new THREE.DirectionalLight(0xffffff, 1.1);
-  dir.position.set(4, 6, 3);
-  scene.add(dir);
-
-  const waterGeo = new THREE.PlaneGeometry(80, 80, 120, 120);
-  const waterMat = new THREE.MeshStandardMaterial({
-    color: 0x15153a,
-    metalness: 0.9,
-    roughness: 0.18,
-    emissive: 0x120824,
-    emissiveIntensity: 0.4
-  });
-  const water = new THREE.Mesh(waterGeo, waterMat);
-  water.rotation.x = -Math.PI / 2;
-  water.position.y = -0.25;
-  scene.add(water);
-
-  const platformGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.4, 64);
-  const platformMat = new THREE.MeshStandardMaterial({
-    color: 0x2b2b5f,
-    metalness: 0.6,
-    roughness: 0.25,
-    emissive: 0x221144,
-    emissiveIntensity: 0.4
-  });
-  const platform = new THREE.Mesh(platformGeo, platformMat);
-  platform.position.y = 0;
-  scene.add(platform);
-
-  const topGeo = new THREE.CircleGeometry(2.15, 64);
-  const topMat = new THREE.MeshStandardMaterial({
-    color: 0x1a1a3a,
-    metalness: 0.4,
-    roughness: 0.4
-  });
-  const top = new THREE.Mesh(topGeo, topMat);
-  top.rotation.x = -Math.PI * 0.5;
-  top.position.y = 0.21;
-  scene.add(top);
-
-  const rimGeo = new THREE.RingGeometry(1.9, 2.2, 64);
-  const rimMat = new THREE.MeshBasicMaterial({
-    color: 0xdedcff,
-    side: THREE.DoubleSide
-  });
-  const rim = new THREE.Mesh(rimGeo, rimMat);
-  rim.rotation.x = -Math.PI * 0.5;
-  rim.position.y = 0.22;
-  scene.add(rim);
-
-  const ballGeo = new THREE.SphereGeometry(0.35, 32, 32);
-  const ballMat = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    metalness: 0.2,
-    roughness: 0.1,
-    emissive: 0xb38cff,
-    emissiveIntensity: 0.6
-  });
-  const ball = new THREE.Mesh(ballGeo, ballMat);
-  ball.position.set(1.4, 0.6, 0.3);
-  scene.add(ball);
-
-  const shadowGeo = new THREE.CircleGeometry(0.45, 32);
-  const shadowMat = new THREE.MeshBasicMaterial({
-    color: 0x000000,
-    transparent: true,
-    opacity: 0.35
-  });
-  const shadow = new THREE.Mesh(shadowGeo, shadowMat);
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.position.y = 0.22;
-  scene.add(shadow);
-
-  const points = [
-    new THREE.Vector3(1.4, 0.6, 0.3),
-    new THREE.Vector3(-1.3, 0.6, 0.2),
-    new THREE.Vector3(-0.8, 0.6, -1.1),
-    new THREE.Vector3(1.0, 0.6, -0.9),
-    new THREE.Vector3(1.5, 0.6, 0.1)
-  ];
-  const segmentDuration = 1.4;
-  const totalDuration = segmentDuration * points.length;
-
-  const clock = new THREE.Clock();
-
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    const timeInCycle = t % totalDuration;
-    const segIndex = Math.floor(timeInCycle / segmentDuration);
-    const segT = (timeInCycle - segIndex * segmentDuration) / segmentDuration;
-
-    const p0 = points[segIndex];
-    const p1 = points[(segIndex + 1) % points.length];
-
-    const easeT = segT * segT * (3 - 2 * segT);
-
-    const pos = new THREE.Vector3().lerpVectors(p0, p1, easeT);
-    const bounce = Math.sin(Math.PI * easeT) * 0.12;
-    ball.position.set(pos.x, 0.6 + bounce, pos.z);
-
-    shadow.position.x = pos.x;
-    shadow.position.z = pos.z;
-    shadow.material.opacity = 0.35 - bounce * 0.6;
-
-    const dirVec = new THREE.Vector3().subVectors(p1, p0);
-    const speed = dirVec.length() / segmentDuration;
-    ball.rotation.z += speed * 0.05;
-    ball.rotation.x += speed * 0.03;
-
-    platform.rotation.y = Math.sin(t * 0.25) * 0.08;
-
-    const waterPos = water.geometry.attributes.position;
-    for (let i = 0; i < waterPos.count; i++) {
-      const x = waterPos.getX(i);
-      const y = waterPos.getY(i);
-      const wave = Math.sin(x * 0.22 + t * 0.7) * 0.06 +
-                   Math.cos(y * 0.19 + t * 0.5) * 0.05;
-      waterPos.setZ(i, wave);
-    }
-    waterPos.needsUpdate = true;
-    water.geometry.computeVertexNormals();
-
-    const rect = canvas.getBoundingClientRect();
-    camera.aspect = rect.width / rect.height;
-    camera.updateProjectionMatrix();
-
-    renderer.render(scene, camera);
-  }
-  animate();
-}
-
-/* Scarring Recall: original-style spotlight + lamp + fog, full door open */
-function initDoor() {
-  const canvas = document.getElementById('doorCanvas');
-  if (!canvas) return;
-
-  const renderer = createRenderer(canvas);
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
-  scene.fog = new THREE.FogExp2(0x000000, 0.22);
-
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 1.8, 5.2);
-  camera.lookAt(0, 1.4, 0);
-
-  const ambient = new THREE.AmbientLight(0x222233, 0.6);
-  scene.add(ambient);
-
-  const spot = new THREE.SpotLight(0xfff2d0, 1.8, 20, Math.PI / 6, 0.5, 1.0);
-  spot.position.set(0, 3.6, 1.2);
-  spot.target.position.set(0, 1.4, 0);
-  scene.add(spot);
-  scene.add(spot.target);
-
-  const lampGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16);
-  const lampMat = new THREE.MeshStandardMaterial({
-    color: 0xdddddd,
-    metalness: 0.7,
-    roughness: 0.3,
-    emissive: 0xffffee,
-    emissiveIntensity: 0.6
-  });
-  const lamp = new THREE.Mesh(lampGeo, lampMat);
-  lamp.position.set(0, 3.4, 0.2);
-  scene.add(lamp);
-
-  const wallGeo = new THREE.PlaneGeometry(6, 5);
-  const wallMat = new THREE.MeshStandardMaterial({
-    color: 0x000000,
-    roughness: 0.95,
-    metalness: 0.1
-  });
-  const wall = new THREE.Mesh(wallGeo, wallMat);
-  wall.position.set(0, 1.8, -0.6);
-  scene.add(wall);
-
-  const doorGroup = new THREE.Group();
-  scene.add(doorGroup);
-
-  const doorWidth = 1.6;
-  const doorHeight = 3.0;
-  const doorDepth = 0.18;
-
-  const doorGeo = new THREE.BoxGeometry(doorWidth, doorHeight, doorDepth);
-  const doorMat = new THREE.MeshStandardMaterial({
-    color: 0x3a2626,
-    metalness: 0.4,
-    roughness: 0.35,
-    emissive: 0x1a0505,
-    emissiveIntensity: 0.25
-  });
-  const door = new THREE.Mesh(doorGeo, doorMat);
-
-  door.position.x = doorWidth / 2;
-  doorGroup.add(door);
-  doorGroup.position.set(-doorWidth / 2, 1.5, 0);
-
-  const frameGeo = new THREE.BoxGeometry(doorWidth + 0.18, doorHeight + 0.18, 0.12);
-  const frameMat = new THREE.MeshStandardMaterial({
-    color: 0x555555,
-    metalness: 0.7,
-    roughness: 0.3
-  });
-  const frame = new THREE.Mesh(frameGeo, frameMat);
-  frame.position.set(0, 1.5, 0.01);
-  scene.add(frame);
-
-  const handleGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.3, 16);
-  const handleMat = new THREE.MeshStandardMaterial({
-    color: 0xdedede,
-    metalness: 0.9,
-    roughness: 0.2
-  });
-  const handle = new THREE.Mesh(handleGeo, handleMat);
-  handle.rotation.z = Math.PI / 2;
-  handle.position.set(doorWidth - 0.25, 1.4, 0.1);
-  door.add(handle);
-
-  const knobGeo = new THREE.SphereGeometry(0.06, 16, 16);
-  const knob = new THREE.Mesh(knobGeo, handleMat);
-  knob.position.set(doorWidth - 0.1, 1.4, 0.12);
-  door.add(knob);
-
-  const fogSphereGeo = new THREE.SphereGeometry(2.4, 32, 32);
-  const fogSphereMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.12
-  });
-  const fogSphere = new THREE.Mesh(fogSphereGeo, fogSphereMat);
-  fogSphere.position.set(0, 1.6, 0.2);
-  scene.add(fogSphere);
-
-  const floorFogGeo = new THREE.PlaneGeometry(4, 3);
-  const floorFogMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.10
-  });
-  const floorFog = new THREE.Mesh(floorFogGeo, floorFogMat);
-  floorFog.rotation.x = -Math.PI / 2;
-  floorFog.position.set(0, 0.01, 0.4);
-  scene.add(floorFog);
-
-  const clock = new THREE.Clock();
-
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    const cycle = 6.0;
-    const phase = (t % cycle) / cycle;
-    const ease = phase < 0.5
-      ? 2 * phase * phase
-      : -2 * (phase - 1) * (phase - 1) + 1;
-
-    const angle = - (Math.PI / 2) * ease;
-    doorGroup.rotation.y = angle;
-
-    fogSphere.material.opacity = 0.10 + 0.05 * Math.sin(t * 0.6);
-    floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
-
-    const rect = canvas.getBoundingClientRect();
-    camera.aspect = rect.width / rect.height;
-    camera.updateProjectionMatrix();
-
-    renderer.render(scene, camera);
-  }
-  animate();
-}
-
-/* CarbIQ button sync */
-function initCarbIQButtons() {
-  const buttons = document.querySelectorAll('.carbiq-btn');
-  if (!buttons.length) return;
-
-  const keyMap = {};
-  buttons.forEach(btn => {
-    keyMap[btn.dataset.key] = btn;
-  });
-
-  function cycle() {
-    buttons.forEach(b => b.classList.remove('active'));
-
-    setTimeout(() => keyMap['1']?.classList.add('active'), 150);
-    setTimeout(() => keyMap['1']?.classList.remove('active'), 550);
-
-    setTimeout(() => keyMap['4']?.classList.add('active'), 800);
-    setTimeout(() => keyMap['4']?.classList.remove('active'), 1200);
-  }
-
-  cycle();
-  setInterval(cycle, 4000);
-}
-
-/* Init all */
-initHero();
-initArena();
-initDoor();
-initCarbIQButtons();
-</script>
-</body>
-</html>
+  
