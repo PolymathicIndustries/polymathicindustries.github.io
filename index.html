@@ -566,7 +566,6 @@ footer {
         <div class="product-visual carbiq-visual">
           <div class="carbiq-glow"></div>
           <div class="carbiq-icon">
-            <!-- Use your actual filename here, e.g. ic_launcher.png -->
             <img src="ic_launcher.png" alt="CarbIQ icon" />
           </div>
           <div class="carbiq-calculator">
@@ -644,84 +643,92 @@ function createRenderer(canvas) {
   return renderer;
 }
 
-/* HERO: chrome π floating over misty mountains with sunrise */
+/* HERO: silver π floating in dramatic sunset sky */
 function initHero() {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
 
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050008);
-  scene.fog = new THREE.FogExp2(0x050008, 0.08);
+  scene.fog = new THREE.FogExp2(0x050008, 0.03);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
-  camera.position.set(0, 3.0, 9.0);
-  camera.lookAt(0, 2.0, 0);
-
-  const hemi = new THREE.HemisphereLight(0x8899ff, 0x050008, 0.7);
-  scene.add(hemi);
-
-  const sunLight = new THREE.DirectionalLight(0xffe0b0, 1.6);
-  sunLight.position.set(-2, 3, -6);
-  scene.add(sunLight);
-
-  const sunGeo = new THREE.SphereGeometry(2.0, 32, 32);
-  const sunMat = new THREE.MeshBasicMaterial({ color: 0xffe0b0 });
-  const sun = new THREE.Mesh(sunGeo, sunMat);
-  sun.position.set(0, 3.0, -12);
-  scene.add(sun);
+  camera.position.set(0, 0.8, 7.5);
+  camera.lookAt(0, 0.5, 0);
 
   const skyGeo = new THREE.SphereGeometry(60, 32, 32);
-  const skyMat = new THREE.MeshBasicMaterial({
-    color: 0x120020,
-    side: THREE.BackSide
+  const skyMat = new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    uniforms: {
+      topColor: { value: new THREE.Color(0x1a0030) },
+      midColor: { value: new THREE.Color(0x5a1040) },
+      bottomColor: { value: new THREE.Color(0xff7a2a) }
+    },
+    vertexShader: `
+      varying vec3 vPos;
+      void main() {
+        vPos = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vPos;
+      uniform vec3 topColor;
+      uniform vec3 midColor;
+      uniform vec3 bottomColor;
+      void main() {
+        float h = normalize(vPos).y * 0.5 + 0.5;
+        vec3 col;
+        if (h < 0.5) {
+          float t = h / 0.5;
+          col = mix(bottomColor, midColor, t);
+        } else {
+          float t = (h - 0.5) / 0.5;
+          col = mix(midColor, topColor, t);
+        }
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
   });
   const sky = new THREE.Mesh(skyGeo, skyMat);
   scene.add(sky);
 
-  const terrainGeo = new THREE.PlaneGeometry(60, 40, 120, 80);
-  const terrainMat = new THREE.MeshStandardMaterial({
-    color: 0x1a1028,
-    metalness: 0.3,
-    roughness: 0.8
-  });
-  const terrain = new THREE.Mesh(terrainGeo, terrainMat);
-  terrain.rotation.x = -Math.PI / 2;
-  terrain.position.z = -10;
-  terrain.position.y = -2.0;
-
-  const pos = terrain.geometry.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i);
-    const y = pos.getY(i);
-    const dist = Math.sqrt(x * x + y * y);
-    const height =
-      Math.sin(x * 0.12) * 0.8 +
-      Math.cos(y * 0.08) * 0.6 +
-      Math.sin((x + y) * 0.06) * 0.5;
-    const falloff = Math.exp(-Math.pow(dist / 30, 2));
-    pos.setZ(i, height * falloff * 2.2);
-  }
-  pos.needsUpdate = true;
-  terrain.geometry.computeVertexNormals();
-  scene.add(terrain);
-
-  const fogPlaneGeo = new THREE.PlaneGeometry(60, 30);
-  const fogPlaneMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
+  const sunGeo = new THREE.CircleGeometry(1.6, 64);
+  const sunMat = new THREE.MeshBasicMaterial({
+    color: 0xffc070,
     transparent: true,
-    opacity: 0.08
+    opacity: 0.95
   });
-  const fogPlane = new THREE.Mesh(fogPlaneGeo, fogPlaneMat);
-  fogPlane.rotation.x = -Math.PI / 2;
-  fogPlane.position.set(0, -1.2, -8);
-  scene.add(fogPlane);
+  const sun = new THREE.Mesh(sunGeo, sunMat);
+  sun.position.set(0, -0.2, -10);
+  scene.add(sun);
+
+  const sunGlowGeo = new THREE.CircleGeometry(2.6, 64);
+  const sunGlowMat = new THREE.MeshBasicMaterial({
+    color: 0xffa050,
+    transparent: true,
+    opacity: 0.35
+  });
+  const sunGlow = new THREE.Mesh(sunGlowGeo, sunGlowMat);
+  sunGlow.position.set(0, -0.2, -10.1);
+  scene.add(sunGlow);
+
+  const hemi = new THREE.HemisphereLight(0xffb080, 0x1a0030, 0.8);
+  scene.add(hemi);
+
+  const keyLight = new THREE.DirectionalLight(0xfff0d0, 1.4);
+  keyLight.position.set(-2.5, 2.5, 3.0);
+  scene.add(keyLight);
+
+  const rimLight = new THREE.DirectionalLight(0xff7a2a, 0.9);
+  rimLight.position.set(2.0, -0.5, -3.0);
+  scene.add(rimLight);
 
   const piGroup = new THREE.Group();
   const piMat = new THREE.MeshStandardMaterial({
     color: 0xdedede,
     metalness: 1.0,
-    roughness: 0.15
+    roughness: 0.18
   });
 
   const barThickness = 0.35;
@@ -745,8 +752,19 @@ function initHero() {
   piGroup.add(rightBar);
   piGroup.add(topBar);
 
-  piGroup.position.set(0, 2.4, -4);
+  piGroup.position.set(0, 0.5, 0);
   scene.add(piGroup);
+
+  const baseGlowGeo = new THREE.CircleGeometry(1.8, 64);
+  const baseGlowMat = new THREE.MeshBasicMaterial({
+    color: 0xff7a2a,
+    transparent: true,
+    opacity: 0.18
+  });
+  const baseGlow = new THREE.Mesh(baseGlowGeo, baseGlowMat);
+  baseGlow.rotation.x = -Math.PI / 2;
+  baseGlow.position.set(0, -0.9, 0);
+  scene.add(baseGlow);
 
   const clock = new THREE.Clock();
 
@@ -754,19 +772,15 @@ function initHero() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    const sunRiseT = Math.min(t / 8.0, 1.0);
-    sun.position.y = 1.5 + 2.5 * sunRiseT;
-    sunLight.position.y = 1.0 + 3.0 * sunRiseT;
-
     const rotationSpeed = (2 * Math.PI) / 9.0;
     piGroup.rotation.y = t * rotationSpeed;
-    piGroup.position.y = 2.4 + Math.sin(t * 0.6) * 0.15;
+    piGroup.position.y = 0.5 + Math.sin(t * 0.6) * 0.15;
+
+    baseGlow.material.opacity = 0.14 + 0.06 * Math.sin(t * 0.8);
 
     camera.position.x = 0.6 * Math.sin(t * 0.12);
-    camera.position.z = 9.0 + 0.4 * Math.cos(t * 0.12);
-    camera.lookAt(0, 2.0, -4);
-
-    fogPlane.position.z = -8 + Math.sin(t * 0.05) * 1.0;
+    camera.position.z = 7.5 + 0.3 * Math.cos(t * 0.12);
+    camera.lookAt(0, 0.5, 0);
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -777,7 +791,7 @@ function initHero() {
   animate();
 }
 
-/* Survival Summit: platform + ball floating on water */
+/* Survival Summit: platform + ball + stylized water background */
 function initArena() {
   const canvas = document.getElementById('arenaCanvas');
   if (!canvas) return;
@@ -798,15 +812,17 @@ function initArena() {
   dir.position.set(4, 6, 3);
   scene.add(dir);
 
-  const waterGeo = new THREE.PlaneGeometry(40, 40, 80, 80);
+  const waterGeo = new THREE.PlaneGeometry(80, 80, 120, 120);
   const waterMat = new THREE.MeshStandardMaterial({
-    color: 0x101a3a,
-    metalness: 0.8,
-    roughness: 0.25
+    color: 0x15153a,
+    metalness: 0.9,
+    roughness: 0.18,
+    emissive: 0x120824,
+    emissiveIntensity: 0.4
   });
   const water = new THREE.Mesh(waterGeo, waterMat);
   water.rotation.x = -Math.PI / 2;
-  water.position.y = -0.2;
+  water.position.y = -0.25;
   scene.add(water);
 
   const platformGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.4, 64);
@@ -909,8 +925,8 @@ function initArena() {
     for (let i = 0; i < waterPos.count; i++) {
       const x = waterPos.getX(i);
       const y = waterPos.getY(i);
-      const wave = Math.sin(x * 0.25 + t * 0.6) * 0.05 +
-                   Math.cos(y * 0.22 + t * 0.4) * 0.04;
+      const wave = Math.sin(x * 0.22 + t * 0.7) * 0.06 +
+                   Math.cos(y * 0.19 + t * 0.5) * 0.05;
       waterPos.setZ(i, wave);
     }
     waterPos.needsUpdate = true;
@@ -925,7 +941,7 @@ function initArena() {
   animate();
 }
 
-/* Scarring Recall: lamp above door, black wall, fog around door */
+/* Scarring Recall: original-style spotlight + lamp + fog, full door open */
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
   if (!canvas) return;
@@ -933,18 +949,20 @@ function initDoor() {
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  scene.fog = new THREE.FogExp2(0x000000, 0.2);
+  scene.fog = new THREE.FogExp2(0x000000, 0.22);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 1.8, 5.2);
   camera.lookAt(0, 1.4, 0);
 
-  const ambient = new THREE.AmbientLight(0x444466, 0.6);
+  const ambient = new THREE.AmbientLight(0x222233, 0.6);
   scene.add(ambient);
 
-  const spot = new THREE.SpotLight(0xfff4d0, 1.6, 20, Math.PI / 6, 0.4, 1.0);
+  const spot = new THREE.SpotLight(0xfff2d0, 1.8, 20, Math.PI / 6, 0.5, 1.0);
   spot.position.set(0, 3.6, 1.2);
+  spot.target.position.set(0, 1.4, 0);
   scene.add(spot);
+  scene.add(spot.target);
 
   const lampGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16);
   const lampMat = new THREE.MeshStandardMaterial({
@@ -952,7 +970,7 @@ function initDoor() {
     metalness: 0.7,
     roughness: 0.3,
     emissive: 0xffffee,
-    emissiveIntensity: 0.5
+    emissiveIntensity: 0.6
   });
   const lamp = new THREE.Mesh(lampGeo, lampMat);
   lamp.position.set(0, 3.4, 0.2);
@@ -961,7 +979,7 @@ function initDoor() {
   const wallGeo = new THREE.PlaneGeometry(6, 5);
   const wallMat = new THREE.MeshStandardMaterial({
     color: 0x000000,
-    roughness: 0.9,
+    roughness: 0.95,
     metalness: 0.1
   });
   const wall = new THREE.Mesh(wallGeo, wallMat);
@@ -1019,7 +1037,7 @@ function initDoor() {
   const fogSphereMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.16
+    opacity: 0.12
   });
   const fogSphere = new THREE.Mesh(fogSphereGeo, fogSphereMat);
   fogSphere.position.set(0, 1.6, 0.2);
@@ -1029,22 +1047,12 @@ function initDoor() {
   const floorFogMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.12
+    opacity: 0.10
   });
   const floorFog = new THREE.Mesh(floorFogGeo, floorFogMat);
   floorFog.rotation.x = -Math.PI / 2;
   floorFog.position.set(0, 0.01, 0.4);
   scene.add(floorFog);
-
-  const innerGlowGeo = new THREE.PlaneGeometry(1.4, 2.4);
-  const innerGlowMat = new THREE.MeshBasicMaterial({
-    color: 0xfff0d0,
-    transparent: true,
-    opacity: 0.18
-  });
-  const innerGlow = new THREE.Mesh(innerGlowGeo, innerGlowMat);
-  innerGlow.position.set(0, 1.4, -0.01);
-  scene.add(innerGlow);
 
   const clock = new THREE.Clock();
 
@@ -1061,9 +1069,8 @@ function initDoor() {
     const angle = - (Math.PI / 2) * ease;
     doorGroup.rotation.y = angle;
 
-    fogSphere.material.opacity = 0.12 + 0.06 * Math.sin(t * 0.6);
+    fogSphere.material.opacity = 0.10 + 0.05 * Math.sin(t * 0.6);
     floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
-    innerGlow.material.opacity = 0.12 + 0.06 * ease;
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
