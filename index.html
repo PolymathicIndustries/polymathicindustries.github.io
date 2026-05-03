@@ -1,773 +1,632 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Polymathic Industries</title>
-
-    <style>
-        :root {
-            --bg: #070010;
-            --bg-alt: #120021;
-            --accent: #b38cff;
-            --accent-soft: rgba(179, 140, 255, 0.16);
-            --text: #f7f3ff;
-            --muted: #c3b6e6;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --pill: rgba(255, 255, 255, 0.06);
-            --radius-lg: 24px;
-            --radius-md: 18px;
-            --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.7);
-            --max-width: 1120px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-                "Segoe UI", sans-serif;
-            background: radial-gradient(circle at top, #2a0050 0, #050008 55%, #020005 100%);
-            color: var(--text);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        main {
-            min-height: 100vh;
-        }
-
-        /* Header */
-
-        .site-shell {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(16px);
-            background: linear-gradient(to bottom, rgba(5, 0, 16, 0.92), rgba(5, 0, 16, 0.7), transparent);
-        }
-
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 14px 0 10px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-logo-wrap {
-            width: 40px;
-            height: 40px;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
-            background: #4b0082;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-logo-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .brand-name {
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .brand-tagline {
-            font-size: 12px;
-            color: var(--muted);
-            opacity: 0.9;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .nav-link {
-            padding: 6px 10px;
-            border-radius: 999px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.12);
-            color: var(--text);
-        }
-
-        .nav-cta {
-            padding: 7px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: linear-gradient(135deg, rgba(179, 140, 255, 0.18), rgba(255, 255, 255, 0.02));
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* Hero */
-
-        .hero {
-            padding: 40px 0 32px;
-        }
-
-        .hero-inner {
-            border-radius: var(--radius-lg);
-            padding: 28px 24px 30px;
-            background: radial-gradient(circle at top left, rgba(179, 140, 255, 0.22), transparent 55%),
-                        linear-gradient(145deg, rgba(10, 0, 30, 0.96), rgba(4, 0, 16, 0.98));
-            border: 1px solid var(--border-subtle);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .hero-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: var(--pill);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 11px;
-            color: var(--muted);
-            margin-bottom: 14px;
-        }
-
-        .hero-pill-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 999px;
-            background: #5be7a9;
-            box-shadow: 0 0 0 4px rgba(91, 231, 169, 0.18);
-        }
-
-        .hero-title {
-            font-size: clamp(30px, 4vw, 38px);
-            line-height: 1.05;
-            letter-spacing: 0.02em;
-            margin: 0 0 10px;
-        }
-
-        .hero-subtitle {
-            font-size: 15px;
-            color: var(--muted);
-            max-width: 520px;
-            margin-bottom: 16px;
-        }
-
-        .hero-note {
-            font-size: 12px;
-            color: var(--muted);
-            opacity: 0.9;
-        }
-
-        /* Product sections */
-
-        .section-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
-
-        .product-section {
-            position: relative;
-            margin: 24px 0;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            border: 1px solid var(--border-subtle);
-            background: linear-gradient(145deg, var(--bg-alt), #050008);
-            box-shadow: var(--shadow-soft);
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-        }
-
-        .product-section:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 28px 90px rgba(0, 0, 0, 0.85);
-            border-color: rgba(179, 140, 255, 0.6);
-        }
-
-        .product-inner {
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-            gap: 24px;
-            padding: 26px 24px;
-            align-items: center;
-        }
-
-        .product-text-title {
-            font-size: 20px;
-            margin-bottom: 6px;
-        }
-
-        .product-text-sub {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: var(--muted);
-            margin-bottom: 10px;
-        }
-
-        .product-text-body {
-            font-size: 14px;
-            color: var(--muted);
-            max-width: 520px;
-        }
-
-        .product-cta {
-            margin-top: 14px;
-            font-size: 12px;
-            color: var(--accent);
-        }
-
-        .product-visual {
-            position: relative;
-            min-height: 220px;
-            border-radius: var(--radius-md);
-            background: radial-gradient(circle at top, rgba(179, 140, 255, 0.3), transparent 60%),
-                        linear-gradient(160deg, #1b022f, #050008);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-        }
-
-        /* Full-height vs half-height */
-
-        .product-full {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .product-half {
-            min-height: 50vh;
-            display: flex;
-            align-items: center;
-        }
-
-        /* CarbIQ visual */
-
-        .carbiq-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carbiq-calculator {
-            width: 90px;
-            height: 130px;
-            border-radius: 18px;
-            background: linear-gradient(145deg, #fdfbff, #d9d0ff);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-            position: relative;
-            transform: translateY(0);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .carbiq-screen {
-            position: absolute;
-            top: 14px;
-            left: 12px;
-            right: 12px;
-            height: 28px;
-            border-radius: 10px;
-            background: linear-gradient(145deg, #e9f7ff, #c7e4ff);
-        }
-
-        .carbiq-keys {
-            position: absolute;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-
-        .carbiq-key {
-            height: 16px;
-            border-radius: 6px;
-            background: #ece4ff;
-        }
-
-        .carbiq-key.accent {
-            background: #b38cff;
-        }
-
-        .carbiq-utensils {
-            position: absolute;
-            right: 18%;
-            bottom: 18%;
-            width: 80px;
-            height: 80px;
-        }
-
-        .carbiq-fork,
-        .carbiq-spoon {
-            position: absolute;
-            width: 10px;
-            height: 60px;
-            border-radius: 999px;
-            background: linear-gradient(145deg, #fdfbff, #d0d0d0);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
-            transform-origin: bottom center;
-            transition: transform 0.4s ease;
-        }
-
-        .carbiq-fork {
-            left: 10px;
-            bottom: 0;
-        }
-
-        .carbiq-spoon {
-            right: 10px;
-            bottom: 0;
-        }
-
-        .carbiq-glow {
-            position: absolute;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(179, 140, 255, 0.4), transparent 70%);
-            filter: blur(4px);
-            opacity: 0.7;
-            transition: opacity 0.4s ease;
-        }
-
-        .product-section:hover .carbiq-calculator {
-            transform: translateY(-10px);
-            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.9);
-        }
-
-        .product-section:hover .carbiq-fork {
-            transform: rotate(-10deg);
-        }
-
-        .product-section:hover .carbiq-spoon {
-            transform: rotate(10deg);
-        }
-
-        .product-section:hover .carbiq-glow {
-            opacity: 1;
-        }
-
-        /* Survival Summit visual */
-
-        .summit-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .summit-water {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            border-radius: 50%;
-            background: radial-gradient(circle at top, #3f7cff, #0b1630);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .summit-platform {
-            position: absolute;
-            inset: 18%;
-            border-radius: 50%;
-            background: radial-gradient(circle at top, #fdfbff, #c7c7d8);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-        }
-
-        .summit-sphere {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: radial-gradient(circle at top, #ffffff, #b38cff);
-            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.8);
-            animation: summitIdle 3s ease-in-out infinite;
-        }
-
-        @keyframes summitIdle {
-            0%, 100% { transform: translate(-40px, -10px); }
-            50% { transform: translate(40px, 10px); }
-        }
-
-        .product-section:hover .summit-sphere {
-            animation: summitBounce 1.2s ease-in-out infinite;
-        }
-
-        @keyframes summitBounce {
-            0% { transform: translate(-60px, -20px); }
-            25% { transform: translate(60px, -10px); }
-            50% { transform: translate(40px, 20px); }
-            75% { transform: translate(-40px, 10px); }
-            100% { transform: translate(-60px, -20px); }
-        }
-
-        /* Scarring Recall visual */
-
-        .scarring-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .scarring-scene {
-            position: relative;
-            width: 260px;
-            height: 220px;
-            border-radius: 18px;
-            background: radial-gradient(circle at top, #2a0038, #020005);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-            overflow: hidden;
-        }
-
-        .scarring-door-frame {
-            position: absolute;
-            inset: 18%;
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .scarring-door {
-            position: absolute;
-            inset: 18%;
-            border-radius: 8px;
-            background: linear-gradient(145deg, #2b1b1b, #0f0707);
-            transform-origin: left center;
-            transform: perspective(400px) rotateY(0deg);
-            transition: transform 0.5s ease;
-        }
-
-        .scarring-void {
-            position: absolute;
-            inset: 18%;
-            border-radius: 8px;
-            background: radial-gradient(circle at center, #000000, #000000);
-        }
-
-        .scarring-fog {
-            position: absolute;
-            bottom: -20px;
-            left: -40px;
-            right: -40px;
-            height: 80px;
-            background: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent 70%);
-            filter: blur(10px);
-            opacity: 0.6;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .product-section:hover .scarring-door {
-            transform: perspective(400px) rotateY(-25deg);
-        }
-
-        .product-section:hover .scarring-fog {
-            opacity: 0.95;
-            transform: translateY(-6px);
-        }
-
-        /* Stealth hardware visual */
-
-        .hardware-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hardware-orb {
-            position: relative;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(179, 140, 255, 0.4), transparent 70%);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hardware-core {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle at top, #ffffff, #b38cff, #4b0082);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hardware-question {
-            font-size: 54px;
-            font-weight: 700;
-            color: #fdfbff;
-            text-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
-            transform: rotate(0deg);
-            transition: transform 0.4s ease;
-        }
-
-        .hardware-rays {
-            position: absolute;
-            inset: -20%;
-            background: conic-gradient(
-                from 0deg,
-                rgba(255, 255, 255, 0.0),
-                rgba(255, 255, 255, 0.18),
-                rgba(255, 255, 255, 0.0),
-                rgba(179, 140, 255, 0.2),
-                rgba(255, 255, 255, 0.0)
-            );
-            mix-blend-mode: screen;
-            opacity: 0.4;
-            transition: opacity 0.4s ease;
-        }
-
-        .product-section:hover .hardware-question {
-            transform: rotate(8deg);
-        }
-
-        .product-section:hover .hardware-rays {
-            opacity: 0.9;
-        }
-
-        /* Responsive */
-
-        @media (max-width: 880px) {
-            .site-shell {
-                padding-inline: 16px;
-            }
-
-            .header-inner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            nav {
-                flex-wrap: wrap;
-                justify-content: flex-start;
-            }
-
-            .product-inner {
-                grid-template-columns: minmax(0, 1fr);
-            }
-
-            .product-full,
-            .product-half {
-                min-height: auto;
-            }
-
-            .product-visual {
-                min-height: 200px;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Polymathic Industries</title>
+<style>
+:root {
+  --bg: #070010;
+  --bg-alt: #120021;
+  --accent: #b38cff;
+  --text: #f7f3ff;
+  --muted: #c3b6e6;
+  --border-subtle: rgba(255,255,255,0.08);
+  --pill: rgba(255,255,255,0.06);
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --shadow-soft: 0 24px 80px rgba(0,0,0,0.7);
+  --max-width: 1120px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text","Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #2a0050 0, #050008 55%, #020005 100%);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+main { min-height: 100vh; }
+.site-shell {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(to bottom, rgba(5,0,16,0.92), rgba(5,0,16,0.7), transparent);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0 10px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-logo-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #4b0082;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+}
+.brand-logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.brand-tagline {
+  font-size: 12px;
+  color: var(--muted);
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.nav-link {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s;
+}
+.nav-link:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+  color: var(--text);
+}
+.nav-cta {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(135deg, rgba(179,140,255,0.18), rgba(255,255,255,0.02));
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Hero */
+.hero { padding: 40px 0 32px; }
+.hero-inner {
+  border-radius: var(--radius-lg);
+  padding: 28px 24px 30px;
+  background: radial-gradient(circle at top left, rgba(179,140,255,0.22), transparent 55%),
+              linear-gradient(145deg, rgba(10,0,30,0.96), rgba(4,0,16,0.98));
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--pill);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.hero-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #5be7a9;
+  box-shadow: 0 0 0 4px rgba(91,231,169,0.18);
+}
+.hero-title {
+  font-size: clamp(30px, 4vw, 38px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  margin: 0 0 10px;
+}
+.hero-subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 16px;
+}
+.hero-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Product sections */
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.product-section {
+  position: relative;
+  margin: 24px 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(145deg, var(--bg-alt), #050008);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.product-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 90px rgba(0,0,0,0.85);
+  border-color: rgba(179,140,255,0.6);
+}
+.product-inner {
+  display: grid;
+  grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+  gap: 24px;
+  padding: 26px 24px;
+  align-items: center;
+}
+.product-text-sub {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.product-text-title {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.product-text-body {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 520px;
+}
+.product-cta {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--accent);
+}
+.product-visual {
+  position: relative;
+  min-height: 220px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at top, rgba(179,140,255,0.3), transparent 60%),
+              linear-gradient(160deg, #1b022f, #050008);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.product-full {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.product-half {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Survival Summit visual */
+.summit-visual { display:flex; align-items:center; justify-content:center; }
+.summit-water {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle at top, #3f7cff, #0b1630);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+}
+.summit-platform {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle at top, #fdfbff, #c7c7d8);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+.summit-sphere {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at top, #ffffff, #b38cff);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.8);
+  animation: summitIdle 3s ease-in-out infinite;
+}
+@keyframes summitIdle {
+  0%,100% { transform: translate(-40px,-10px); }
+  50% { transform: translate(40px,10px); }
+}
+.product-section:hover .summit-sphere {
+  animation: summitBounce 1.2s ease-in-out infinite;
+}
+@keyframes summitBounce {
+  0% { transform: translate(-60px,-20px); }
+  25% { transform: translate(60px,-10px); }
+  50% { transform: translate(40px,20px); }
+  75% { transform: translate(-40px,10px); }
+  100% { transform: translate(-60px,-20px); }
+}
+
+/* Scarring Recall visual */
+.scarring-visual { display:flex; align-items:center; justify-content:center; }
+.scarring-scene {
+  position: relative;
+  width: 260px;
+  height: 220px;
+  border-radius: 18px;
+  background: radial-gradient(circle at top, #2a0038, #020005);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+.scarring-void {
+  position: absolute;
+  inset: 18%;
+  border-radius: 8px;
+  background: #000;
+}
+.scarring-door-frame {
+  position: absolute;
+  inset: 18%;
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,0.18);
+}
+.scarring-door {
+  position: absolute;
+  inset: 18%;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #2b1b1b, #0f0707);
+  transform-origin: left center;
+  transform: perspective(400px) rotateY(0deg);
+  transition: transform .5s ease;
+}
+.scarring-fog {
+  position: absolute;
+  bottom: -20px;
+  left: -40px;
+  right: -40px;
+  height: 80px;
+  background: radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.6;
+  transition: opacity .5s ease, transform .5s ease;
+}
+.product-section:hover .scarring-door {
+  transform: perspective(400px) rotateY(-25deg);
+}
+.product-section:hover .scarring-fog {
+  opacity: 0.95;
+  transform: translateY(-6px);
+}
+
+/* CarbIQ visual */
+.carbiq-visual { display:flex; align-items:center; justify-content:center; }
+.carbiq-glow {
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(179,140,255,0.4), transparent 70%);
+  filter:blur(4px);
+  opacity:0.7;
+  transition:opacity .4s ease;
+}
+.carbiq-calculator {
+  width:90px;
+  height:130px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#fdfbff,#d9d0ff);
+  box-shadow:0 18px 40px rgba(0,0,0,0.7);
+  position:relative;
+  transform:translateY(0);
+  transition:transform .4s ease, box-shadow .4s ease;
+}
+.carbiq-screen {
+  position:absolute;
+  top:14px;
+  left:12px;
+  right:12px;
+  height:28px;
+  border-radius:10px;
+  background:linear-gradient(145deg,#e9f7ff,#c7e4ff);
+}
+.carbiq-keys {
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+.carbiq-key {
+  height:16px;
+  border-radius:6px;
+  background:#ece4ff;
+}
+.carbiq-key.accent { background:#b38cff; }
+.carbiq-utensils {
+  position:absolute;
+  right:18%;
+  bottom:18%;
+  width:80px;
+  height:80px;
+}
+.carbiq-fork,
+.carbiq-spoon {
+  position:absolute;
+  width:10px;
+  height:60px;
+  border-radius:999px;
+  background:linear-gradient(145deg,#fdfbff,#d0d0d0);
+  box-shadow:0 10px 24px rgba(0,0,0,0.6);
+  transform-origin:bottom center;
+  transition:transform .4s ease;
+}
+.carbiq-fork { left:10px; bottom:0; }
+.carbiq-spoon { right:10px; bottom:0; }
+.product-section:hover .carbiq-calculator {
+  transform:translateY(-10px);
+  box-shadow:0 26px 60px rgba(0,0,0,0.9);
+}
+.product-section:hover .carbiq-fork { transform:rotate(-10deg); }
+.product-section:hover .carbiq-spoon { transform:rotate(10deg); }
+.product-section:hover .carbiq-glow { opacity:1; }
+
+/* Hardware visual */
+.hardware-visual { display:flex; align-items:center; justify-content:center; }
+.hardware-orb {
+  position:relative;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(179,140,255,0.4), transparent 70%);
+  box-shadow:0 24px 60px rgba(0,0,0,0.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.hardware-core {
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:radial-gradient(circle at top,#ffffff,#b38cff,#4b0082);
+  box-shadow:0 18px 40px rgba(0,0,0,0.8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.hardware-question {
+  font-size:54px;
+  font-weight:700;
+  color:#fdfbff;
+  text-shadow:0 0 18px rgba(0,0,0,0.9);
+  transform:rotate(0deg);
+  transition:transform .4s ease;
+}
+.hardware-rays {
+  position:absolute;
+  inset:-20%;
+  background:conic-gradient(
+    from 0deg,
+    rgba(255,255,255,0.0),
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.0),
+    rgba(179,140,255,0.2),
+    rgba(255,255,255,0.0)
+  );
+  mix-blend-mode:screen;
+  opacity:0.4;
+  transition:opacity .4s ease;
+}
+.product-section:hover .hardware-question { transform:rotate(8deg); }
+.product-section:hover .hardware-rays { opacity:0.9; }
+
+/* Footer */
+footer {
+  margin: 32px 0 40px;
+  font-size: 11px;
+  color: var(--muted);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 14px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* Responsive */
+@media (max-width: 880px) {
+  .site-shell { padding-inline:16px; }
+  .header-inner { flex-direction:column; align-items:flex-start; }
+  nav { flex-wrap:wrap; justify-content:flex-start; }
+  .product-inner { grid-template-columns:minmax(0,1fr); }
+  .product-full, .product-half { min-height:auto; }
+  .product-visual { min-height:200px; }
+}
+</style>
 </head>
 <body>
 <header>
-    <div class="site-shell">
-        <div class="header-inner">
-            <a href="index.html" class="brand">
-                <div class="brand-logo-wrap">
-                    <!-- Replace logo.png with your actual logo filename -->
-                    <img src="logo.png" alt="Polymathic Industries logo" />
-                </div>
-                <div class="brand-text">
-                    <div class="brand-name">Polymathic Industries</div>
-                    <div class="brand-tagline">Emotionally intelligent play for human growth</div>
-                </div>
-            </a>
-            <nav>
-                <a href="#survival-summit" class="nav-link">Survival Summit</a>
-                <a href="#scarring-recall" class="nav-link">Scarring Recall</a>
-                <a href="#carbiq" class="nav-link">CarbIQ</a>
-                <a href="#hardware" class="nav-link">Stealth Hardware</a>
-                <a href="contact.html" class="nav-cta">Contact</a>
-            </nav>
+  <div class="site-shell">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
         </div>
+        <div class="brand-text">
+          <div class="brand-name">Polymathic Industries</div>
+          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
+        </div>
+      </a>
+      <nav>
+        <a href="#survival-summit" class="nav-link">Survival Summit</a>
+        <a href="#scarring-recall" class="nav-link">Scarring Recall</a>
+        <a href="#carbiq" class="nav-link">CarbIQ</a>
+        <a href="#hardware" class="nav-link">Stealth Hardware</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+      </nav>
     </div>
+  </div>
 </header>
 
 <main>
-    <div class="site-shell">
-        <!-- Hero -->
-        <section class="hero">
-            <div class="hero-inner">
-                <div class="hero-pill">
-                    <div class="hero-pill-dot"></div>
-                    Emotionally intelligent entertainment · Games and hardware for human growth
-                </div>
-                <h1 class="hero-title">Play that actually changes you.</h1>
-                <p class="hero-subtitle">
-                    Polymathic Industries builds emotionally intelligent games and hardware that turn pressure,
-                    memory, and everyday moments into chances to grow.
-                </p>
-                <p class="hero-note">
-                    Explore our worlds below — each one is a different way to understand how you think, feel, and move through life.
-                </p>
-            </div>
-        </section>
+  <div class="site-shell">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-pill">
+          <div class="hero-pill-dot"></div>
+          Emotionally intelligent entertainment · Games and hardware for human growth
+        </div>
+        <h1 class="hero-title">Play that actually changes you.</h1>
+        <p class="hero-subtitle">
+          Polymathic Industries builds emotionally intelligent games and hardware that turn pressure, memory,
+          and everyday moments into chances to grow.
+        </p>
+        <p class="hero-note">
+          Explore each world below — every product is a different way to understand how you think, feel, and move through life.
+        </p>
+      </div>
+    </section>
 
-        <!-- Survival Summit (full-height) -->
-        <section id="survival-summit" class="product-section product-full" onclick="location.href='survivalsummit.html'">
-            <div class="product-inner">
-                <div>
-                    <div class="section-label">01 — Game</div>
-                    <div class="product-text-sub">Survival Summit</div>
-                    <div class="product-text-title">A high-energy arena where pressure reveals who you are.</div>
-                    <p class="product-text-body">
-                        Survival Summit is a fast, wave-based action game built around tight movement and constant pressure.
-                        Each handcrafted arena has its own hazards and rhythm, turning every run into a small test of instinct.
-                        Some players rush. Some hold position. Some take risks. Some play cautiously.
-                        The game doesn’t judge — it reflects.
-                    </p>
-                    <p class="product-cta">Enter the arena →</p>
-                </div>
-                <div class="product-visual summit-visual">
-                    <div class="summit-water">
-                        <div class="summit-platform"></div>
-                        <div class="summit-sphere"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Survival Summit (full-height) -->
+    <section id="survival-summit" class="product-section product-full" onclick="location.href='survivalsummit.html'">
+      <div class="product-inner">
+        <div>
+          <div class="section-label">01 — Game</div>
+          <div class="product-text-sub">Survival Summit</div>
+          <div class="product-text-title">A high-energy arena where pressure reveals who you are.</div>
+          <p class="product-text-body">
+            Survival Summit is a high‑energy action game built around fast decisions, tight movement,
+            and the constant pressure of incoming waves. Each arena is handcrafted with its own personality,
+            hazards, and rhythm, creating a series of intense challenges that reward focus and adaptability.
+          </p>
+          <p class="product-cta">Enter the arena →</p>
+        </div>
+        <div class="product-visual summit-visual">
+          <div class="summit-water">
+            <div class="summit-platform"></div>
+            <div class="summit-sphere"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Scarring Recall (full-height) -->
-        <section id="scarring-recall" class="product-section product-full" onclick="location.href='scarringrecall.html'">
-            <div class="product-inner">
-                <div>
-                    <div class="section-label">02 — Game</div>
-                    <div class="product-text-sub">Scarring Recall</div>
-                    <div class="product-text-title">A mystery about memory, brothers, and the things left unsaid.</div>
-                    <p class="product-text-body">
-                        Scarring Recall follows Ryan as he returns to the memories he’s avoided for most of his life.
-                        Players move through key moments, uncover clues, and step into intimate confrontations that show how
-                        silence, trauma, and misunderstanding shaped two brothers in different ways.
-                        It’s not just a mystery to solve — it’s a story about trying to understand each other when communication has failed.
-                    </p>
-                    <p class="product-cta">Open the door →</p>
-                </div>
-                <div class="product-visual scarring-visual">
-                    <div class="scarring-scene">
-                        <div class="scarring-void"></div>
-                        <div class="scarring-door-frame"></div>
-                        <div class="scarring-door"></div>
-                        <div class="scarring-fog"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Scarring Recall (full-height) -->
+    <section id="scarring-recall" class="product-section product-full" onclick="location.href='scarringrecall.html'">
+      <div class="product-inner">
+        <div>
+          <div class="section-label">02 — Game</div>
+          <div class="product-text-sub">Scarring Recall</div>
+          <div class="product-text-title">A mystery about memory, brothers, and the things left unsaid.</div>
+          <p class="product-text-body">
+            Scarring Recall is a narrative mystery game about a man returning to the memories he has avoided
+            for most of his life. What begins as a simple attempt to understand the past becomes a journey
+            through the emotional weight he and his brother carried but never spoke about.
+          </p>
+          <p class="product-cta">Open the door →</p>
+        </div>
+        <div class="product-visual scarring-visual">
+          <div class="scarring-scene">
+            <div class="scarring-void"></div>
+            <div class="scarring-door-frame"></div>
+            <div class="scarring-door"></div>
+            <div class="scarring-fog"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- CarbIQ (half-height) -->
-        <section id="carbiq" class="product-section product-half" onclick="location.href='carbiq.html'">
-            <div class="product-inner">
-                <div>
-                    <div class="section-label">03 — App</div>
-                    <div class="product-text-sub">CarbIQ</div>
-                    <div class="product-text-title">Simple, fast carb tracking that fits into real life.</div>
-                    <p class="product-text-body">
-                        CarbIQ makes it easy to track your carbs wherever you are — at home, out with friends,
-                        or in the grocery aisle. Log meals quickly, scan labels, and see how everything fits into your daily goals
-                        without complicated setup or calculations.
-                    </p>
-                    <p class="product-cta">See CarbIQ →</p>
-                </div>
-                <div class="product-visual carbiq-visual">
-                    <div class="carbiq-glow"></div>
-                    <div class="carbiq-calculator">
-                        <div class="carbiq-screen"></div>
-                        <div class="carbiq-keys">
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key accent"></div>
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key"></div>
-                            <div class="carbiq-key"></div>
-                        </div>
-                    </div>
-                    <div class="carbiq-utensils">
-                        <div class="carbiq-fork"></div>
-                        <div class="carbiq-spoon"></div>
-                    </div>
-                </div>
+    <!-- CarbIQ (half-height) -->
+    <section id="carbiq" class="product-section product-half" onclick="location.href='carbiq.html'">
+      <div class="product-inner">
+        <div>
+          <div class="section-label">03 — App</div>
+          <div class="product-text-sub">CarbIQ</div>
+          <div class="product-text-title">Simple, fast carb tracking that fits into real life.</div>
+          <p class="product-text-body">
+            CarbIQ makes it easy to track your carbs wherever you are — at home, out with friends,
+            or in the grocery aisle. Log meals quickly, scan labels, and see how everything fits into your daily goals
+            without complicated setup or calculations.
+          </p>
+          <p class="product-cta">See CarbIQ →</p>
+        </div>
+        <div class="product-visual carbiq-visual">
+          <div class="carbiq-glow"></div>
+          <div class="carbiq-calculator">
+            <div class="carbiq-screen"></div>
+            <div class="carbiq-keys">
+              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
+              <div class="carbiq-key"></div><div class="carbiq-key accent"></div><div class="carbiq-key"></div>
+              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
             </div>
-        </section>
+          </div>
+          <div class="carbiq-utensils">
+            <div class="carbiq-fork"></div>
+            <div class="carbiq-spoon"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Stealth Hardware (half-height) -->
-        <section id="hardware" class="product-section product-half" onclick="location.href='hardware.html'">
-            <div class="product-inner">
-                <div>
-                    <div class="section-label">04 — Hardware</div>
-                    <div class="product-text-sub">Stealth wearable</div>
-                    <div class="product-text-title">A quiet device for ending loneliness, boredom, and conflict.</div>
-                    <p class="product-text-body">
-                        A wearable built to counter the three forces pulling people apart: loneliness, boredom, and conflict.
-                        It turns everyday moments into connection, momentum, and fulfillment — without shouting for attention.
-                        Details stay intentionally quiet for now.
-                    </p>
-                    <p class="product-cta">Watch this space →</p>
-                </div>
-                <div class="product-visual hardware-visual">
-                    <div class="hardware-orb">
-                        <div class="hardware-core">
-                            <div class="hardware-rays"></div>
-                            <div class="hardware-question">?</div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Stealth Hardware (half-height) -->
+    <section id="hardware" class="product-section product-half" onclick="location.href='hardware.html'">
+      <div class="product-inner">
+        <div>
+          <div class="section-label">04 — Hardware</div>
+          <div class="product-text-sub">Stealth wearable</div>
+          <div class="product-text-title">A quiet device for ending loneliness, boredom, and conflict.</div>
+          <p class="product-text-body">
+            A wearable built to end loneliness, boredom, and conflict — the three forces pulling people apart.
+            It turns everyday moments into connection, momentum, and fulfillment, without shouting for attention.
+          </p>
+          <p class="product-cta">Watch this space →</p>
+        </div>
+        <div class="product-visual hardware-visual">
+          <div class="hardware-orb">
+            <div class="hardware-core">
+              <div class="hardware-rays"></div>
+              <div class="hardware-question">?</div>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <footer style="margin: 32px 0 40px; font-size: 11px; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;">
-            <div>© Polymathic Industries · 2026</div>
-            <div>Emotionally intelligent play for human growth.</div>
-        </footer>
-    </div>
+    <footer>
+      <div>© Polymathic Industries · 2026</div>
+      <div>Emotionally intelligent play for human growth.</div>
+    </footer>
+  </div>
 </main>
 </body>
 </html>
