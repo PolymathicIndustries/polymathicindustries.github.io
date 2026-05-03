@@ -233,118 +233,16 @@ nav {
   align-items: center;
 }
 
-/* Survival Summit visual */
-.summit-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.summit-arena {
+/* Canvas containers */
+.canvas-wrap {
+  width: 100%;
+  height: 100%;
   position: relative;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 0%, #4f8cff, #0b1630 60%, #020008 100%);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
-  overflow: hidden;
 }
-.summit-ring {
-  position: absolute;
-  inset: 18%;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
-}
-.summit-sphere {
-  position: absolute;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 0%, #ffffff, #b38cff);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
-  animation: summitInnerIdle 3s ease-in-out infinite;
-}
-@keyframes summitInnerIdle {
-  0%   { transform: translate(-60px, -10px); }
-  50%  { transform: translate(60px, 10px); }
-  100% { transform: translate(-60px, -10px); }
-}
-.product-section:hover .summit-sphere {
-  animation: summitInnerBounce 1.2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
-}
-@keyframes summitInnerBounce {
-  0%   { transform: translate(-70px, -12px); }
-  25%  { transform: translate(70px, -6px); }
-  50%  { transform: translate(50px, 18px); }
-  75%  { transform: translate(-50px, 10px); }
-  100% { transform: translate(-70px, -12px); }
-}
-
-/* Scarring Recall visual */
-.scarring-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.scarring-scene {
-  position: relative;
-  width: 260px;
-  height: 220px;
-  border-radius: 18px;
-  background: radial-gradient(circle at top, #1a001f, #020005 70%);
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.9);
-  overflow: hidden;
-}
-.scarring-void {
-  position: absolute;
-  inset: 18%;
-  border-radius: 10px;
-  background: radial-gradient(circle at center, #000000 0, #000000 60%, #050008 100%);
-}
-.scarring-door-frame {
-  position: absolute;
-  inset: 18%;
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
-}
-.scarring-door {
-  position: absolute;
-  inset: 18%;
-  border-radius: 10px;
-  background: linear-gradient(145deg, #2b1b1b, #0b0505);
-  transform-origin: left center;
-  transform: perspective(600px) rotateY(0deg);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
-  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.scarring-fog {
-  position: absolute;
-  bottom: -30px;
-  left: -60px;
-  right: -60px;
-  height: 110px;
-  background:
-    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.35), transparent 60%),
-    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.25), transparent 60%);
-  filter: blur(14px);
-  opacity: 0.55;
-  transform: translateY(0);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  animation: scarringFogDrift 8s ease-in-out infinite;
-}
-@keyframes scarringFogDrift {
-  0% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  100% { transform: translateX(-6px); }
-}
-.product-section:hover .scarring-door {
-  transform: perspective(600px) rotateY(-32deg);
-}
-.product-section:hover .scarring-fog {
-  opacity: 0.95;
-  transform: translateY(-10px);
+.canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* CarbIQ visual */
@@ -364,20 +262,19 @@ nav {
   opacity: 0.8;
 }
 .carbiq-calculator {
-  width: 120px;
-  height: 170px;
+  width: 150px;
+  height: 210px;
   border-radius: 22px;
   background: linear-gradient(145deg, #ffffff, #d9d0ff);
   box-shadow: 0 22px 50px rgba(0, 0, 0, 0.85);
   position: relative;
-  overflow: hidden;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .carbiq-screen {
-  position: absolute;
-  top: 16px;
-  left: 14px;
-  right: 14px;
-  height: 38px;
+  height: 42px;
   border-radius: 10px;
   background: linear-gradient(145deg, #e9f7ff, #c7e4ff);
   display: flex;
@@ -392,32 +289,43 @@ nav {
   overflow: hidden;
   border-right: 2px solid rgba(27, 35, 48, 0.7);
   animation:
-    carbiqType 3s steps(10, end) infinite,
+    carbiqType 4s steps(10, end) infinite,
     carbiqCaret 0.8s step-end infinite;
 }
 @keyframes carbiqType {
   0%   { width: 0ch; }
-  40%  { width: 10ch; } /* "1 + 4 + 5" */
-  60%  { width: 10ch; }
+  45%  { width: 10ch; } /* "1 + 4 + 5" */
+  65%  { width: 10ch; }
   100% { width: 0ch; }
 }
 @keyframes carbiqCaret {
   0%, 100% { border-color: transparent; }
   50%      { border-color: rgba(27, 35, 48, 0.7); }
 }
-.carbiq-button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 0%, #ffffff, #b38cff);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.8);
+.carbiq-buttons {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.carbiq-btn {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #f5f1ff, #d6cfff);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #2b2340;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.carbiq-btn.active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  background: linear-gradient(145deg, #e4ddff, #c5b8ff);
 }
 
-/* Hardware visual */
+/* Hardware visual (CSS-based orb + question mark) */
 .hardware-visual {
   display: flex;
   align-items: center;
@@ -512,7 +420,7 @@ footer {
   nav { flex-wrap:wrap; justify-content:flex-start; }
   .product-inner { grid-template-columns:minmax(0,1fr); }
   .product-full, .product-half { min-height:auto; }
-  .product-visual { min-height:200px; }
+  .product-visual { min-height:220px; }
 }
 </style>
 </head>
@@ -574,10 +482,9 @@ footer {
           </p>
           <p class="product-cta">Enter the arena →</p>
         </div>
-        <div class="product-visual summit-visual">
-          <div class="summit-arena">
-            <div class="summit-ring"></div>
-            <div class="summit-sphere"></div>
+        <div class="product-visual">
+          <div class="canvas-wrap">
+            <canvas id="arenaCanvas"></canvas>
           </div>
         </div>
       </div>
@@ -597,12 +504,9 @@ footer {
           </p>
           <p class="product-cta">Open the door →</p>
         </div>
-        <div class="product-visual scarring-visual">
-          <div class="scarring-scene">
-            <div class="scarring-void"></div>
-            <div class="scarring-door-frame"></div>
-            <div class="scarring-door"></div>
-            <div class="scarring-fog"></div>
+        <div class="product-visual">
+          <div class="canvas-wrap">
+            <canvas id="doorCanvas"></canvas>
           </div>
         </div>
       </div>
@@ -628,7 +532,17 @@ footer {
             <div class="carbiq-screen">
               <div class="carbiq-screen-text">1 + 4 + 5</div>
             </div>
-            <div class="carbiq-button"></div>
+            <div class="carbiq-buttons">
+              <div class="carbiq-btn" data-key="1">1</div>
+              <div class="carbiq-btn" data-key="2">2</div>
+              <div class="carbiq-btn" data-key="3">3</div>
+              <div class="carbiq-btn" data-key="4">4</div>
+              <div class="carbiq-btn" data-key="5">5</div>
+              <div class="carbiq-btn" data-key="6">6</div>
+              <div class="carbiq-btn" data-key="7">7</div>
+              <div class="carbiq-btn" data-key="8">8</div>
+              <div class="carbiq-btn" data-key="9">9</div>
+            </div>
           </div>
         </div>
       </div>
@@ -665,5 +579,230 @@ footer {
     </footer>
   </div>
 </main>
+
+<!-- Three.js + JS animations -->
+<script type="module">
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+/* Shared helper: create renderer bound to a canvas */
+function createRenderer(canvas) {
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true
+  });
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+  const resize = () => {
+    const rect = canvas.getBoundingClientRect();
+    renderer.setSize(rect.width, rect.height, false);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+  return renderer;
+}
+
+/* Survival Summit: 3D circular platform + rolling sphere */
+function initArena() {
+  const canvas = document.getElementById('arenaCanvas');
+  if (!canvas) return;
+
+  const renderer = createRenderer(canvas);
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x050008, 0.08);
+
+  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.set(0, 4.5, 6);
+  camera.lookAt(0, 0, 0);
+
+  const ambient = new THREE.AmbientLight(0x8888ff, 0.8);
+  scene.add(ambient);
+
+  const dir = new THREE.DirectionalLight(0xffffff, 1.1);
+  dir.position.set(4, 6, 3);
+  dir.castShadow = false;
+  scene.add(dir);
+
+  const platformGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.4, 64);
+  const platformMat = new THREE.MeshStandardMaterial({
+    color: 0x2b2b5f,
+    metalness: 0.6,
+    roughness: 0.25,
+    emissive: 0x221144,
+    emissiveIntensity: 0.4
+  });
+  const platform = new THREE.Mesh(platformGeo, platformMat);
+  platform.rotation.x = -Math.PI * 0.5;
+  scene.add(platform);
+
+  const rimGeo = new THREE.RingGeometry(1.9, 2.2, 64);
+  const rimMat = new THREE.MeshBasicMaterial({
+    color: 0xdedcff,
+    side: THREE.DoubleSide
+  });
+  const rim = new THREE.Mesh(rimGeo, rimMat);
+  rim.rotation.x = -Math.PI * 0.5;
+  rim.position.y = 0.21;
+  scene.add(rim);
+
+  const ballGeo = new THREE.SphereGeometry(0.35, 32, 32);
+  const ballMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    metalness: 0.2,
+    roughness: 0.1,
+    emissive: 0xb38cff,
+    emissiveIntensity: 0.6
+  });
+  const ball = new THREE.Mesh(ballGeo, ballMat);
+  ball.position.set(1.9, 0.4, 0);
+  scene.add(ball);
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    const radius = 1.9;
+    const speed = 0.8;
+    const angle = t * speed;
+    ball.position.x = Math.cos(angle) * radius;
+    ball.position.z = Math.sin(angle) * radius;
+    ball.position.y = 0.4 + Math.sin(t * 2.0) * 0.03;
+
+    ball.rotation.z = angle * 2.0;
+    ball.rotation.x = angle * 1.5;
+
+    platform.rotation.z = Math.sin(t * 0.3) * 0.06;
+
+    const rect = canvas.getBoundingClientRect();
+    camera.aspect = rect.width / rect.height;
+    camera.updateProjectionMatrix();
+
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+
+/* Scarring Recall: 3D stylized door with hinge rotation */
+function initDoor() {
+  const canvas = document.getElementById('doorCanvas');
+  if (!canvas) return;
+
+  const renderer = createRenderer(canvas);
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x050008, 0.12);
+
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.set(0, 1.8, 5.2);
+  camera.lookAt(0, 1.4, 0);
+
+  const ambient = new THREE.AmbientLight(0x8888ff, 0.7);
+  scene.add(ambient);
+
+  const spot = new THREE.SpotLight(0xffffff, 1.4, 20, Math.PI / 5, 0.4, 1.0);
+  spot.position.set(0, 4, 4);
+  scene.add(spot);
+
+  const wallGeo = new THREE.PlaneGeometry(6, 5);
+  const wallMat = new THREE.MeshStandardMaterial({
+    color: 0x120016,
+    roughness: 0.9,
+    metalness: 0.1
+  });
+  const wall = new THREE.Mesh(wallGeo, wallMat);
+  wall.position.set(0, 1.8, -0.6);
+  scene.add(wall);
+
+  const doorGroup = new THREE.Group();
+  scene.add(doorGroup);
+
+  const doorWidth = 1.6;
+  const doorHeight = 3.0;
+  const doorDepth = 0.18;
+
+  const doorGeo = new THREE.BoxGeometry(doorWidth, doorHeight, doorDepth);
+  const doorMat = new THREE.MeshStandardMaterial({
+    color: 0x3a2626,
+    metalness: 0.4,
+    roughness: 0.35,
+    emissive: 0x1a0505,
+    emissiveIntensity: 0.25
+  });
+  const door = new THREE.Mesh(doorGeo, doorMat);
+
+  door.position.x = doorWidth / 2;
+  doorGroup.add(door);
+  doorGroup.position.set(-doorWidth / 2, 1.5, 0);
+
+  const frameGeo = new THREE.BoxGeometry(doorWidth + 0.18, doorHeight + 0.18, 0.12);
+  const frameMat = new THREE.MeshStandardMaterial({
+    color: 0xaaaaaa,
+    metalness: 0.8,
+    roughness: 0.2
+  });
+  const frame = new THREE.Mesh(frameGeo, frameMat);
+  frame.position.set(0, 1.5, 0.01);
+  scene.add(frame);
+
+  const fogGeo = new THREE.PlaneGeometry(4, 2.4);
+  const fogMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.18
+  });
+  const fog = new THREE.Mesh(fogGeo, fogMat);
+  fog.position.set(0, 1.4, -0.05);
+  scene.add(fog);
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    const openAmount = (Math.sin(t * 0.7) + 1) / 2; // 0..1
+    const angle = - (Math.PI / 3) * openAmount;
+    doorGroup.rotation.y = angle;
+
+    fog.material.opacity = 0.12 + 0.08 * Math.sin(t * 1.3);
+
+    const rect = canvas.getBoundingClientRect();
+    camera.aspect = rect.width / rect.height;
+    camera.updateProjectionMatrix();
+
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+
+/* CarbIQ: highlight 1 and 4 buttons in sync with typing */
+function initCarbIQButtons() {
+  const buttons = document.querySelectorAll('.carbiq-btn');
+  if (!buttons.length) return;
+
+  const keyMap = {};
+  buttons.forEach(btn => {
+    keyMap[btn.dataset.key] = btn;
+  });
+
+  function cycle() {
+    buttons.forEach(b => b.classList.remove('active'));
+
+    setTimeout(() => keyMap['1']?.classList.add('active'), 700);
+    setTimeout(() => keyMap['1']?.classList.remove('active'), 1200);
+
+    setTimeout(() => keyMap['4']?.classList.add('active'), 1600);
+    setTimeout(() => keyMap['4']?.classList.remove('active'), 2100);
+  }
+
+  cycle();
+  setInterval(cycle, 4000);
+}
+
+/* Init all */
+initArena();
+initDoor();
+initCarbIQButtons();
+</script>
 </body>
 </html>
