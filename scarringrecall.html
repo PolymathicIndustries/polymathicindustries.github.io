@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scarring Recall — Polymathic Industries</title>
+<style>
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+  background:radial-gradient(circle at top,#2a0050 0,#050008 55%,#020005 100%);
+  color:#f7f3ff;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:inherit; text-decoration:none; }
+.site-shell { max-width:1120px; margin:0 auto; padding:0 20px; }
+
+/* Header */
+header {
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(to bottom,rgba(5,0,16,0.92),rgba(5,0,16,0.7),transparent);
+}
+.header-inner {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:14px 0 10px;
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo-wrap {
+  width:40px; height:40px; border-radius:14px; overflow:hidden;
+  background:#4b0082; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.7);
+}
+.brand-logo-wrap img { width:100%; height:100%; object-fit:cover; }
+.brand-text { display:flex; flex-direction:column; gap:2px; }
+.brand-name {
+  font-size:15px; font-weight:600; letter-spacing:0.16em;
+  text-transform:uppercase; color:#c3b6e6;
+}
+.brand-tagline { font-size:12px; color:#c3b6e6; }
+nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6; }
+.nav-link {
+  padding:6px 10px; border-radius:999px; border:1px solid transparent;
+  cursor:pointer; transition:background .18s,border-color .18s,color .18s;
+}
+.nav-link:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.12);
+  color:#f7f3ff;
+}
+
+/* Hero */
+.hero { margin:50px 0 30px; }
+.hero-inner {
+  border-radius:24px;
+  padding:30px 24px 32px;
+  background:radial-gradient(circle at top left,rgba(179,140,255,0.22),transparent 55%),
+             linear-gradient(145deg,rgba(10,0,30,0.96),rgba(4,0,16,0.98));
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:26px;
+  align-items:center;
+}
+.hero-label {
+  font-size:11px; text-transform:uppercase; letter-spacing:0.18em; color:#c3b6e6; margin-bottom:8px;
+}
+.hero-title { font-size:32px; margin:0 0 10px; }
+.hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
+.hero-note { font-size:13px; color:#c3b6e6; }
+
+/* Visual */
+.scarring-visual { display:flex; align-items:center; justify-content:center; }
+.scarring-scene {
+  position:relative; width:260px; height:220px; border-radius:18px;
+  background:radial-gradient(circle at top,#2a0038,#020005);
+  box-shadow:0 20px 50px rgba(0,0,0,0.8);
+  overflow:hidden;
+}
+.scarring-void {
+  position:absolute; inset:18%; border-radius:8px; background:#000;
+}
+.scarring-door-frame {
+  position:absolute; inset:18%; border-radius:10px;
+  border:2px solid rgba(255,255,255,0.18);
+}
+.scarring-door {
+  position:absolute; inset:18%; border-radius:8px;
+  background:linear-gradient(145deg,#2b1b1b,#0f0707);
+  transform-origin:left center;
+  transform:perspective(400px) rotateY(0deg);
+  transition:transform .5s ease;
+}
+.scarring-fog {
+  position:absolute; bottom:-20px; left:-40px; right:-40px; height:80px;
+  background:radial-gradient(circle at top,rgba(255,255,255,0.35),transparent 70%);
+  filter:blur(10px); opacity:0.6;
+  transition:opacity .5s ease, transform .5s ease;
+}
+.scarring-scene:hover .scarring-door {
+  transform:perspective(400px) rotateY(-25deg);
+}
+.scarring-scene:hover .scarring-fog {
+  opacity:0.95; transform:translateY(-6px);
+}
+
+/* Content */
+.content {
+  margin:40px 0 50px;
+  font-size:16px;
+  color:#c3b6e6;
+  line-height:1.7;
+}
+.content p { margin-bottom:18px; }
+
+/* Footer */
+footer {
+  margin:20px 0 30px;
+  font-size:12px;
+  color:#c3b6e6;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:12px;
+}
+
+/* Responsive */
+@media (max-width:880px){
+  .site-shell{padding-inline:16px;}
+  .header-inner{flex-direction:column;align-items:flex-start;}
+  nav{flex-wrap:wrap;justify-content:flex-start;}
+  .hero-inner{grid-template-columns:minmax(0,1fr);}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="site-shell">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Polymathic Industries</div>
+          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
+        </div>
+      </a>
+      <nav>
+        <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
+        <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
+        <a href="carbiq.html" class="nav-link">CarbIQ</a>
+        <a href="hardware.html" class="nav-link">Hardware</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="site-shell">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-label">Game · Scarring Recall</div>
+          <h1 class="hero-title">A narrative mystery about the memories you avoid.</h1>
+          <p class="hero-sub">
+            Two brothers, a fractured childhood, and the emotional weight that was never spoken aloud.
+          </p>
+          <p class="hero-note">
+            Scarring Recall invites players into the space between memory, fear, and loyalty — and asks what it takes to truly understand someone you thought you knew.
+          </p>
+        </div>
+        <div class="scarring-visual">
+          <div class="scarring-scene">
+            <div class="scarring-void"></div>
+            <div class="scarring-door-frame"></div>
+            <div class="scarring-door"></div>
+            <div class="scarring-fog"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <p>Scarring Recall is a narrative mystery game about a man returning to the memories he has avoided for most of his life. The story follows Ryan as he searches for the truth behind a fractured childhood and the distance that grew between him and his brother. What begins as a simple attempt to understand the past becomes a journey through the emotional weight they both carried but never spoke about.</p>
+
+      <p>Players explore key moments, uncover clues, and move through a series of intimate confrontations that reveal how misunderstandings, silence, and trauma shaped the brothers in different ways. Each encounter focuses on connection, perspective, and the difficulty of facing the people who mattered most when things went wrong.</p>
+
+      <p>Scarring Recall is not only a mystery to solve. It is a story about two brothers trying to understand each other when communication has failed. The game invites players to step into the emotional space between them and witness how memory, fear, and loyalty collide as Ryan pieces together what truly happened.</p>
+    </section>
+
+    <footer>
+      © Polymathic Industries · 2026
+    </footer>
+  </div>
+</main>
+</body>
+</html>
