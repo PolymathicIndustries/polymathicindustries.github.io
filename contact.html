@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — Polymathic Industries</title>
+<style>
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+  background:radial-gradient(circle at top,#2a0050 0,#050008 55%,#020005 100%);
+  color:#f7f3ff;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:inherit; text-decoration:none; }
+.site-shell { max-width:1120px; margin:0 auto; padding:0 20px; }
+
+/* Header */
+header {
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(to bottom,rgba(5,0,16,0.92),rgba(5,0,16,0.7),transparent);
+}
+.header-inner {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:14px 0 10px;
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo-wrap {
+  width:40px; height:40px; border-radius:14px; overflow:hidden;
+  background:#4b0082; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.7);
+}
+.brand-logo-wrap img { width:100%; height:100%; object-fit:cover; }
+.brand-text { display:flex; flex-direction:column; gap:2px; }
+.brand-name {
+  font-size:15px; font-weight:600; letter-spacing:0.16em;
+  text-transform:uppercase; color:#c3b6e6;
+}
+.brand-tagline { font-size:12px; color:#c3b6e6; }
+nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6; }
+.nav-link {
+  padding:6px 10px; border-radius:999px; border:1px solid transparent;
+  cursor:pointer; transition:background .18s,border-color .18s,color .18s;
+}
+.nav-link:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.12);
+  color:#f7f3ff;
+}
+
+/* Contact */
+.contact {
+  margin:60px 0 40px;
+}
+.contact-card {
+  border-radius:24px;
+  padding:30px 24px 32px;
+  background:radial-gradient(circle at top left,rgba(179,140,255,0.22),transparent 55%),
+             linear-gradient(145deg,rgba(10,0,30,0.96),rgba(4,0,16,0.98));
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  max-width:640px;
+}
+.contact-label {
+  font-size:11px; text-transform:uppercase; letter-spacing:0.18em; color:#c3b6e6; margin-bottom:8px;
+}
+.contact-title { font-size:28px; margin:0 0 10px; }
+.contact-sub { font-size:15px; color:#c3b6e6; margin-bottom:20px; }
+.contact-note { font-size:13px; color:#c3b6e6; margin-bottom:24px; }
+
+.contact-fields {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-bottom:18px;
+}
+.fake-input {
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.18);
+  padding:10px 14px;
+  font-size:13px;
+  color:#c3b6e6;
+  background:rgba(255,255,255,0.02);
+}
+.fake-input span { opacity:0.6; }
+
+.contact-button {
+  display:inline-block;
+  margin-top:4px;
+  padding:10px 18px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#b38cff,#ff9ad5);
+  color:#12001f;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 12px 40px rgba(0,0,0,0.7);
+}
+
+/* Footer */
+footer {
+  margin:20px 0 30px;
+  font-size:12px;
+  color:#c3b6e6;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:12px;
+}
+
+/* Responsive */
+@media (max-width:880px){
+  .site-shell{padding-inline:16px;}
+  .header-inner{flex-direction:column;align-items:flex-start;}
+  nav{flex-wrap:wrap;justify-content:flex-start;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="site-shell">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Polymathic Industries</div>
+          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
+        </div>
+      </a>
+      <nav>
+        <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
+        <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
+        <a href="carbiq.html" class="nav-link">CarbIQ</a>
+        <a href="hardware.html" class="nav-link">Hardware</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="site-shell">
+    <section class="contact">
+      <div class="contact-card">
+        <div class="contact-label">Contact</div>
+        <h1 class="contact-title">Let’s talk about what you’re building.</h1>
+        <p class="contact-sub">
+          Whether you’re an investor, publisher, collaborator, or just deeply curious about emotionally intelligent entertainment,
+          I’d love to hear from you.
+        </p>
+        <p class="contact-note">
+          Use the button below to open an email with a pre‑filled subject line. Add whatever context you like — I read everything.
+        </p>
+
+        <div class="contact-fields">
+          <div class="fake-input"><span>Your name</span></div>
+          <div class="fake-input"><span>Your email</span></div>
+          <div class="fake-input"><span>What would you like to talk about?</span></div>
+        </div>
+
+        <a
+          href="mailto:polymathicindustries@gmail.com?subject=Polymathic%20Industries%20Inquiry&body=Hi%20Matthew%2C%0D%0A%0D%0AI'm%20reaching%20out%20about..."
+          class="contact-button"
+        >
+          Open email composer →
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      © Polymathic Industries · 2026
+    </footer>
+  </div>
+</main>
+</body>
+</html>
