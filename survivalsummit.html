@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Survival Summit — Polymathic Industries</title>
+<style>
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+  background:radial-gradient(circle at top,#2a0050 0,#050008 55%,#020005 100%);
+  color:#f7f3ff;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:inherit; text-decoration:none; }
+.site-shell { max-width:1120px; margin:0 auto; padding:0 20px; }
+
+/* Header */
+header {
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(to bottom,rgba(5,0,16,0.92),rgba(5,0,16,0.7),transparent);
+}
+.header-inner {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:14px 0 10px;
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo-wrap {
+  width:40px; height:40px; border-radius:14px; overflow:hidden;
+  background:#4b0082; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.7);
+}
+.brand-logo-wrap img { width:100%; height:100%; object-fit:cover; }
+.brand-text { display:flex; flex-direction:column; gap:2px; }
+.brand-name {
+  font-size:15px; font-weight:600; letter-spacing:0.16em;
+  text-transform:uppercase; color:#c3b6e6;
+}
+.brand-tagline { font-size:12px; color:#c3b6e6; }
+nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6; }
+.nav-link {
+  padding:6px 10px; border-radius:999px; border:1px solid transparent;
+  cursor:pointer; transition:background .18s,border-color .18s,color .18s;
+}
+.nav-link:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.12);
+  color:#f7f3ff;
+}
+
+/* Hero */
+.hero {
+  margin:50px 0 30px;
+}
+.hero-inner {
+  border-radius:24px;
+  padding:30px 24px 32px;
+  background:radial-gradient(circle at top left,rgba(179,140,255,0.22),transparent 55%),
+             linear-gradient(145deg,rgba(10,0,30,0.96),rgba(4,0,16,0.98));
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:26px;
+  align-items:center;
+}
+.hero-label {
+  font-size:11px; text-transform:uppercase; letter-spacing:0.18em; color:#c3b6e6; margin-bottom:8px;
+}
+.hero-title { font-size:32px; margin:0 0 10px; }
+.hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
+.hero-note { font-size:13px; color:#c3b6e6; }
+
+/* Visual */
+.summit-visual { display:flex; align-items:center; justify-content:center; }
+.summit-water {
+  position:relative; width:260px; height:260px; border-radius:50%;
+  background:radial-gradient(circle at top,#3f7cff,#0b1630);
+  box-shadow:0 24px 60px rgba(0,0,0,0.8);
+}
+.summit-platform {
+  position:absolute; inset:18%; border-radius:50%;
+  background:radial-gradient(circle at top,#fdfbff,#c7c7d8);
+  box-shadow:0 10px 30px rgba(0,0,0,0.7);
+}
+.summit-sphere {
+  position:absolute; width:40px; height:40px; border-radius:50%;
+  background:radial-gradient(circle at top,#ffffff,#b38cff);
+  box-shadow:0 16px 30px rgba(0,0,0,0.8);
+  animation:summitIdle 3s ease-in-out infinite;
+}
+@keyframes summitIdle {
+  0%,100% { transform:translate(-40px,-10px); }
+  50% { transform:translate(40px,10px); }
+}
+
+/* Content */
+.content {
+  margin:40px 0 50px;
+  font-size:16px;
+  color:#c3b6e6;
+  line-height:1.7;
+}
+.content p { margin-bottom:18px; }
+
+/* Footer */
+footer {
+  margin:20px 0 30px;
+  font-size:12px;
+  color:#c3b6e6;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:12px;
+}
+
+/* Responsive */
+@media (max-width:880px){
+  .site-shell{padding-inline:16px;}
+  .header-inner{flex-direction:column;align-items:flex-start;}
+  nav{flex-wrap:wrap;justify-content:flex-start;}
+  .hero-inner{grid-template-columns:minmax(0,1fr);}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="site-shell">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Polymathic Industries</div>
+          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
+        </div>
+      </a>
+      <nav>
+        <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
+        <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
+        <a href="carbiq.html" class="nav-link">CarbIQ</a>
+        <a href="hardware.html" class="nav-link">Hardware</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="site-shell">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-label">Game · Survival Summit</div>
+          <h1 class="hero-title">A high‑energy arena where pressure never lets up.</h1>
+          <p class="hero-sub">
+            Fast decisions, tight movement, and constant waves of pressure — Survival Summit turns every run into a test of instinct.
+          </p>
+          <p class="hero-note">
+            The way you move through each arena becomes a natural expression of how you respond when things get difficult or unpredictable.
+          </p>
+        </div>
+        <div class="summit-visual">
+          <div class="summit-water">
+            <div class="summit-platform"></div>
+            <div class="summit-sphere"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <p>Survival Summit is a high‑energy action game built around fast decisions, tight movement, and the constant pressure of incoming waves. Each arena is handcrafted with its own personality, hazards, and rhythm, creating a series of intense challenges that reward focus and adaptability. Players enter, assess the situation, and fight to stay in control as the pressure rises.</p>
+
+      <p>Every match becomes a small test of instinct. Some players rush forward. Some hold position. Some take risks. Some play cautiously. Survival Summit does not judge these choices. It simply reflects them. The way a player navigates each arena becomes a natural expression of how they respond when things get difficult or unpredictable.</p>
+
+      <p>Progress comes from learning how to stay centered when the action spikes. The more a player understands their own tendencies, the more effectively they can adjust, refine their approach, and push deeper into the challenge. Survival Summit creates a competitive experience that feels exciting on the surface and quietly revealing underneath.</p>
+
+      <p>It is a game about pressure, resilience, and the instinctive ways people handle challenge. Every run offers a new chance to rise, adapt, and discover something about how you play when the stakes feel real.</p>
+    </section>
+
+    <footer>
+      © Polymathic Industries · 2026
+    </footer>
+  </div>
+</main>
+</body>
+</html>
