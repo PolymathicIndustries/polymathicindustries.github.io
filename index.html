@@ -62,38 +62,10 @@ header {
   width: 46px;
   height: 46px;
   border-radius: 14px;
-  background: radial-gradient(circle at center, #7a3cff 0%, #2a0050 90%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 0 0 0 rgba(255,255,255,0),
-    0 12px 40px rgba(0,0,0,0.9);
-  animation: piGlow 4s ease-in-out infinite;
+  background: url("logo.jpeg") center/cover no-repeat;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.9);
 }
-.brand-logo-pi {
-  font-size: 26px;
-  font-weight: 700;
-  color: #e6e6e6;
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.8),
-    0 0 18px rgba(255,255,255,0.6),
-    0 0 32px rgba(255,255,255,0.4);
-}
-@keyframes piGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 12px 40px rgba(0,0,0,0.9);
-  }
-  40% {
-    box-shadow: 0 0 26px 10px rgba(255,255,255,0.55), 0 18px 60px rgba(0,0,0,1);
-  }
-  70% {
-    box-shadow: 0 0 32px 14px rgba(255,255,255,0.35), 0 16px 52px rgba(0,0,0,0.95);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 12px 40px rgba(0,0,0,0.9);
-  }
-}
+
 .brand-text {
   display: flex;
   flex-direction: column;
@@ -485,9 +457,7 @@ footer {
   <div class="site-shell">
     <div class="header-inner">
       <a href="index.html" class="brand">
-        <div class="brand-logo-wrap">
-          <div class="brand-logo-pi">π</div>
-        </div>
+<div class="brand-logo-wrap"></div>
         <div class="brand-text">
           <div class="brand-name">Polymathic Industries</div>
           <div class="brand-tagline">Emotionally intelligent play for human growth</div>
@@ -678,6 +648,8 @@ footer {
 
 <script type="module">
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+  import { Water } from 'https://unpkg.com/three@0.160.0/examples/jsm/objects/Water2.js';
+
 
 /* Utility: create renderer that auto-resizes */
 function createRenderer(canvas) {
@@ -861,20 +833,21 @@ function initArena() {
   dir.position.set(4, 8, 5);
   scene.add(dir);
 
-  /* Water — emissive, double-sided, raised slightly */
-  const waterGeo = new THREE.PlaneGeometry(40, 40, 120, 120);
-  const waterMat = new THREE.MeshStandardMaterial({
-    color: 0x1b3b7a,
-    metalness: 0.95,
-    roughness: 0.12,
-    emissive: 0x0b1630,
-    emissiveIntensity: 0.7,
-    side: THREE.DoubleSide
-  });
-  const water = new THREE.Mesh(waterGeo, waterMat);
-  water.rotation.x = -Math.PI / 2;
-  water.position.y = -0.2; /* raised so it's always visible */
-  scene.add(water);
+/* Calm, glassy Water2 */
+const waterGeometry = new THREE.PlaneGeometry(60, 60);
+
+const water = new Water(waterGeometry, {
+  color: 0x1a3cff,
+  scale: 2.0,
+  flowDirection: new THREE.Vector2(0.3, 0.1),
+  textureWidth: 1024,
+  textureHeight: 1024
+});
+
+water.rotation.x = -Math.PI / 2;
+water.position.y = -0.25;
+scene.add(water);
+
 
   /* Platform */
   const platform = new THREE.Mesh(
@@ -947,6 +920,8 @@ function initArena() {
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
+    water.material.uniforms.time.value = t * 0.25;
+
 
     /* Ball movement */
     const timeInCycle = t % totalDuration;
@@ -1004,113 +979,50 @@ function initDoor() {
   const canvas = document.getElementById('doorCanvas');
   if (!canvas) return;
 
-  const renderer = createRenderer(canvas);
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
+  const ctx = canvas.getContext('2d');
 
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 1.8, 5.2);
-  camera.lookAt(0, 1.4, 0);
-
-  /* Clean lighting — no haze, no fog, no overlays */
-  const ambient = new THREE.AmbientLight(0x222233, 0.6);
-  scene.add(ambient);
-
-  const spot = new THREE.SpotLight(0xfff2d0, 2.0, 20, Math.PI / 6, 0.4, 1.0);
-  spot.position.set(0, 3.6, 1.2);
-  spot.target.position.set(0, 1.4, 0);
-  scene.add(spot);
-  scene.add(spot.target);
-
-  /* Lamp housing */
-  const lamp = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16),
-    new THREE.MeshStandardMaterial({
-      color: 0xdddddd,
-      metalness: 0.7,
-      roughness: 0.3,
-      emissive: 0xffffee,
-      emissiveIntensity: 0.6
-    })
-  );
-  lamp.position.set(0, 3.4, 0.2);
-  scene.add(lamp);
-
-  /* Door frame */
-  const frame = new THREE.Mesh(
-    new THREE.BoxGeometry(3.2, 4.2, 0.2),
-    new THREE.MeshStandardMaterial({
-      color: 0x222222,
-      metalness: 0.2,
-      roughness: 0.6
-    })
-  );
-  frame.position.set(0, 1.8, 0);
-  scene.add(frame);
-
-  /* Door panel */
-  const door = new THREE.Mesh(
-    new THREE.BoxGeometry(3, 4, 0.15),
-    new THREE.MeshStandardMaterial({
-      color: 0x444444,
-      metalness: 0.1,
-      roughness: 0.7
-    })
-  );
-  door.position.set(0, 1.8, 0.08);
-  scene.add(door);
-
-  /* Hinge pivot */
-  const pivot = new THREE.Group();
-  pivot.position.set(-1.5, 1.8, 0.08);
-  scene.add(pivot);
-
-  door.position.set(1.5, 0, 0);
-  pivot.add(door);
-
-  /* Back room (dark) */
-  const backRoom = new THREE.Mesh(
-    new THREE.BoxGeometry(6, 6, 10),
-    new THREE.MeshStandardMaterial({
-      color: 0x111111,
-      metalness: 0.0,
-      roughness: 0.9
-    })
-  );
-  backRoom.position.set(0, 1.8, -5);
-  scene.add(backRoom);
-
-  const clock = new THREE.Clock();
-
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    /* Door opens over 3 seconds */
-    const openT = Math.min(t / 3, 1);
-    const eased = openT * openT * (3 - 2 * openT);
-    pivot.rotation.y = -Math.PI / 2 * eased;
-
-    /* Camera moves through doorway during last 20% */
-    if (openT > 0.8) {
-      const camT = (openT - 0.8) / 0.2;
-      const smooth = camT * camT * (3 - 2 * camT);
-
-      camera.position.z = 5.2 - smooth * 6.0;  // moves forward
-      camera.position.y = 1.8 - smooth * 0.2;  // slight dip
-      camera.lookAt(0, 1.8 - smooth * 0.2, -5);
-    }
-
-    /* Resize */
+  function resize() {
     const rect = canvas.getBoundingClientRect();
-    camera.aspect = rect.width / rect.height;
-    camera.updateProjectionMatrix();
-
-    renderer.render(scene, camera);
+    canvas.width = rect.width * devicePixelRatio;
+    canvas.height = rect.height * devicePixelRatio;
+    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
   }
+  resize();
+  window.addEventListener('resize', resize);
 
-  animate();
+  let t = 0;
+
+  function draw() {
+    t += 0.01;
+    const W = canvas.width / devicePixelRatio;
+    const H = canvas.height / devicePixelRatio;
+
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    const doorW = W * 0.18;
+    const doorH = H * 0.55;
+    const doorX = (W - doorW) / 2;
+    const doorY = (H - doorH) / 2;
+
+    ctx.fillStyle = '#050505';
+    ctx.fillRect(doorX, doorY, doorW, doorH);
+
+    const glow = 0.25 + Math.sin(t * 2) * 0.15;
+    const lightGrad = ctx.createRadialGradient(
+      W / 2, doorY + doorH * 0.2, 10,
+      W / 2, doorY + doorH * 0.2, doorW * 1.4
+    );
+    lightGrad.addColorStop(0, `rgba(255,255,255,${0.18 + glow})`);
+    lightGrad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = lightGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    requestAnimationFrame(draw);
+  }
+  draw();
 }
+
 /* ——————————————————————————————————————————————— */
 /* CARBIQ — button presses synced with typing animation */
 /* ——————————————————————————————————————————————— */
