@@ -234,221 +234,263 @@ nav {
 }
 
 /* Survival Summit visual */
-.summit-visual { display:flex; align-items:center; justify-content:center; }
-.summit-water {
+.summit-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.summit-arena {
   position: relative;
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle at top, #3f7cff, #0b1630);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+  background:
+    radial-gradient(circle at 30% 0%, #4f8cff, #0b1630 60%, #020008 100%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
 }
-.summit-platform {
+.summit-ring {
   position: absolute;
   inset: 18%;
   border-radius: 50%;
-  background: radial-gradient(circle at top, #fdfbff, #c7c7d8);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
 }
 .summit-sphere {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: radial-gradient(circle at top, #ffffff, #b38cff);
-  box-shadow: 0 16px 30px rgba(0,0,0,0.8);
-  animation: summitIdle 3s ease-in-out infinite;
+  background: radial-gradient(circle at 30% 0%, #ffffff, #b38cff);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+  animation: summitInnerIdle 3s ease-in-out infinite;
 }
-@keyframes summitIdle {
-  0%,100% { transform: translate(-40px,-10px); }
-  50% { transform: translate(40px,10px); }
+@keyframes summitInnerIdle {
+  0%   { transform: translate(-60px, -10px); }
+  50%  { transform: translate(60px, 10px); }
+  100% { transform: translate(-60px, -10px); }
 }
 .product-section:hover .summit-sphere {
-  animation: summitBounce 1.2s ease-in-out infinite;
+  animation: summitInnerBounce 1.2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
 }
-@keyframes summitBounce {
-  0% { transform: translate(-60px,-20px); }
-  25% { transform: translate(60px,-10px); }
-  50% { transform: translate(40px,20px); }
-  75% { transform: translate(-40px,10px); }
-  100% { transform: translate(-60px,-20px); }
+@keyframes summitInnerBounce {
+  0%   { transform: translate(-70px, -12px); }
+  25%  { transform: translate(70px, -6px); }
+  50%  { transform: translate(50px, 18px); }
+  75%  { transform: translate(-50px, 10px); }
+  100% { transform: translate(-70px, -12px); }
 }
 
 /* Scarring Recall visual */
-.scarring-visual { display:flex; align-items:center; justify-content:center; }
+.scarring-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .scarring-scene {
   position: relative;
   width: 260px;
   height: 220px;
   border-radius: 18px;
-  background: radial-gradient(circle at top, #2a0038, #020005);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  background: radial-gradient(circle at top, #1a001f, #020005 70%);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.9);
   overflow: hidden;
 }
 .scarring-void {
   position: absolute;
   inset: 18%;
-  border-radius: 8px;
-  background: #000;
+  border-radius: 10px;
+  background: radial-gradient(circle at center, #000000 0, #000000 60%, #050008 100%);
 }
 .scarring-door-frame {
   position: absolute;
   inset: 18%;
-  border-radius: 10px;
-  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
 }
 .scarring-door {
   position: absolute;
   inset: 18%;
-  border-radius: 8px;
-  background: linear-gradient(145deg, #2b1b1b, #0f0707);
+  border-radius: 10px;
+  background: linear-gradient(145deg, #2b1b1b, #0b0505);
   transform-origin: left center;
-  transform: perspective(400px) rotateY(0deg);
-  transition: transform .5s ease;
+  transform: perspective(600px) rotateY(0deg);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .scarring-fog {
   position: absolute;
-  bottom: -20px;
-  left: -40px;
-  right: -40px;
-  height: 80px;
-  background: radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 70%);
-  filter: blur(10px);
-  opacity: 0.6;
-  transition: opacity .5s ease, transform .5s ease;
+  bottom: -30px;
+  left: -60px;
+  right: -60px;
+  height: 110px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.25), transparent 60%);
+  filter: blur(14px);
+  opacity: 0.55;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  animation: scarringFogDrift 8s ease-in-out infinite;
+}
+@keyframes scarringFogDrift {
+  0% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  100% { transform: translateX(-6px); }
 }
 .product-section:hover .scarring-door {
-  transform: perspective(400px) rotateY(-25deg);
+  transform: perspective(600px) rotateY(-32deg);
 }
 .product-section:hover .scarring-fog {
   opacity: 0.95;
-  transform: translateY(-6px);
+  transform: translateY(-10px);
 }
 
 /* CarbIQ visual */
-.carbiq-visual { display:flex; align-items:center; justify-content:center; }
+.carbiq-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
 .carbiq-glow {
-  position:absolute;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(179,140,255,0.4), transparent 70%);
-  filter:blur(4px);
-  opacity:0.7;
-  transition:opacity .4s ease;
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(179, 140, 255, 0.4), transparent 70%);
+  filter: blur(6px);
+  opacity: 0.8;
 }
 .carbiq-calculator {
-  width:90px;
-  height:130px;
-  border-radius:18px;
-  background:linear-gradient(145deg,#fdfbff,#d9d0ff);
-  box-shadow:0 18px 40px rgba(0,0,0,0.7);
-  position:relative;
-  transform:translateY(0);
-  transition:transform .4s ease, box-shadow .4s ease;
+  width: 120px;
+  height: 170px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #ffffff, #d9d0ff);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.85);
+  position: relative;
+  overflow: hidden;
 }
 .carbiq-screen {
-  position:absolute;
-  top:14px;
-  left:12px;
-  right:12px;
-  height:28px;
-  border-radius:10px;
-  background:linear-gradient(145deg,#e9f7ff,#c7e4ff);
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  right: 14px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #e9f7ff, #c7e4ff);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 13px;
+  color: #1b2330;
 }
-.carbiq-keys {
-  position:absolute;
-  left:12px;
-  right:12px;
-  bottom:12px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
+.carbiq-screen-text {
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid rgba(27, 35, 48, 0.7);
+  animation:
+    carbiqType 3s steps(10, end) infinite,
+    carbiqCaret 0.8s step-end infinite;
 }
-.carbiq-key {
-  height:16px;
-  border-radius:6px;
-  background:#ece4ff;
+@keyframes carbiqType {
+  0%   { width: 0ch; }
+  40%  { width: 10ch; } /* "1 + 4 + 5" */
+  60%  { width: 10ch; }
+  100% { width: 0ch; }
 }
-.carbiq-key.accent { background:#b38cff; }
-.carbiq-utensils {
-  position:absolute;
-  right:18%;
-  bottom:18%;
-  width:80px;
-  height:80px;
+@keyframes carbiqCaret {
+  0%, 100% { border-color: transparent; }
+  50%      { border-color: rgba(27, 35, 48, 0.7); }
 }
-.carbiq-fork,
-.carbiq-spoon {
-  position:absolute;
-  width:10px;
-  height:60px;
-  border-radius:999px;
-  background:linear-gradient(145deg,#fdfbff,#d0d0d0);
-  box-shadow:0 10px 24px rgba(0,0,0,0.6);
-  transform-origin:bottom center;
-  transition:transform .4s ease;
+.carbiq-button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 0%, #ffffff, #b38cff);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.8);
 }
-.carbiq-fork { left:10px; bottom:0; }
-.carbiq-spoon { right:10px; bottom:0; }
-.product-section:hover .carbiq-calculator {
-  transform:translateY(-10px);
-  box-shadow:0 26px 60px rgba(0,0,0,0.9);
-}
-.product-section:hover .carbiq-fork { transform:rotate(-10deg); }
-.product-section:hover .carbiq-spoon { transform:rotate(10deg); }
-.product-section:hover .carbiq-glow { opacity:1; }
 
 /* Hardware visual */
-.hardware-visual { display:flex; align-items:center; justify-content:center; }
+.hardware-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .hardware-orb {
-  position:relative;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(179,140,255,0.4), transparent 70%);
-  box-shadow:0 24px 60px rgba(0,0,0,0.9);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  position: relative;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.06), transparent 70%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hardware-haze {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.12), transparent 60%),
+    radial-gradient(circle at 80% 100%, rgba(179, 140, 255, 0.18), transparent 65%);
+  filter: blur(18px);
+  opacity: 0.6;
 }
 .hardware-core {
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:radial-gradient(circle at top,#ffffff,#b38cff,#4b0082);
-  box-shadow:0 18px 40px rgba(0,0,0,0.8);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ffffff, #dcd7ff 45%, #4b0082 100%);
+  box-shadow:
+    0 0 40px rgba(255, 255, 255, 0.7),
+    0 0 90px rgba(179, 140, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .hardware-question {
-  font-size:54px;
-  font-weight:700;
-  color:#fdfbff;
-  text-shadow:0 0 18px rgba(0,0,0,0.9);
-  transform:rotate(0deg);
-  transition:transform .4s ease;
+  font-size: 70px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow:
+    0 0 18px rgba(255, 255, 255, 0.9),
+    0 0 40px rgba(179, 140, 255, 0.9);
+  transform: scale(1);
+  transition: transform 0.4s ease, text-shadow 0.4s ease;
 }
 .hardware-rays {
-  position:absolute;
-  inset:-20%;
-  background:conic-gradient(
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
     from 0deg,
-    rgba(255,255,255,0.0),
-    rgba(255,255,255,0.18),
-    rgba(255,255,255,0.0),
-    rgba(179,140,255,0.2),
-    rgba(255,255,255,0.0)
+    rgba(255, 255, 255, 0.0),
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.0),
+    rgba(179, 140, 255, 0.3),
+    rgba(255, 255, 255, 0.0)
   );
-  mix-blend-mode:screen;
-  opacity:0.4;
-  transition:opacity .4s ease;
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  filter: blur(4px);
+  transition: opacity 0.4s ease;
 }
-.product-section:hover .hardware-question { transform:rotate(8deg); }
-.product-section:hover .hardware-rays { opacity:0.9; }
+.product-section:hover .hardware-question {
+  transform: scale(1.06);
+  text-shadow:
+    0 0 24px rgba(255, 255, 255, 1),
+    0 0 60px rgba(179, 140, 255, 1);
+}
+.product-section:hover .hardware-rays {
+  opacity: 0.9;
+}
 
 /* Footer */
 footer {
@@ -533,8 +575,8 @@ footer {
           <p class="product-cta">Enter the arena →</p>
         </div>
         <div class="product-visual summit-visual">
-          <div class="summit-water">
-            <div class="summit-platform"></div>
+          <div class="summit-arena">
+            <div class="summit-ring"></div>
             <div class="summit-sphere"></div>
           </div>
         </div>
@@ -583,16 +625,10 @@ footer {
         <div class="product-visual carbiq-visual">
           <div class="carbiq-glow"></div>
           <div class="carbiq-calculator">
-            <div class="carbiq-screen"></div>
-            <div class="carbiq-keys">
-              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
-              <div class="carbiq-key"></div><div class="carbiq-key accent"></div><div class="carbiq-key"></div>
-              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
+            <div class="carbiq-screen">
+              <div class="carbiq-screen-text">1 + 4 + 5</div>
             </div>
-          </div>
-          <div class="carbiq-utensils">
-            <div class="carbiq-fork"></div>
-            <div class="carbiq-spoon"></div>
+            <div class="carbiq-button"></div>
           </div>
         </div>
       </div>
@@ -613,6 +649,7 @@ footer {
         </div>
         <div class="product-visual hardware-visual">
           <div class="hardware-orb">
+            <div class="hardware-haze"></div>
             <div class="hardware-core">
               <div class="hardware-rays"></div>
               <div class="hardware-question">?</div>
