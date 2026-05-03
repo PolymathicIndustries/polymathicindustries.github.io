@@ -268,6 +268,19 @@ nav {
   align-items: center;
   justify-content: center;
   position: relative;
+  gap: 18px;
+}
+.carbiq-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+}
+.carbiq-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .carbiq-glow {
   position: absolute;
@@ -311,7 +324,7 @@ nav {
 }
 @keyframes carbiqType {
   0%   { width: 0ch; }
-  45%  { width: 10ch; } /* "1 + 4 + 5" */
+  45%  { width: 10ch; }
   65%  { width: 10ch; }
   100% { width: 0ch; }
 }
@@ -342,7 +355,7 @@ nav {
   background: linear-gradient(145deg, #e4ddff, #c5b8ff);
 }
 
-/* Hardware visual (CSS-based orb + board) */
+/* Hardware visual (no progress bar) */
 .hardware-visual {
   display: flex;
   align-items: center;
@@ -417,49 +430,6 @@ nav {
 @keyframes hardwareSpin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
-}
-.hardware-board {
-  width: 220px;
-  height: 80px;
-  border-radius: 18px;
-  background:
-    linear-gradient(145deg, #05030b, #12052a),
-    repeating-linear-gradient(90deg, rgba(120,255,200,0.18) 0, rgba(120,255,200,0.18) 1px, transparent 1px, transparent 6px);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,0.9),
-    0 0 30px rgba(120,255,200,0.35);
-  position: relative;
-  overflow: hidden;
-}
-.hardware-board::before {
-  content: "";
-  position: absolute;
-  inset: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(120,255,200,0.4);
-  box-shadow: 0 0 18px rgba(120,255,200,0.4);
-}
-.hardware-board::after {
-  content: "";
-  position: absolute;
-  width: 60px;
-  height: 26px;
-  border-radius: 8px;
-  background: linear-gradient(145deg, #1bffb0, #7bffe0);
-  top: 18px;
-  left: 26px;
-  box-shadow: 0 0 18px rgba(120,255,200,0.8);
-}
-
-/* Hover effects */
-.product-section:hover .hardware-question {
-  transform: scale(1.06);
-  text-shadow:
-    0 0 24px rgba(255, 255, 255, 1),
-    0 0 60px rgba(179, 140, 255, 1);
-}
-.product-section:hover .hardware-rays {
-  opacity: 0.9;
 }
 
 /* Footer */
@@ -538,7 +508,7 @@ footer {
       </div>
     </section>
 
-    <!-- Survival Summit (full-height) -->
+    <!-- Survival Summit -->
     <section id="survival-summit" class="product-section product-full" onclick="location.href='survivalsummit.html'">
       <div class="product-inner">
         <div>
@@ -560,7 +530,7 @@ footer {
       </div>
     </section>
 
-    <!-- Scarring Recall (full-height) -->
+    <!-- Scarring Recall -->
     <section id="scarring-recall" class="product-section product-full" onclick="location.href='scarringrecall.html'">
       <div class="product-inner">
         <div>
@@ -582,7 +552,7 @@ footer {
       </div>
     </section>
 
-    <!-- CarbIQ (half-height) -->
+    <!-- CarbIQ -->
     <section id="carbiq" class="product-section product-half" onclick="location.href='carbiq.html'">
       <div class="product-inner">
         <div>
@@ -598,6 +568,9 @@ footer {
         </div>
         <div class="product-visual carbiq-visual">
           <div class="carbiq-glow"></div>
+          <div class="carbiq-icon">
+            <img src="CarbIQ.png" alt="CarbIQ icon" />
+          </div>
           <div class="carbiq-calculator">
             <div class="carbiq-screen">
               <div class="carbiq-screen-text">1 + 4 + 5</div>
@@ -618,7 +591,7 @@ footer {
       </div>
     </section>
 
-    <!-- Stealth Hardware (half-height) -->
+    <!-- Stealth Hardware -->
     <section id="hardware" class="product-section product-half" onclick="location.href='hardware.html'">
       <div class="product-inner">
         <div>
@@ -640,7 +613,6 @@ footer {
                 <div class="hardware-question">?</div>
               </div>
             </div>
-            <div class="hardware-board"></div>
           </div>
         </div>
       </div>
@@ -653,11 +625,9 @@ footer {
   </div>
 </main>
 
-<!-- Three.js + JS animations -->
 <script type="module">
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
-/* Shared helper: create renderer bound to a canvas */
 function createRenderer(canvas) {
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -676,31 +646,38 @@ function createRenderer(canvas) {
   return renderer;
 }
 
-/* HERO: soft-chrome PI symbol on landscape with sunrise */
+/* HERO: soft-chrome π, visible sun, ground, fog, slow motion */
 function initHero() {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
 
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050008, 0.12);
+  scene.background = new THREE.Color(0x050008);
+  scene.fog = new THREE.FogExp2(0x050008, 0.08);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 2.2, 7);
   camera.lookAt(0, 1.2, 0);
 
-  const ambient = new THREE.AmbientLight(0x8888ff, 0.6);
-  scene.add(ambient);
+  const hemi = new THREE.HemisphereLight(0x8888ff, 0x050008, 0.7);
+  scene.add(hemi);
 
-  const sun = new THREE.DirectionalLight(0xffe0b0, 1.2);
-  sun.position.set(0, 1, -4);
+  const sunLight = new THREE.DirectionalLight(0xffe0b0, 1.4);
+  sunLight.position.set(0, 0.5, -6);
+  scene.add(sunLight);
+
+  const sunGeo = new THREE.SphereGeometry(1.4, 32, 32);
+  const sunMat = new THREE.MeshBasicMaterial({ color: 0xffe0b0 });
+  const sun = new THREE.Mesh(sunGeo, sunMat);
+  sun.position.set(0, 1.4, -7);
   scene.add(sun);
 
-  const groundGeo = new THREE.PlaneGeometry(20, 20, 40, 40);
+  const groundGeo = new THREE.PlaneGeometry(30, 30, 40, 40);
   const groundMat = new THREE.MeshStandardMaterial({
-    color: 0x080010,
-    metalness: 0.4,
-    roughness: 0.6
+    color: 0x05000c,
+    metalness: 0.5,
+    roughness: 0.55
   });
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
@@ -711,8 +688,7 @@ function initHero() {
   const piMat = new THREE.MeshStandardMaterial({
     color: 0xdedede,
     metalness: 0.95,
-    roughness: 0.18,
-    envMapIntensity: 1.0
+    roughness: 0.2
   });
 
   const barThickness = 0.25;
@@ -739,15 +715,26 @@ function initHero() {
   piGroup.position.set(0, 1.0, 0);
   scene.add(piGroup);
 
-  const backGlowGeo = new THREE.SphereGeometry(3, 32, 32);
-  const backGlowMat = new THREE.MeshBasicMaterial({
-    color: 0xffe0b0,
+  const glowGeo = new THREE.SphereGeometry(2.2, 32, 32);
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: 0xfff0d0,
     transparent: true,
-    opacity: 0.12
+    opacity: 0.18
   });
-  const backGlow = new THREE.Mesh(backGlowGeo, backGlowMat);
-  backGlow.position.set(0, 1.5, -6);
-  scene.add(backGlow);
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  glow.position.set(0, 1.3, -6.5);
+  scene.add(glow);
+
+  const fogPlaneGeo = new THREE.PlaneGeometry(20, 6);
+  const fogPlaneMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.08
+  });
+  const fogPlane = new THREE.Mesh(fogPlaneGeo, fogPlaneMat);
+  fogPlane.rotation.x = -Math.PI / 2;
+  fogPlane.position.set(0, 0.01, -1);
+  scene.add(fogPlane);
 
   const clock = new THREE.Clock();
 
@@ -755,16 +742,19 @@ function initHero() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    const sunBaseY = 0.5;
-    const sunRise = 1.5;
+    const sunBaseY = 0.2;
+    const sunRise = 1.8;
     const sunT = Math.min(t / 6.0, 1.0);
-    sun.position.y = sunBaseY + sunRise * sunT;
+    sunLight.position.y = sunBaseY + sunRise * sunT;
+    sun.position.y = 1.0 + sunRise * sunT * 0.6;
 
     piGroup.rotation.y = 0.03 * Math.sin(t * 0.2);
 
-    camera.position.x = 0.3 * Math.sin(t * 0.1);
-    camera.position.z = 7 + 0.2 * Math.cos(t * 0.1);
+    camera.position.x = 0.35 * Math.sin(t * 0.1);
+    camera.position.z = 7 + 0.25 * Math.cos(t * 0.1);
     camera.lookAt(0, 1.2, 0);
+
+    fogPlane.position.z = -1 + Math.sin(t * 0.05) * 0.6;
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -775,17 +765,18 @@ function initHero() {
   animate();
 }
 
-/* Survival Summit: 3D circular platform + bouncing sphere over 4–6 points */
+/* Survival Summit: full platform visible */
 function initArena() {
   const canvas = document.getElementById('arenaCanvas');
   if (!canvas) return;
 
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050008, 0.08);
+  scene.background = new THREE.Color(0x050008);
+  scene.fog = new THREE.FogExp2(0x050008, 0.06);
 
-  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-  camera.position.set(0, 4.5, 6);
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.set(0, 6.0, 8.0);
   camera.lookAt(0, 0, 0);
 
   const ambient = new THREE.AmbientLight(0x8888ff, 0.8);
@@ -804,7 +795,7 @@ function initArena() {
     emissiveIntensity: 0.4
   });
   const platform = new THREE.Mesh(platformGeo, platformMat);
-  platform.rotation.x = -Math.PI * 0.5;
+  platform.position.y = 0;
   scene.add(platform);
 
   const topGeo = new THREE.CircleGeometry(2.15, 64);
@@ -888,7 +879,7 @@ function initArena() {
     ball.rotation.z += speed * 0.05;
     ball.rotation.x += speed * 0.03;
 
-    platform.rotation.z = Math.sin(t * 0.3) * 0.06;
+    platform.rotation.y = Math.sin(t * 0.25) * 0.08;
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -899,14 +890,15 @@ function initArena() {
   animate();
 }
 
-/* Scarring Recall: 3D stylized door with full hinge rotation, handle, fog */
+/* Scarring Recall: overhead light visible, black wall, fog around door */
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
   if (!canvas) return;
 
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x000000, 0.18);
+  scene.background = new THREE.Color(0x000000);
+  scene.fog = new THREE.FogExp2(0x000000, 0.2);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 1.8, 5.2);
@@ -918,6 +910,18 @@ function initDoor() {
   const spot = new THREE.SpotLight(0xffffff, 1.4, 20, Math.PI / 6, 0.4, 1.0);
   spot.position.set(0, 4, 2);
   scene.add(spot);
+
+  const lampGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.3, 16);
+  const lampMat = new THREE.MeshStandardMaterial({
+    color: 0xdddddd,
+    metalness: 0.7,
+    roughness: 0.3,
+    emissive: 0xffffee,
+    emissiveIntensity: 0.4
+  });
+  const lamp = new THREE.Mesh(lampGeo, lampMat);
+  lamp.position.set(0, 3.4, 0.2);
+  scene.add(lamp);
 
   const wallGeo = new THREE.PlaneGeometry(6, 5);
   const wallMat = new THREE.MeshStandardMaterial({
@@ -952,9 +956,9 @@ function initDoor() {
 
   const frameGeo = new THREE.BoxGeometry(doorWidth + 0.18, doorHeight + 0.18, 0.12);
   const frameMat = new THREE.MeshStandardMaterial({
-    color: 0x777777,
-    metalness: 0.8,
-    roughness: 0.2
+    color: 0x555555,
+    metalness: 0.7,
+    roughness: 0.3
   });
   const frame = new THREE.Mesh(frameGeo, frameMat);
   frame.position.set(0, 1.5, 0.01);
@@ -980,11 +984,22 @@ function initDoor() {
   const fogMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.16
+    opacity: 0.2
   });
   const fog = new THREE.Mesh(fogGeo, fogMat);
   fog.position.set(0, 1.4, -0.05);
   scene.add(fog);
+
+  const floorFogGeo = new THREE.PlaneGeometry(4, 3);
+  const floorFogMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.12
+  });
+  const floorFog = new THREE.Mesh(floorFogGeo, floorFogMat);
+  floorFog.rotation.x = -Math.PI / 2;
+  floorFog.position.set(0, 0.01, 0.4);
+  scene.add(floorFog);
 
   const innerGlowGeo = new THREE.PlaneGeometry(1.4, 2.4);
   const innerGlowMat = new THREE.MeshBasicMaterial({
@@ -1012,6 +1027,7 @@ function initDoor() {
     doorGroup.rotation.y = angle;
 
     fog.position.y = 1.4 + Math.sin(t * 0.3) * 0.08;
+    floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
     innerGlow.material.opacity = 0.12 + 0.06 * ease;
 
     const rect = canvas.getBoundingClientRect();
@@ -1023,7 +1039,7 @@ function initDoor() {
   animate();
 }
 
-/* CarbIQ: highlight 1 and 4 buttons in sync with typing start */
+/* CarbIQ button sync */
 function initCarbIQButtons() {
   const buttons = document.querySelectorAll('.carbiq-btn');
   if (!buttons.length) return;
