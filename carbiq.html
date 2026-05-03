@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CarbIQ — Polymathic Industries</title>
+<style>
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+  background:radial-gradient(circle at top,#2a0050 0,#050008 55%,#020005 100%);
+  color:#f7f3ff;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:inherit; text-decoration:none; }
+.site-shell { max-width:1120px; margin:0 auto; padding:0 20px; }
+
+/* Header */
+header {
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(to bottom,rgba(5,0,16,0.92),rgba(5,0,16,0.7),transparent);
+}
+.header-inner {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:14px 0 10px;
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo-wrap {
+  width:40px; height:40px; border-radius:14px; overflow:hidden;
+  background:#4b0082; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.7);
+}
+.brand-logo-wrap img { width:100%; height:100%; object-fit:cover; }
+.brand-text { display:flex; flex-direction:column; gap:2px; }
+.brand-name {
+  font-size:15px; font-weight:600; letter-spacing:0.16em;
+  text-transform:uppercase; color:#c3b6e6;
+}
+.brand-tagline { font-size:12px; color:#c3b6e6; }
+nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6; }
+.nav-link {
+  padding:6px 10px; border-radius:999px; border:1px solid transparent;
+  cursor:pointer; transition:background .18s,border-color .18s,color .18s;
+}
+.nav-link:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.12);
+  color:#f7f3ff;
+}
+
+/* Hero */
+.hero { margin:50px 0 30px; }
+.hero-inner {
+  border-radius:24px;
+  padding:30px 24px 32px;
+  background:radial-gradient(circle at top left,rgba(179,140,255,0.22),transparent 55%),
+             linear-gradient(145deg,rgba(10,0,30,0.96),rgba(4,0,16,0.98));
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:26px;
+  align-items:center;
+}
+.hero-label {
+  font-size:11px; text-transform:uppercase; letter-spacing:0.18em; color:#c3b6e6; margin-bottom:8px;
+}
+.hero-title { font-size:32px; margin:0 0 10px; }
+.hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
+.hero-note { font-size:13px; color:#c3b6e6; }
+
+/* Visual */
+.carbiq-visual { display:flex; align-items:center; justify-content:center; position:relative; }
+.carbiq-glow {
+  position:absolute; width:220px; height:220px; border-radius:50%;
+  background:radial-gradient(circle,rgba(179,140,255,0.4),transparent 70%);
+  filter:blur(4px); opacity:0.8;
+}
+.carbiq-calculator {
+  width:110px; height:160px; border-radius:20px;
+  background:linear-gradient(145deg,#fdfbff,#d9d0ff);
+  box-shadow:0 18px 40px rgba(0,0,0,0.7);
+  position:relative;
+}
+.carbiq-screen {
+  position:absolute; top:16px; left:14px; right:14px; height:34px;
+  border-radius:10px; background:linear-gradient(145deg,#e9f7ff,#c7e4ff);
+}
+.carbiq-keys {
+  position:absolute; left:14px; right:14px; bottom:16px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+}
+.carbiq-key {
+  height:20px; border-radius:6px; background:#ece4ff;
+}
+.carbiq-key.accent { background:#b38cff; }
+
+/* Content */
+.content {
+  margin:40px 0 50px;
+  font-size:16px;
+  color:#c3b6e6;
+  line-height:1.7;
+}
+.content p { margin-bottom:18px; }
+
+/* Footer */
+footer {
+  margin:20px 0 30px;
+  font-size:12px;
+  color:#c3b6e6;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:12px;
+}
+
+/* Responsive */
+@media (max-width:880px){
+  .site-shell{padding-inline:16px;}
+  .header-inner{flex-direction:column;align-items:flex-start;}
+  nav{flex-wrap:wrap;justify-content:flex-start;}
+  .hero-inner{grid-template-columns:minmax(0,1fr);}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="site-shell">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Polymathic Industries</div>
+          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
+        </div>
+      </a>
+      <nav>
+        <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
+        <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
+        <a href="carbiq.html" class="nav-link">CarbIQ</a>
+        <a href="hardware.html" class="nav-link">Hardware</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="site-shell">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-label">App · CarbIQ</div>
+          <h1 class="hero-title">Simple, fast carb tracking that fits into real life.</h1>
+          <p class="hero-sub">
+            Designed for speed, clarity, and real‑world use — at home, out with friends, or in the grocery aisle.
+          </p>
+          <p class="hero-note">
+            CarbIQ removes the friction from tracking so you can focus on living, not logging.
+          </p>
+        </div>
+        <div class="carbiq-visual">
+          <div class="carbiq-glow"></div>
+          <div class="carbiq-calculator">
+            <div class="carbiq-screen"></div>
+            <div class="carbiq-keys">
+              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
+              <div class="carbiq-key"></div><div class="carbiq-key accent"></div><div class="carbiq-key"></div>
+              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <p>CarbIQ makes it easy to track your carbs wherever you are. Whether you're at home, eating with friends, or shopping for groceries, you can log meals quickly and stay on top of your daily carb intake without guesswork.</p>
+
+      <p>The app is designed for speed and simplicity, helping you record what you eat and understand how it fits into your daily goals. No complicated setup or calculations—just clear, accurate tracking when you need it.</p>
+
+      <p>CarbIQ also includes a built-in food label analyzer, allowing you to scan and review nutrition labels so you can make informed decisions before buying or eating. This makes it easier to stick to your routine, even when trying new foods.</p>
+
+      <p>It’s built for people following keto, low-carb, Atkins, or diabetes-focused diets, helping reduce the stress of tracking and making consistency easier over time.</p>
+
+      <p>You can also explore unique in-app items, including limited-time offers that rotate regularly.</p>
+
+      <p><strong>Download CarbIQ today and simplify your carb tracking.</strong></p>
+    </section>
+
+    <footer>
+      © Polymathic Industries · 2026
+    </footer>
+  </div>
+</main>
+</body>
+</html>
