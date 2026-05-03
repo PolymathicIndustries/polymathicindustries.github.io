@@ -116,14 +116,18 @@ nav {
 }
 
 /* Hero */
-.hero { padding: 40px 0 32px; }
+.hero { padding: 32px 0 28px; }
 .hero-inner {
   border-radius: var(--radius-lg);
-  padding: 28px 24px 30px;
+  padding: 24px 24px 26px;
   background: radial-gradient(circle at top left, rgba(179,140,255,0.22), transparent 55%),
               linear-gradient(145deg, rgba(10,0,30,0.96), rgba(4,0,16,0.98));
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+  gap: 24px;
+  align-items: center;
 }
 .hero-pill {
   display: inline-flex;
@@ -135,7 +139,7 @@ nav {
   border: 1px solid rgba(255,255,255,0.08);
   font-size: 11px;
   color: var(--muted);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .hero-pill-dot {
   width: 7px;
@@ -148,17 +152,30 @@ nav {
   font-size: clamp(30px, 4vw, 38px);
   line-height: 1.05;
   letter-spacing: 0.02em;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 .hero-subtitle {
   font-size: 15px;
   color: var(--muted);
   max-width: 520px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .hero-note {
   font-size: 12px;
   color: var(--muted);
+}
+.hero-visual {
+  position: relative;
+  min-height: 220px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at top, rgba(179,140,255,0.3), transparent 60%),
+              linear-gradient(160deg, #1b022f, #050008);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.hero-visual .canvas-wrap {
+  width: 100%;
+  height: 100%;
 }
 
 /* Product sections */
@@ -325,16 +342,22 @@ nav {
   background: linear-gradient(145deg, #e4ddff, #c5b8ff);
 }
 
-/* Hardware visual (CSS-based orb + question mark) */
+/* Hardware visual (CSS-based orb + board) */
 .hardware-visual {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.hardware-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
 .hardware-orb {
   position: relative;
-  width: 240px;
-  height: 240px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.06), transparent 70%);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
@@ -353,8 +376,8 @@ nav {
 }
 .hardware-core {
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   background: radial-gradient(circle at center, #ffffff, #dcd7ff 45%, #4b0082 100%);
   box-shadow:
@@ -365,7 +388,7 @@ nav {
   justify-content: center;
 }
 .hardware-question {
-  font-size: 70px;
+  font-size: 60px;
   font-weight: 700;
   color: #ffffff;
   text-shadow:
@@ -389,7 +412,46 @@ nav {
   opacity: 0.5;
   filter: blur(4px);
   transition: opacity 0.4s ease;
+  animation: hardwareSpin 16s linear infinite;
 }
+@keyframes hardwareSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.hardware-board {
+  width: 220px;
+  height: 80px;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, #05030b, #12052a),
+    repeating-linear-gradient(90deg, rgba(120,255,200,0.18) 0, rgba(120,255,200,0.18) 1px, transparent 1px, transparent 6px);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.9),
+    0 0 30px rgba(120,255,200,0.35);
+  position: relative;
+  overflow: hidden;
+}
+.hardware-board::before {
+  content: "";
+  position: absolute;
+  inset: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(120,255,200,0.4);
+  box-shadow: 0 0 18px rgba(120,255,200,0.4);
+}
+.hardware-board::after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 26px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #1bffb0, #7bffe0);
+  top: 18px;
+  left: 26px;
+  box-shadow: 0 0 18px rgba(120,255,200,0.8);
+}
+
+/* Hover effects */
 .product-section:hover .hardware-question {
   transform: scale(1.06);
   text-shadow:
@@ -418,6 +480,7 @@ footer {
   .site-shell { padding-inline:16px; }
   .header-inner { flex-direction:column; align-items:flex-start; }
   nav { flex-wrap:wrap; justify-content:flex-start; }
+  .hero-inner { grid-template-columns:minmax(0,1fr); }
   .product-inner { grid-template-columns:minmax(0,1fr); }
   .product-full, .product-half { min-height:auto; }
   .product-visual { min-height:220px; }
@@ -453,18 +516,25 @@ footer {
     <!-- Hero -->
     <section class="hero">
       <div class="hero-inner">
-        <div class="hero-pill">
-          <div class="hero-pill-dot"></div>
-          Emotionally intelligent entertainment · Games and hardware for human growth
+        <div>
+          <div class="hero-pill">
+            <div class="hero-pill-dot"></div>
+            Polymathic Industries · Emotionally intelligent entertainment
+          </div>
+          <h1 class="hero-title">Play that actually changes you.</h1>
+          <p class="hero-subtitle">
+            Polymathic Industries builds emotionally intelligent games and hardware that turn pressure, memory,
+            and everyday moments into chances to grow.
+          </p>
+          <p class="hero-note">
+            The worlds below are different ways of understanding how you think, feel, and move through life — all through play.
+          </p>
         </div>
-        <h1 class="hero-title">Play that actually changes you.</h1>
-        <p class="hero-subtitle">
-          Polymathic Industries builds emotionally intelligent games and hardware that turn pressure, memory,
-          and everyday moments into chances to grow.
-        </p>
-        <p class="hero-note">
-          Explore each world below — every product is a different way to understand how you think, feel, and move through life.
-        </p>
+        <div class="hero-visual">
+          <div class="canvas-wrap">
+            <canvas id="heroCanvas"></canvas>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -562,12 +632,15 @@ footer {
           <p class="product-cta">Watch this space →</p>
         </div>
         <div class="product-visual hardware-visual">
-          <div class="hardware-orb">
-            <div class="hardware-haze"></div>
-            <div class="hardware-core">
-              <div class="hardware-rays"></div>
-              <div class="hardware-question">?</div>
+          <div class="hardware-stack">
+            <div class="hardware-orb">
+              <div class="hardware-haze"></div>
+              <div class="hardware-core">
+                <div class="hardware-rays"></div>
+                <div class="hardware-question">?</div>
+              </div>
             </div>
+            <div class="hardware-board"></div>
           </div>
         </div>
       </div>
@@ -594,14 +667,115 @@ function createRenderer(canvas) {
   renderer.setPixelRatio(window.devicePixelRatio || 1);
   const resize = () => {
     const rect = canvas.getBoundingClientRect();
-    renderer.setSize(rect.width, rect.height, false);
+    if (rect.width && rect.height) {
+      renderer.setSize(rect.width, rect.height, false);
+    }
   };
   resize();
   window.addEventListener('resize', resize);
   return renderer;
 }
 
-/* Survival Summit: 3D circular platform + rolling sphere */
+/* HERO: soft-chrome PI symbol on landscape with sunrise */
+function initHero() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+
+  const renderer = createRenderer(canvas);
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x050008, 0.12);
+
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.set(0, 2.2, 7);
+  camera.lookAt(0, 1.2, 0);
+
+  const ambient = new THREE.AmbientLight(0x8888ff, 0.6);
+  scene.add(ambient);
+
+  const sun = new THREE.DirectionalLight(0xffe0b0, 1.2);
+  sun.position.set(0, 1, -4);
+  scene.add(sun);
+
+  const groundGeo = new THREE.PlaneGeometry(20, 20, 40, 40);
+  const groundMat = new THREE.MeshStandardMaterial({
+    color: 0x080010,
+    metalness: 0.4,
+    roughness: 0.6
+  });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = 0;
+  scene.add(ground);
+
+  const piGroup = new THREE.Group();
+  const piMat = new THREE.MeshStandardMaterial({
+    color: 0xdedede,
+    metalness: 0.95,
+    roughness: 0.18,
+    envMapIntensity: 1.0
+  });
+
+  const barThickness = 0.25;
+  const barHeight = 2.0;
+  const barWidth = 2.4;
+  const depth = 0.4;
+
+  const leftGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
+  const rightGeo = new THREE.BoxGeometry(barThickness, barHeight, depth);
+  const topGeo = new THREE.BoxGeometry(barWidth, barThickness, depth);
+
+  const leftBar = new THREE.Mesh(leftGeo, piMat);
+  const rightBar = new THREE.Mesh(rightGeo, piMat);
+  const topBar = new THREE.Mesh(topGeo, piMat);
+
+  leftBar.position.set(-barWidth/2 + barThickness/2, 1.0, 0);
+  rightBar.position.set(barWidth/2 - barThickness/2, 1.0, 0);
+  topBar.position.set(0, 1.0 + barHeight/2 - barThickness/2, 0);
+
+  piGroup.add(leftBar);
+  piGroup.add(rightBar);
+  piGroup.add(topBar);
+
+  piGroup.position.set(0, 1.0, 0);
+  scene.add(piGroup);
+
+  const backGlowGeo = new THREE.SphereGeometry(3, 32, 32);
+  const backGlowMat = new THREE.MeshBasicMaterial({
+    color: 0xffe0b0,
+    transparent: true,
+    opacity: 0.12
+  });
+  const backGlow = new THREE.Mesh(backGlowGeo, backGlowMat);
+  backGlow.position.set(0, 1.5, -6);
+  scene.add(backGlow);
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    const sunBaseY = 0.5;
+    const sunRise = 1.5;
+    const sunT = Math.min(t / 6.0, 1.0);
+    sun.position.y = sunBaseY + sunRise * sunT;
+
+    piGroup.rotation.y = 0.03 * Math.sin(t * 0.2);
+
+    camera.position.x = 0.3 * Math.sin(t * 0.1);
+    camera.position.z = 7 + 0.2 * Math.cos(t * 0.1);
+    camera.lookAt(0, 1.2, 0);
+
+    const rect = canvas.getBoundingClientRect();
+    camera.aspect = rect.width / rect.height;
+    camera.updateProjectionMatrix();
+
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+
+/* Survival Summit: 3D circular platform + bouncing sphere over 4–6 points */
 function initArena() {
   const canvas = document.getElementById('arenaCanvas');
   if (!canvas) return;
@@ -619,7 +793,6 @@ function initArena() {
 
   const dir = new THREE.DirectionalLight(0xffffff, 1.1);
   dir.position.set(4, 6, 3);
-  dir.castShadow = false;
   scene.add(dir);
 
   const platformGeo = new THREE.CylinderGeometry(2.2, 2.2, 0.4, 64);
@@ -634,6 +807,17 @@ function initArena() {
   platform.rotation.x = -Math.PI * 0.5;
   scene.add(platform);
 
+  const topGeo = new THREE.CircleGeometry(2.15, 64);
+  const topMat = new THREE.MeshStandardMaterial({
+    color: 0x1a1a3a,
+    metalness: 0.4,
+    roughness: 0.4
+  });
+  const top = new THREE.Mesh(topGeo, topMat);
+  top.rotation.x = -Math.PI * 0.5;
+  top.position.y = 0.21;
+  scene.add(top);
+
   const rimGeo = new THREE.RingGeometry(1.9, 2.2, 64);
   const rimMat = new THREE.MeshBasicMaterial({
     color: 0xdedcff,
@@ -641,7 +825,7 @@ function initArena() {
   });
   const rim = new THREE.Mesh(rimGeo, rimMat);
   rim.rotation.x = -Math.PI * 0.5;
-  rim.position.y = 0.21;
+  rim.position.y = 0.22;
   scene.add(rim);
 
   const ballGeo = new THREE.SphereGeometry(0.35, 32, 32);
@@ -653,24 +837,56 @@ function initArena() {
     emissiveIntensity: 0.6
   });
   const ball = new THREE.Mesh(ballGeo, ballMat);
-  ball.position.set(1.9, 0.4, 0);
+  ball.position.set(1.4, 0.6, 0.3);
   scene.add(ball);
+
+  const shadowGeo = new THREE.CircleGeometry(0.45, 32);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    transparent: true,
+    opacity: 0.35
+  });
+  const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+  shadow.rotation.x = -Math.PI / 2;
+  shadow.position.y = 0.22;
+  scene.add(shadow);
+
+  const points = [
+    new THREE.Vector3(1.4, 0.6, 0.3),
+    new THREE.Vector3(-1.3, 0.6, 0.2),
+    new THREE.Vector3(-0.8, 0.6, -1.1),
+    new THREE.Vector3(1.0, 0.6, -0.9),
+    new THREE.Vector3(1.5, 0.6, 0.1)
+  ];
+  const segmentDuration = 1.4;
+  const totalDuration = segmentDuration * points.length;
 
   const clock = new THREE.Clock();
 
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
+    const timeInCycle = t % totalDuration;
+    const segIndex = Math.floor(timeInCycle / segmentDuration);
+    const segT = (timeInCycle - segIndex * segmentDuration) / segmentDuration;
 
-    const radius = 1.9;
-    const speed = 0.8;
-    const angle = t * speed;
-    ball.position.x = Math.cos(angle) * radius;
-    ball.position.z = Math.sin(angle) * radius;
-    ball.position.y = 0.4 + Math.sin(t * 2.0) * 0.03;
+    const p0 = points[segIndex];
+    const p1 = points[(segIndex + 1) % points.length];
 
-    ball.rotation.z = angle * 2.0;
-    ball.rotation.x = angle * 1.5;
+    const easeT = segT * segT * (3 - 2 * segT);
+
+    const pos = new THREE.Vector3().lerpVectors(p0, p1, easeT);
+    const bounce = Math.sin(Math.PI * easeT) * 0.12;
+    ball.position.set(pos.x, 0.6 + bounce, pos.z);
+
+    shadow.position.x = pos.x;
+    shadow.position.z = pos.z;
+    shadow.material.opacity = 0.35 - bounce * 0.6;
+
+    const dirVec = new THREE.Vector3().subVectors(p1, p0);
+    const speed = dirVec.length() / segmentDuration;
+    ball.rotation.z += speed * 0.05;
+    ball.rotation.x += speed * 0.03;
 
     platform.rotation.z = Math.sin(t * 0.3) * 0.06;
 
@@ -683,29 +899,29 @@ function initArena() {
   animate();
 }
 
-/* Scarring Recall: 3D stylized door with hinge rotation */
+/* Scarring Recall: 3D stylized door with full hinge rotation, handle, fog */
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
   if (!canvas) return;
 
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050008, 0.12);
+  scene.fog = new THREE.FogExp2(0x000000, 0.18);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 1.8, 5.2);
   camera.lookAt(0, 1.4, 0);
 
-  const ambient = new THREE.AmbientLight(0x8888ff, 0.7);
+  const ambient = new THREE.AmbientLight(0x444466, 0.6);
   scene.add(ambient);
 
-  const spot = new THREE.SpotLight(0xffffff, 1.4, 20, Math.PI / 5, 0.4, 1.0);
-  spot.position.set(0, 4, 4);
+  const spot = new THREE.SpotLight(0xffffff, 1.4, 20, Math.PI / 6, 0.4, 1.0);
+  spot.position.set(0, 4, 2);
   scene.add(spot);
 
   const wallGeo = new THREE.PlaneGeometry(6, 5);
   const wallMat = new THREE.MeshStandardMaterial({
-    color: 0x120016,
+    color: 0x000000,
     roughness: 0.9,
     metalness: 0.1
   });
@@ -736,7 +952,7 @@ function initDoor() {
 
   const frameGeo = new THREE.BoxGeometry(doorWidth + 0.18, doorHeight + 0.18, 0.12);
   const frameMat = new THREE.MeshStandardMaterial({
-    color: 0xaaaaaa,
+    color: 0x777777,
     metalness: 0.8,
     roughness: 0.2
   });
@@ -744,15 +960,41 @@ function initDoor() {
   frame.position.set(0, 1.5, 0.01);
   scene.add(frame);
 
-  const fogGeo = new THREE.PlaneGeometry(4, 2.4);
+  const handleGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.3, 16);
+  const handleMat = new THREE.MeshStandardMaterial({
+    color: 0xdedede,
+    metalness: 0.9,
+    roughness: 0.2
+  });
+  const handle = new THREE.Mesh(handleGeo, handleMat);
+  handle.rotation.z = Math.PI / 2;
+  handle.position.set(doorWidth - 0.25, 1.4, 0.1);
+  door.add(handle);
+
+  const knobGeo = new THREE.SphereGeometry(0.06, 16, 16);
+  const knob = new THREE.Mesh(knobGeo, handleMat);
+  knob.position.set(doorWidth - 0.1, 1.4, 0.12);
+  door.add(knob);
+
+  const fogGeo = new THREE.PlaneGeometry(3.2, 2.4);
   const fogMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.18
+    opacity: 0.16
   });
   const fog = new THREE.Mesh(fogGeo, fogMat);
   fog.position.set(0, 1.4, -0.05);
   scene.add(fog);
+
+  const innerGlowGeo = new THREE.PlaneGeometry(1.4, 2.4);
+  const innerGlowMat = new THREE.MeshBasicMaterial({
+    color: 0xfff0d0,
+    transparent: true,
+    opacity: 0.18
+  });
+  const innerGlow = new THREE.Mesh(innerGlowGeo, innerGlowMat);
+  innerGlow.position.set(0, 1.4, -0.01);
+  scene.add(innerGlow);
 
   const clock = new THREE.Clock();
 
@@ -760,11 +1002,17 @@ function initDoor() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    const openAmount = (Math.sin(t * 0.7) + 1) / 2; // 0..1
-    const angle = - (Math.PI / 3) * openAmount;
+    const cycle = 6.0;
+    const phase = (t % cycle) / cycle;
+    const ease = phase < 0.5
+      ? 2 * phase * phase
+      : -2 * (phase - 1) * (phase - 1) + 1;
+
+    const angle = - (Math.PI / 2) * ease;
     doorGroup.rotation.y = angle;
 
-    fog.material.opacity = 0.12 + 0.08 * Math.sin(t * 1.3);
+    fog.position.y = 1.4 + Math.sin(t * 0.3) * 0.08;
+    innerGlow.material.opacity = 0.12 + 0.06 * ease;
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -775,7 +1023,7 @@ function initDoor() {
   animate();
 }
 
-/* CarbIQ: highlight 1 and 4 buttons in sync with typing */
+/* CarbIQ: highlight 1 and 4 buttons in sync with typing start */
 function initCarbIQButtons() {
   const buttons = document.querySelectorAll('.carbiq-btn');
   if (!buttons.length) return;
@@ -788,11 +1036,11 @@ function initCarbIQButtons() {
   function cycle() {
     buttons.forEach(b => b.classList.remove('active'));
 
-    setTimeout(() => keyMap['1']?.classList.add('active'), 700);
-    setTimeout(() => keyMap['1']?.classList.remove('active'), 1200);
+    setTimeout(() => keyMap['1']?.classList.add('active'), 150);
+    setTimeout(() => keyMap['1']?.classList.remove('active'), 550);
 
-    setTimeout(() => keyMap['4']?.classList.add('active'), 1600);
-    setTimeout(() => keyMap['4']?.classList.remove('active'), 2100);
+    setTimeout(() => keyMap['4']?.classList.add('active'), 800);
+    setTimeout(() => keyMap['4']?.classList.remove('active'), 1200);
   }
 
   cycle();
@@ -800,6 +1048,7 @@ function initCarbIQButtons() {
 }
 
 /* Init all */
+initHero();
 initArena();
 initDoor();
 initCarbIQButtons();
