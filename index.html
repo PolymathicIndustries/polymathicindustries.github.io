@@ -648,8 +648,7 @@ footer {
 
 <script type="module">
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-  import { Water } from 'https://unpkg.com/three@0.160.0/examples/jsm/objects/Water2.js';
-
+import { Water } from 'https://unpkg.com/three@0.160.0/examples/jsm/objects/Water2.js';
 
 /* Utility: create renderer that auto-resizes */
 function createRenderer(canvas) {
@@ -812,7 +811,7 @@ function initHero() {
 }
 
 /* ——————————————————————————————————————————————— */
-/* SURVIVAL SUMMIT — guaranteed visible water */
+/* SURVIVAL SUMMIT — calm Water2 + your platform/ball        */
 /* ——————————————————————————————————————————————— */
 function initArena() {
   const canvas = document.getElementById('arenaCanvas');
@@ -833,21 +832,20 @@ function initArena() {
   dir.position.set(4, 8, 5);
   scene.add(dir);
 
-/* Calm, glassy Water2 */
-const waterGeometry = new THREE.PlaneGeometry(60, 60);
+  /* Calm, glassy Water2 */
+  const waterGeometry = new THREE.PlaneGeometry(60, 60);
 
-const water = new Water(waterGeometry, {
-  color: 0x1a3cff,
-  scale: 2.0,
-  flowDirection: new THREE.Vector2(0.3, 0.1),
-  textureWidth: 1024,
-  textureHeight: 1024
-});
+  const water = new Water(waterGeometry, {
+    color: 0x1a3cff,
+    scale: 2.0,
+    flowDirection: new THREE.Vector2(0.3, 0.1),
+    textureWidth: 1024,
+    textureHeight: 1024
+  });
 
-water.rotation.x = -Math.PI / 2;
-water.position.y = -0.25;
-scene.add(water);
-
+  water.rotation.x = -Math.PI / 2;
+  water.position.y = -0.25;
+  scene.add(water);
 
   /* Platform */
   const platform = new THREE.Mesh(
@@ -920,8 +918,9 @@ scene.add(water);
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
-    water.material.uniforms.time.value = t * 0.25;
 
+    /* Water2 time */
+    water.material.uniforms.time.value = t * 0.25;
 
     /* Ball movement */
     const timeInCycle = t % totalDuration;
@@ -950,19 +949,6 @@ scene.add(water);
     /* Platform subtle rotation */
     platform.rotation.y = Math.sin(t * 0.25) * 0.08;
 
-    /* Water ripples */
-    const waterPos = water.geometry.attributes.position;
-    for (let i = 0; i < waterPos.count; i++) {
-      const x = waterPos.getX(i);
-      const y = waterPos.getY(i);
-      const wave =
-        Math.sin(x * 0.22 + t * 0.7) * 0.06 +
-        Math.cos(y * 0.19 + t * 0.5) * 0.05;
-      waterPos.setZ(i, wave);
-    }
-    waterPos.needsUpdate = true;
-    water.geometry.computeVertexNormals();
-
     /* Resize */
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -972,8 +958,9 @@ scene.add(water);
   }
   animate();
 }
+
 /* ——————————————————————————————————————————————— */
-/* SCARRING RECALL — clean spotlight + camera moves through door */
+/* SCARRING RECALL — 2D spotlight corridor on doorCanvas     */
 /* ——————————————————————————————————————————————— */
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
@@ -1024,7 +1011,7 @@ function initDoor() {
 }
 
 /* ——————————————————————————————————————————————— */
-/* CARBIQ — button presses synced with typing animation */
+/* CARBIQ — button presses synced with typing animation      */
 /* ——————————————————————————————————————————————— */
 function initCarbIQ() {
   const buttons = document.querySelectorAll('.carbiq-btn');
@@ -1055,7 +1042,7 @@ function initCarbIQ() {
 }
 
 /* ——————————————————————————————————————————————— */
-/* INIT ALL SCENES */
+/* INIT ALL SCENES                                           */
 /* ——————————————————————————————————————————————— */
 window.addEventListener('DOMContentLoaded', () => {
   initHero();
@@ -1064,6 +1051,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initCarbIQ();
 });
 </script>
+
 
 </body>
 </html>
