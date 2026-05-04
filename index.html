@@ -566,8 +566,7 @@ footer {
         </div>
 
         <div class="hero-visual">
-          <!-- Use your uploaded image filename here -->
-          <img src="hero-icy-orbs.jpeg" alt="Polymathic Industries hero" style="
+          <img src="Survival%20Summit%20Title%20Image.jpeg" alt="Polymathic Industries hero" style="
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -881,7 +880,7 @@ function initArena() {
   animate();
 }
 
-/* Scarring Recall: spotlight + lamp + fog, full door open */
+/* Scarring Recall: spotlight + lamp + fog, full door open, slow push-in */
 
 function initDoor() {
   const canvas = document.getElementById('doorCanvas');
@@ -973,16 +972,6 @@ function initDoor() {
   knob.position.set(doorWidth - 0.1, 1.4, 0.12);
   door.add(knob);
 
-  const fogSphereGeo = new THREE.SphereGeometry(2.4, 32, 32);
-  const fogSphereMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.12
-  });
-  const fogSphere = new THREE.Mesh(fogSphereGeo, fogSphereMat);
-  fogSphere.position.set(0, 1.6, 0.2);
-  scene.add(fogSphere);
-
   const floorFogGeo = new THREE.PlaneGeometry(4, 3);
   const floorFogMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
@@ -1009,8 +998,11 @@ function initDoor() {
     const angle = - (Math.PI / 2) * ease;
     doorGroup.rotation.y = angle;
 
-    fogSphere.material.opacity = 0.10 + 0.05 * Math.sin(t * 0.6);
     floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
+
+    // Slow push-in toward the door
+    camera.position.z = 5.2 - ease * 1.2;
+    camera.lookAt(0, 1.4, 0);
 
     const rect = canvas.getBoundingClientRect();
     camera.aspect = rect.width / rect.height;
@@ -1022,7 +1014,7 @@ function initDoor() {
   animate();
 }
 
-/* CarbIQ: sync display typing with button presses */
+/* CarbIQ: sync display typing with button presses, ending in "1 + 4 = 5" */
 
 function initCarbIQButtons() {
   const buttons = document.querySelectorAll('.carbiq-btn');
@@ -1034,7 +1026,7 @@ function initCarbIQButtons() {
     keyMap[btn.dataset.key] = btn;
   });
 
-  const text = "1 + 4 + 5";
+  const text = "1 + 4 = 5";
   const cycleMs = 4000;
   const typingDuration = 1500;
   const charInterval = typingDuration / text.length;
