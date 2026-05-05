@@ -883,49 +883,7 @@ function initArena() {
 /* Scarring Recall: spotlight + lamp + fog, full door open, slow push-in */
 
 function initDoor() {
-  const canvas = document.getElementById('doorCanvas');
-  if (!canvas) return;
 
-  const renderer = createRenderer(canvas);
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
-  scene.fog = new THREE.FogExp2(0x000000, 0.22);
-
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 1.8, 5.2);
-  camera.lookAt(0, 1.4, 0);
-
-  const ambient = new THREE.AmbientLight(0x222233, 0.6);
-  scene.add(ambient);
-
-  const spot = new THREE.SpotLight(0xfff2d0, 1.8, 20, Math.PI / 6, 0.5, 1.0);
-  spot.position.set(0, 3.6, 1.2);
-  spot.target.position.set(0, 1.4, 0);
-  scene.add(spot);
-  scene.add(spot.target);
-
-  const lampGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16);
-  const lampMat = new THREE.MeshStandardMaterial({
-    color: 0xdddddd,
-    metalness: 0.7,
-    roughness: 0.3,
-    emissive: 0xffffee,
-    emissiveIntensity: 0.6
-  });
-  const lamp = new THREE.Mesh(lampGeo, lampMat);
-  lamp.position.set(0, 3.4, 0.2);
-  scene.add(lamp);
-
-const corridorGeo = new THREE.BoxGeometry(2.2, 3.2, 6);
-const corridorMat = new THREE.MeshStandardMaterial({
-  color: 0x0a0a0a,
-  roughness: 0.9,
-  metalness: 0.1
-    side: THREE.BackSide   // ← THIS IS THE FIX
-});
-const corridor = new THREE.Mesh(corridorGeo, corridorMat);
-corridor.position.set(0, 1.5, -4.5);
-scene.add(corridor);
 
   const doorGroup = new THREE.Group();
   scene.add(doorGroup);
