@@ -921,9 +921,10 @@ const corridorMat = new THREE.MeshStandardMaterial({
   color: 0x0a0a0a,
   roughness: 0.9,
   metalness: 0.1
+    side: THREE.BackSide   // ← THIS IS THE FIX
 });
 const corridor = new THREE.Mesh(corridorGeo, corridorMat);
-corridor.position.set(0, 1.5, -3.2);
+corridor.position.set(0, 1.5, -4.5);
 scene.add(corridor);
 
   const doorGroup = new THREE.Group();
