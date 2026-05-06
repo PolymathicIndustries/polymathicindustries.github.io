@@ -937,6 +937,12 @@ function initDoor() {
   doorGroup.add(door);
   doorGroup.position.set(-doorWidth / 2, 1.5, 0);
 
+const frameMat = new THREE.MeshStandardMaterial({
+  color: 0x555555,
+  metalness: 0.7,
+  roughness: 0.3
+});
+  
 // Hollow door frame (4 beams instead of a solid block)
 const frameThickness = 0.12;
 
