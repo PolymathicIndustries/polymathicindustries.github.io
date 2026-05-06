@@ -4,7 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CarbIQ — Polymathic Industries</title>
+
 <style>
+/* ——— GLOBAL ——— */
 body {
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
@@ -15,7 +17,7 @@ body {
 a { color:inherit; text-decoration:none; }
 .site-shell { max-width:1120px; margin:0 auto; padding:0 20px; }
 
-/* Header */
+/* ——— HEADER ——— */
 header {
   position:sticky; top:0; z-index:20;
   backdrop-filter:blur(16px);
@@ -49,7 +51,7 @@ nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
   color:#f7f3ff;
 }
 
-/* Hero */
+/* ——— HERO ——— */
 .hero { margin:50px 0 30px; }
 .hero-inner {
   border-radius:24px;
@@ -70,76 +72,111 @@ nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 .hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
 .hero-note { font-size:13px; color:#c3b6e6; }
 
-/* Updated Visual (Homepage‑matching calculator) */
+/* ——— UPDATED CARBIQ VISUAL ——— */
 .carbiq-visual {
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   position:relative;
+  gap:20px;
+  padding:20px 0;
 }
 
 .carbiq-glow {
   position:absolute;
-  width:260px;
-  height:260px;
+  width:300px;
+  height:300px;
   border-radius:50%;
   background:radial-gradient(circle, rgba(120,90,255,0.55), transparent 70%);
-  filter:blur(18px);
+  filter:blur(22px);
   opacity:0.9;
+  animation:carbiqGlowPulse 4s ease-in-out infinite;
+}
+
+@keyframes carbiqGlowPulse {
+  0%   { transform:scale(1); opacity:0.75; }
+  50%  { transform:scale(1.12); opacity:1; }
+  100% { transform:scale(1); opacity:0.75; }
+}
+
+.carbiq-icon {
+  width:70px;
+  height:70px;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,0.8);
+  z-index:2;
+}
+.carbiq-icon img {
+  width:100%; height:100%; object-fit:cover;
 }
 
 .carbiq-calculator {
-  width:130px;
-  height:190px;
-  border-radius:18px;
-  background:linear-gradient(145deg, #1a1a2d, #0d0d18);
+  width:150px;
+  height:210px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#1a1a2d,#0d0d18);
   box-shadow:
-    0 18px 40px rgba(0,0,0,0.85),
+    0 22px 50px rgba(0,0,0,0.85),
     inset 0 0 22px rgba(160,130,255,0.18);
   position:relative;
+  padding:14px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
   border:1px solid rgba(255,255,255,0.06);
+  z-index:2;
 }
 
 .carbiq-screen {
-  position:absolute;
-  top:18px;
-  left:16px;
-  right:16px;
-  height:40px;
+  height:42px;
   border-radius:10px;
-  background:linear-gradient(145deg, #0f0f1a, #1a1a2d);
+  background:linear-gradient(145deg,#0f0f1a,#1a1a2d);
   box-shadow:
     inset 0 0 12px rgba(255,255,255,0.08),
     inset 0 0 22px rgba(120,90,255,0.25);
+  display:flex;
+  align-items:center;
+  padding:0 10px;
+  font-family:"SF Mono",ui-monospace,Menlo,Monaco,Consolas,"Courier New",monospace;
+  font-size:13px;
+  color:#e8eaff;
 }
 
-.carbiq-keys {
-  position:absolute;
-  left:16px;
-  right:16px;
-  bottom:18px;
+.carbiq-screen-text {
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.carbiq-buttons {
+  flex:1;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:10px;
+  gap:6px;
 }
 
-.carbiq-key {
-  height:26px;
-  border-radius:8px;
-  background:linear-gradient(145deg, #2a2a3f, #1a1a2d);
+.carbiq-btn {
+  border-radius:10px;
+  background:linear-gradient(145deg,#2a2a3f,#1a1a2d);
   box-shadow:
-    0 4px 10px rgba(0,0,0,0.6),
+    0 6px 14px rgba(0,0,0,0.35),
     inset 0 0 6px rgba(255,255,255,0.05);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  color:#dcdcff;
+  transition:transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
 
-.carbiq-key.accent {
-  background:linear-gradient(145deg, #7a5aff, #5a3aff);
-  box-shadow:
-    0 4px 14px rgba(120,90,255,0.6),
-    inset 0 0 8px rgba(255,255,255,0.1);
+.carbiq-btn.active {
+  transform:translateY(2px);
+  box-shadow:0 2px 6px rgba(0,0,0,0.4);
+  background:linear-gradient(145deg,#7a5aff,#5a3aff);
 }
 
-/* Content */
+/* ——— CONTENT ——— */
 .content {
   margin:40px 0 50px;
   font-size:16px;
@@ -148,7 +185,7 @@ nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 }
 .content p { margin-bottom:18px; }
 
-/* Footer */
+/* ——— FOOTER ——— */
 footer {
   margin:20px 0 30px;
   font-size:12px;
@@ -157,7 +194,7 @@ footer {
   padding-top:12px;
 }
 
-/* Responsive */
+/* ——— RESPONSIVE ——— */
 @media (max-width:880px){
   .site-shell{padding-inline:16px;}
   .header-inner{flex-direction:column;align-items:flex-start;}
@@ -166,6 +203,7 @@ footer {
 }
 </style>
 </head>
+
 <body>
 <header>
   <div class="site-shell">
@@ -192,6 +230,7 @@ footer {
 
 <main>
   <div class="site-shell">
+
     <section class="hero">
       <div class="hero-inner">
         <div>
@@ -205,15 +244,29 @@ footer {
           </p>
         </div>
 
-        <!-- Updated Calculator Visual -->
+        <!-- ⭐ Centered animated CarbIQ visual -->
         <div class="carbiq-visual">
           <div class="carbiq-glow"></div>
+
+          <div class="carbiq-icon">
+            <img src="ic_launcher.png" alt="CarbIQ icon" />
+          </div>
+
           <div class="carbiq-calculator">
-            <div class="carbiq-screen"></div>
-            <div class="carbiq-keys">
-              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
-              <div class="carbiq-key"></div><div class="carbiq-key accent"></div><div class="carbiq-key"></div>
-              <div class="carbiq-key"></div><div class="carbiq-key"></div><div class="carbiq-key"></div>
+            <div class="carbiq-screen">
+              <div class="carbiq-screen-text"></div>
+            </div>
+
+            <div class="carbiq-buttons">
+              <div class="carbiq-btn" data-key="1">1</div>
+              <div class="carbiq-btn" data-key="2">2</div>
+              <div class="carbiq-btn" data-key="3">3</div>
+              <div class="carbiq-btn" data-key="4">4</div>
+              <div class="carbiq-btn" data-key="5">5</div>
+              <div class="carbiq-btn" data-key="6">6</div>
+              <div class="carbiq-btn" data-key="7">7</div>
+              <div class="carbiq-btn" data-key="8">8</div>
+              <div class="carbiq-btn" data-key="9">9</div>
             </div>
           </div>
         </div>
@@ -238,7 +291,54 @@ footer {
     <footer>
       © Polymathic Industries · 2026
     </footer>
+
   </div>
 </main>
+
+<script>
+/* ——— FULL HOMEPAGE ANIMATION ENGINE ——— */
+
+function initCarbIQButtons() {
+  const buttons = document.querySelectorAll('.carbiq-btn');
+  const screen = document.querySelector('.carbiq-screen-text');
+  if (!buttons.length || !screen) return;
+
+  const keyMap = {};
+  buttons.forEach(btn => keyMap[btn.dataset.key] = btn);
+
+  const text = "1 + 4 = 5";
+  const cycleMs = 4000;
+  const typingDuration = 1500;
+  const charInterval = typingDuration / text.length;
+
+  function runCycle() {
+    screen.textContent = "";
+    buttons.forEach(b => b.classList.remove('active'));
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      const delay = i * charInterval;
+
+      setTimeout(() => {
+        screen.textContent += ch;
+
+        if (ch === '1' || ch === '4') {
+          const btn = keyMap[ch];
+          if (btn) {
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 150);
+          }
+        }
+      }, delay);
+    }
+  }
+
+  runCycle();
+  setInterval(runCycle, cycleMs);
+}
+
+initCarbIQButtons();
+</script>
+
 </body>
 </html>
