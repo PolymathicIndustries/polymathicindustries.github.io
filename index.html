@@ -937,16 +937,33 @@ function initDoor() {
   doorGroup.add(door);
   doorGroup.position.set(-doorWidth / 2, 1.5, 0);
 
-  const frameGeo = new THREE.BoxGeometry(doorWidth + 0.18, doorHeight + 0.18, 0.12);
-  const frameMat = new THREE.MeshStandardMaterial({
-    color: 0x555555,
-    metalness: 0.7,
-    roughness: 0.3
+// Hollow door frame (4 beams instead of a solid block)
+const frameThickness = 0.12;
 
-  });
-  const frame = new THREE.Mesh(frameGeo, frameMat);
-  frame.position.set(0, 1.5, 0.01);
-  scene.add(frame);
+// Top beam
+const topBeamGeo = new THREE.BoxGeometry(doorWidth + 0.18, frameThickness, frameThickness);
+const topBeam = new THREE.Mesh(topBeamGeo, frameMat);
+topBeam.position.set(0, 1.5 + doorHeight/2, 0.01);
+scene.add(topBeam);
+
+// Bottom beam
+const bottomBeamGeo = new THREE.BoxGeometry(doorWidth + 0.18, frameThickness, frameThickness);
+const bottomBeam = new THREE.Mesh(bottomBeamGeo, frameMat);
+bottomBeam.position.set(0, 1.5 - doorHeight/2, 0.01);
+scene.add(bottomBeam);
+
+// Left beam
+const leftBeamGeo = new THREE.BoxGeometry(frameThickness, doorHeight + 0.18, frameThickness);
+const leftBeam = new THREE.Mesh(leftBeamGeo, frameMat);
+leftBeam.position.set(-(doorWidth/2 + 0.09), 1.5, 0.01);
+scene.add(leftBeam);
+
+// Right beam
+const rightBeamGeo = new THREE.BoxGeometry(frameThickness, doorHeight + 0.18, frameThickness);
+const rightBeam = new THREE.Mesh(rightBeamGeo, frameMat);
+rightBeam.position.set(doorWidth/2 + 0.09, 1.5, 0.01);
+scene.add(rightBeam);
+
 
   const handleGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.3, 16);
   const handleMat = new THREE.MeshStandardMaterial({
