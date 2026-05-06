@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Stealth Hardware — Polymathic Industries</title>
+
 <style>
 body {
   margin:0;
@@ -70,37 +71,87 @@ nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 .hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
 .hero-note { font-size:13px; color:#c3b6e6; }
 
-/* Visual */
-.hardware-visual { display:flex; align-items:center; justify-content:center; }
+/* Hardware Visual — EXACT homepage version, centered */
+.hardware-visual {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px 0;
+}
+
+.hardware-stack {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+}
+
 .hardware-orb {
-  position:relative; width:220px; height:220px; border-radius:50%;
-  background:radial-gradient(circle,rgba(179,140,255,0.4),transparent 70%);
-  box-shadow:0 24px 60px rgba(0,0,0,0.9);
-  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+  box-shadow:0 30px 80px rgba(0,0,0,0.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
+.hardware-haze {
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,0.12), transparent 60%),
+    radial-gradient(circle at 80% 100%, rgba(179,140,255,0.18), transparent 65%);
+  filter:blur(18px);
+  opacity:0.6;
+}
+
 .hardware-core {
-  width:120px; height:120px; border-radius:50%;
-  background:radial-gradient(circle at top,#ffffff,#b38cff,#4b0082);
-  box-shadow:0 18px 40px rgba(0,0,0,0.8);
-  display:flex; align-items:center; justify-content:center;
-  position:relative; overflow:hidden;
+  position:relative;
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:radial-gradient(circle at center, #ffffff, #dcd7ff 45%, #4b0082 100%);
+  box-shadow:
+    0 0 40px rgba(255,255,255,0.7),
+    0 0 90px rgba(179,140,255,0.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
 .hardware-question {
-  font-size:54px; font-weight:700; color:#fdfbff;
-  text-shadow:0 0 18px rgba(0,0,0,0.9);
+  font-size:70px;
+  font-weight:700;
+  color:#ffffff;
+  text-shadow:
+    0 0 18px rgba(255,255,255,0.9),
+    0 0 40px rgba(179,140,255,0.9);
+  z-index:2;
 }
+
 .hardware-rays {
-  position:absolute; inset:-20%;
+  position:absolute;
+  inset:-40%;
   background:conic-gradient(
     from 0deg,
     rgba(255,255,255,0.0),
-    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.22),
     rgba(255,255,255,0.0),
-    rgba(179,140,255,0.2),
+    rgba(179,140,255,0.3),
     rgba(255,255,255,0.0)
   );
   mix-blend-mode:screen;
-  opacity:0.7;
+  opacity:0.5;
+  filter:blur(4px);
+  animation:hardwareSpin 16s linear infinite;
+}
+
+@keyframes hardwareSpin {
+  from { transform:rotate(0deg); }
+  to   { transform:rotate(360deg); }
 }
 
 /* Content */
@@ -130,6 +181,7 @@ footer {
 }
 </style>
 </head>
+
 <body>
 <header>
   <div class="site-shell">
@@ -156,6 +208,7 @@ footer {
 
 <main>
   <div class="site-shell">
+
     <section class="hero">
       <div class="hero-inner">
         <div>
@@ -168,14 +221,23 @@ footer {
             Details stay intentionally quiet for now — but the intent is clear: turn everyday moments into connection, momentum, and fulfillment.
           </p>
         </div>
+
+        <!-- ⭐ EXACT HOMEPAGE HARDWARE ORB, CENTERED -->
         <div class="hardware-visual">
-          <div class="hardware-orb">
-            <div class="hardware-core">
-              <div class="hardware-rays"></div>
-              <div class="hardware-question">?</div>
+          <div class="hardware-stack">
+
+            <div class="hardware-orb">
+              <div class="hardware-haze"></div>
+
+              <div class="hardware-core">
+                <div class="hardware-rays"></div>
+                <div class="hardware-question">?</div>
+              </div>
             </div>
+
           </div>
         </div>
+
       </div>
     </section>
 
@@ -186,7 +248,9 @@ footer {
     <footer>
       © Polymathic Industries · 2026
     </footer>
+
   </div>
 </main>
+
 </body>
 </html>
