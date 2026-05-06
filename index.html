@@ -942,6 +942,7 @@ function initDoor() {
     color: 0x555555,
     metalness: 0.7,
     roughness: 0.3
+      side: THREE.FrontSide   // ← only front, no back
   });
   const frame = new THREE.Mesh(frameGeo, frameMat);
   frame.position.set(0, 1.5, 0.01);
