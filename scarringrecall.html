@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Scarring Recall — Polymathic Industries</title>
+
 <style>
 body {
   margin:0;
@@ -70,39 +71,25 @@ nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 .hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
 .hero-note { font-size:13px; color:#c3b6e6; }
 
-/* Visual */
-.scarring-visual { display:flex; align-items:center; justify-content:center; }
-.scarring-scene {
-  position:relative; width:260px; height:220px; border-radius:18px;
-  background:radial-gradient(circle at top,#2a0038,#020005);
-  box-shadow:0 20px 50px rgba(0,0,0,0.8);
-  overflow:hidden;
+/* Visual — REAL 3D DOOR SCENE */
+.scarring-visual {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  width:100%;
 }
-.scarring-void {
-  position:absolute; inset:18%; border-radius:8px; background:#000;
+
+.canvas-wrap {
+  width:260px;
+  height:220px;
+  position:relative;
 }
-.scarring-door-frame {
-  position:absolute; inset:18%; border-radius:10px;
-  border:2px solid rgba(255,255,255,0.18);
-}
-.scarring-door {
-  position:absolute; inset:18%; border-radius:8px;
-  background:linear-gradient(145deg,#2b1b1b,#0f0707);
-  transform-origin:left center;
-  transform:perspective(400px) rotateY(0deg);
-  transition:transform .5s ease;
-}
-.scarring-fog {
-  position:absolute; bottom:-20px; left:-40px; right:-40px; height:80px;
-  background:radial-gradient(circle at top,rgba(255,255,255,0.35),transparent 70%);
-  filter:blur(10px); opacity:0.6;
-  transition:opacity .5s ease, transform .5s ease;
-}
-.scarring-scene:hover .scarring-door {
-  transform:perspective(400px) rotateY(-25deg);
-}
-.scarring-scene:hover .scarring-fog {
-  opacity:0.95; transform:translateY(-6px);
+
+.canvas-wrap canvas {
+  width:100%;
+  height:100%;
+  display:block;
 }
 
 /* Content */
@@ -132,6 +119,7 @@ footer {
 }
 </style>
 </head>
+
 <body>
 <header>
   <div class="site-shell">
@@ -158,6 +146,7 @@ footer {
 
 <main>
   <div class="site-shell">
+
     <section class="hero">
       <div class="hero-inner">
         <div>
@@ -170,14 +159,14 @@ footer {
             Scarring Recall invites players into the space between memory, fear, and loyalty — and asks what it takes to truly understand someone you thought you knew.
           </p>
         </div>
+
+        <!-- ⭐ REAL 3D DOOR SCENE -->
         <div class="scarring-visual">
-          <div class="scarring-scene">
-            <div class="scarring-void"></div>
-            <div class="scarring-door-frame"></div>
-            <div class="scarring-door"></div>
-            <div class="scarring-fog"></div>
+          <div class="canvas-wrap">
+            <canvas id="doorCanvas"></canvas>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -192,7 +181,200 @@ footer {
     <footer>
       © Polymathic Industries · 2026
     </footer>
+
   </div>
 </main>
+
+<!-- ⭐ THREE.JS DOOR SCENE (EXACT HOMEPAGE VERSION) -->
+<script type="module">
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+function createRenderer(canvas) {
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias:true,
+    alpha:true
+  });
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+
+  const resize = () => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      renderer.setSize(rect.width, rect.height, false);
+    }
+  };
+  resize();
+  window.addEventListener('resize', resize);
+  return renderer;
+}
+
+function initDoor() {
+  const canvas = document.getElementById('doorCanvas');
+  if (!canvas) return;
+
+  const renderer = createRenderer(canvas);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+  scene.fog = new THREE.FogExp2(0x000000, 0.22);
+
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.set(0, 1.8, 5.2);
+  camera.lookAt(0, 1.4, 0);
+
+  const ambient = new THREE.AmbientLight(0x222233, 0.6);
+  scene.add(ambient);
+
+  const spot = new THREE.SpotLight(0xfff2d0, 1.8, 20, Math.PI/6, 0.5, 1.0);
+  spot.position.set(0, 3.6, 1.2);
+  spot.target.position.set(0, 1.4, 0);
+  scene.add(spot);
+  scene.add(spot.target);
+
+  const lampGeo = new THREE.CylinderGeometry(0.18,0.18,0.3,16);
+  const lampMat = new THREE.MeshStandardMaterial({
+    color:0xdddddd,
+    metalness:0.7,
+    roughness:0.3,
+    emissive:0xffffee,
+    emissiveIntensity:0.6
+  });
+  const lamp = new THREE.Mesh(lampGeo, lampMat);
+  lamp.position.set(0,3.4,0.2);
+  scene.add(lamp);
+
+  // Invisible light catcher
+  const catcherGeo = new THREE.PlaneGeometry(6,6);
+  const catcherMat = new THREE.MeshStandardMaterial({
+    color:0x111111,
+    roughness:0.9,
+    metalness:0.0
+  });
+  catcherMat.colorWrite = false;
+  const catcher = new THREE.Mesh(catcherGeo, catcherMat);
+  catcher.position.set(0,1.5,-2.5);
+  scene.add(catcher);
+
+  // Door group
+  const doorGroup = new THREE.Group();
+  scene.add(doorGroup);
+
+  const doorWidth = 1.6;
+  const doorHeight = 3.0;
+  const doorDepth = 0.18;
+
+  const doorGeo = new THREE.BoxGeometry(doorWidth,doorHeight,doorDepth);
+  const doorMat = new THREE.MeshStandardMaterial({
+    color:0x3a2626,
+    metalness:0.4,
+    roughness:0.35,
+    emissive:0x1a0505,
+    emissiveIntensity:0.25
+  });
+  const door = new THREE.Mesh(doorGeo, doorMat);
+  door.position.x = doorWidth/2;
+  doorGroup.add(door);
+
+  doorGroup.position.set(-doorWidth/2,1.5,0);
+
+  const frameMat = new THREE.MeshStandardMaterial({
+    color:0x555555,
+    metalness:0.7,
+    roughness:0.3
+  });
+
+  const frameThickness = 0.12;
+
+  const topBeam = new THREE.Mesh(
+    new THREE.BoxGeometry(doorWidth+0.18, frameThickness, frameThickness),
+    frameMat
+  );
+  topBeam.position.set(0,1.5+doorHeight/2,0.01);
+  scene.add(topBeam);
+
+  const bottomBeam = new THREE.Mesh(
+    new THREE.BoxGeometry(doorWidth+0.18, frameThickness, frameThickness),
+    frameMat
+  );
+  bottomBeam.position.set(0,1.5-doorHeight/2,0.01);
+  scene.add(bottomBeam);
+
+  const leftBeam = new THREE.Mesh(
+    new THREE.BoxGeometry(frameThickness, doorHeight+0.18, frameThickness),
+    frameMat
+  );
+  leftBeam.position.set(-(doorWidth/2+0.09),1.5,0.01);
+  scene.add(leftBeam);
+
+  const rightBeam = new THREE.Mesh(
+    new THREE.BoxGeometry(frameThickness, doorHeight+0.18, frameThickness),
+    frameMat
+  );
+  rightBeam.position.set(doorWidth/2+0.09,1.5,0.01);
+  scene.add(rightBeam);
+
+  const handleGeo = new THREE.CylinderGeometry(0.04,0.04,0.3,16);
+  const handleMat = new THREE.MeshStandardMaterial({
+    color:0xdedede,
+    metalness:0.9,
+    roughness:0.2
+  });
+  const handle = new THREE.Mesh(handleGeo, handleMat);
+  handle.rotation.z = Math.PI/2;
+  handle.position.set(doorWidth-0.25,1.4,0.1);
+  door.add(handle);
+
+  const knob = new THREE.Mesh(
+    new THREE.SphereGeometry(0.06,16,16),
+    handleMat
+  );
+  knob.position.set(doorWidth-0.1,1.4,0.12);
+  door.add(knob);
+
+  const floorFog = new THREE.Mesh(
+    new THREE.PlaneGeometry(4,3),
+    new THREE.MeshBasicMaterial({
+      color:0xffffff,
+      transparent:true,
+      opacity:0.10
+    })
+  );
+  floorFog.rotation.x = -Math.PI/2;
+  floorFog.position.set(0,0.01,0.4);
+  scene.add(floorFog);
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const t = clock.getElapsedTime();
+    const cycle = 6.0;
+    const phase = (t % cycle) / cycle;
+
+    const ease = phase < 0.5
+      ? 2 * phase * phase
+      : -2 * (phase - 1) * (phase - 1) + 1;
+
+    const angle = -(Math.PI/2) * ease;
+    doorGroup.rotation.y = angle;
+
+    floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
+
+    camera.position.z = 5.2 - ease * 1.2;
+    camera.lookAt(0,1.4,0);
+
+    const rect = canvas.getBoundingClientRect();
+    camera.aspect = rect.width / rect.height;
+    camera.updateProjectionMatrix();
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+}
+
+initDoor();
+</script>
+
 </body>
 </html>
