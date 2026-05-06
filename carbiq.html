@@ -70,31 +70,74 @@ nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 .hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
 .hero-note { font-size:13px; color:#c3b6e6; }
 
-/* Visual */
-.carbiq-visual { display:flex; align-items:center; justify-content:center; position:relative; }
-.carbiq-glow {
-  position:absolute; width:220px; height:220px; border-radius:50%;
-  background:radial-gradient(circle,rgba(179,140,255,0.4),transparent 70%);
-  filter:blur(4px); opacity:0.8;
-}
-.carbiq-calculator {
-  width:110px; height:160px; border-radius:20px;
-  background:linear-gradient(145deg,#fdfbff,#d9d0ff);
-  box-shadow:0 18px 40px rgba(0,0,0,0.7);
+/* Updated Visual (Homepage‑matching calculator) */
+.carbiq-visual {
+  display:flex;
+  align-items:center;
+  justify-content:center;
   position:relative;
 }
+
+.carbiq-glow {
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(120,90,255,0.55), transparent 70%);
+  filter:blur(18px);
+  opacity:0.9;
+}
+
+.carbiq-calculator {
+  width:130px;
+  height:190px;
+  border-radius:18px;
+  background:linear-gradient(145deg, #1a1a2d, #0d0d18);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.85),
+    inset 0 0 22px rgba(160,130,255,0.18);
+  position:relative;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
 .carbiq-screen {
-  position:absolute; top:16px; left:14px; right:14px; height:34px;
-  border-radius:10px; background:linear-gradient(145deg,#e9f7ff,#c7e4ff);
+  position:absolute;
+  top:18px;
+  left:16px;
+  right:16px;
+  height:40px;
+  border-radius:10px;
+  background:linear-gradient(145deg, #0f0f1a, #1a1a2d);
+  box-shadow:
+    inset 0 0 12px rgba(255,255,255,0.08),
+    inset 0 0 22px rgba(120,90,255,0.25);
 }
+
 .carbiq-keys {
-  position:absolute; left:14px; right:14px; bottom:16px;
-  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
+
 .carbiq-key {
-  height:20px; border-radius:6px; background:#ece4ff;
+  height:26px;
+  border-radius:8px;
+  background:linear-gradient(145deg, #2a2a3f, #1a1a2d);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.6),
+    inset 0 0 6px rgba(255,255,255,0.05);
 }
-.carbiq-key.accent { background:#b38cff; }
+
+.carbiq-key.accent {
+  background:linear-gradient(145deg, #7a5aff, #5a3aff);
+  box-shadow:
+    0 4px 14px rgba(120,90,255,0.6),
+    inset 0 0 8px rgba(255,255,255,0.1);
+}
 
 /* Content */
 .content {
@@ -161,6 +204,8 @@ footer {
             CarbIQ removes the friction from tracking so you can focus on living, not logging.
           </p>
         </div>
+
+        <!-- Updated Calculator Visual -->
         <div class="carbiq-visual">
           <div class="carbiq-glow"></div>
           <div class="carbiq-calculator">
@@ -172,6 +217,7 @@ footer {
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
