@@ -916,6 +916,20 @@ function initDoor() {
   lamp.position.set(0, 3.4, 0.2);
   scene.add(lamp);
 
+  // Invisible light-catching plane to restore lighting contrast
+const catcherGeo = new THREE.PlaneGeometry(6, 6);
+const catcherMat = new THREE.MeshStandardMaterial({
+  color: 0x111111,
+  roughness: 0.9,
+  metalness: 0.0,
+});
+catcherMat.colorWrite = false; // ← makes it invisible but still lit
+
+const catcher = new THREE.Mesh(catcherGeo, catcherMat);
+catcher.position.set(0, 1.5, -2.5);
+scene.add(catcher);
+
+
   // DOOR GROUP
   const doorGroup = new THREE.Group();
   scene.add(doorGroup);
