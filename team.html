@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Team — Polymathic Industries</title>
+
+<style>
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+  background:radial-gradient(circle at top,#2a0050 0,#050008 55%,#020005 100%);
+  color:#f7f3ff;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:inherit; text-decoration:none; }
+.site-shell { max-width:1120px; margin:0 auto; padding:0 20px; }
+
+/* Header */
+header {
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(to bottom,rgba(5,0,16,0.92),rgba(5,0,16,0.7),transparent);
+}
+.header-inner {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:14px 0 10px;
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo-wrap {
+  width:40px; height:40px; border-radius:14px; overflow:hidden;
+  background:#4b0082; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.7);
+}
+.brand-logo-wrap img { width:100%; height:100%; object-fit:cover; }
+.brand-text { display:flex; flex-direction:column; gap:2px; }
+.brand-name {
+  font-size:15px; font-weight:600; letter-spacing:0.16em;
+  text-transform:uppercase; color:#c3b6e6;
+}
+.brand-tagline { font-size:12px; color:#c3b6e6; }
+nav { display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6; }
+.nav-link {
+  padding:6px 10px; border-radius:999px; border:1px solid transparent;
+  cursor:pointer; transition:background .18s,border-color .18s,color .18s;
+}
+.nav-link:hover {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.12);
+  color:#f7f3ff;
+}
+
+/* Team Section */
+.team-section {
+  margin:60px 0 80px;
+  text-align:center;
+}
+
+.team-title {
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.team-sub {
+  font-size:15px;
+  color:#c3b6e6;
+  margin-bottom:40px;
+}
+
+.team-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:32px;
+}
+
+.team-card {
+  padding:26px 20px;
+  border-radius:20px;
+  background:radial-gradient(circle at top left,rgba(179,140,255,0.22),transparent 55%),
+             linear-gradient(145deg,rgba(10,0,30,0.96),rgba(4,0,16,0.98));
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 18px 60px rgba(0,0,0,0.7);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+
+.team-photo {
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,0.8);
+}
+
+.team-photo img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.team-name {
+  font-size:20px;
+  margin-bottom:4px;
+}
+
+.team-role {
+  font-size:14px;
+  color:#c3b6e6;
+  line-height:1.5;
+}
+
+/* Footer */
+footer {
+  margin:20px 0 30px;
+  font-size:12px;
+  color:#c3b6e6;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:12px;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="site-shell">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="Logo.jpeg" alt="Polymathic Industries logo" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Polymathic Industries</div>
+          <div class="brand-tagline">Emotionally intelligent play for human growth</div>
+        </div>
+      </a>
+      <nav>
+        <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
+        <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
+        <a href="carbiq.html" class="nav-link">CarbIQ</a>
+        <a href="hardware.html" class="nav-link">Hardware</a>
+        <a href="team.html" class="nav-link">Team</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="site-shell">
+
+    <section class="team-section">
+      <h1 class="team-title">Our Team</h1>
+      <p class="team-sub">The people building emotionally intelligent entertainment.</p>
+
+      <div class="team-grid">
+
+        <div class="team-card">
+          <div class="team-photo">
+            <img src="Matthew circle.png" alt="Matthew Zelitt" />
+          </div>
+          <div class="team-name">Matthew Zelitt</div>
+          <div class="team-role">CEO & Founder<br>Creative Director</div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <img src="Flavio circle.png" alt="Flavio Persico" />
+          </div>
+          <div class="team-name">Flavio Persico</div>
+          <div class="team-role">Game Developer</div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <img src="Guillaume circle.png" alt="Guillaume Massenet" />
+          </div>
+          <div class="team-name">Guillaume Massenet</div>
+          <div class="team-role">Junior Developer</div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      © Polymathic Industries · 2026
+    </footer>
+
+  </div>
+</main>
+
+</body>
+</html>
