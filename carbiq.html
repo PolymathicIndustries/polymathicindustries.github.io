@@ -40,7 +40,7 @@ header {
 }
 .brand-tagline { font-size:12px; color:#c3b6e6; }
 
-/* ⭐ UPDATED NAVIGATION (Team added) */
+/* Navigation */
 nav {
   display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 }
@@ -75,7 +75,7 @@ nav {
 .hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
 .hero-note { font-size:13px; color:#c3b6e6; }
 
-/* Visual — CarbIQ Calculator */
+/* ⭐ Animated Calculator (Homepage Version) */
 .carbiq-visual {
   display:flex;
   align-items:center;
@@ -92,28 +92,28 @@ nav {
 }
 
 .carbiq-calculator {
-  width:150px;
-  height:210px;
+  width:180px;
+  height:240px;
   border-radius:22px;
-  background:linear-gradient(145deg,#ffffff,#d9d0ff);
+  background:linear-gradient(145deg,#1a1a1a,#0d0d0d);
   box-shadow:
     0 22px 50px rgba(0,0,0,0.85),
-    inset 0 0 22px rgba(255,255,255,0.4);
+    inset 0 0 22px rgba(255,255,255,0.08);
   position:relative;
   padding:14px 12px;
   display:flex;
   flex-direction:column;
-  gap:10px;
-  border:1px solid rgba(255,255,255,0.25);
+  gap:14px;
+  border:1px solid rgba(255,255,255,0.15);
   z-index:2;
 }
 
 .carbiq-screen {
-  height:40px;
+  height:48px;
   border-radius:10px;
-  background:#000;
+  background:linear-gradient(145deg,#000000,#111111);
   color:#fff;
-  font-size:20px;
+  font-size:22px;
   display:flex;
   align-items:center;
   justify-content:flex-end;
@@ -121,22 +121,35 @@ nav {
   box-shadow:inset 0 0 12px rgba(0,0,0,0.6);
 }
 
+.carbiq-screen-text {
+  font-family:monospace;
+  letter-spacing:1px;
+}
+
 .carbiq-buttons {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px;
+  gap:10px;
 }
 
 .carbiq-btn {
-  height:34px;
+  height:38px;
   border-radius:10px;
-  background:#ffffff;
-  color:#000;
+  background:#1c1c1c;
+  color:#fff;
   font-weight:600;
   display:flex;
   align-items:center;
   justify-content:center;
   box-shadow:0 4px 10px rgba(0,0,0,0.25);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:background .15s, transform .15s;
+}
+
+.carbiq-btn.active {
+  background:#ffffff;
+  color:#000;
+  transform:scale(1.05);
 }
 
 /* Content */
@@ -181,7 +194,6 @@ footer {
         </div>
       </a>
 
-      <!-- ⭐ UPDATED NAVIGATION -->
       <nav>
         <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
         <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
@@ -211,23 +223,25 @@ footer {
           </p>
         </div>
 
-        <!-- ⭐ CARBIQ CALCULATOR VISUAL -->
+        <!-- ⭐ Animated Calculator -->
         <div class="carbiq-visual">
           <div class="carbiq-stack">
 
             <div class="carbiq-calculator">
-              <div class="carbiq-screen" id="carbiqScreen">1 + 4 = 5</div>
+              <div class="carbiq-screen">
+                <span class="carbiq-screen-text"></span>
+              </div>
 
               <div class="carbiq-buttons">
-                <div class="carbiq-btn">1</div>
-                <div class="carbiq-btn">2</div>
-                <div class="carbiq-btn">3</div>
-                <div class="carbiq-btn">4</div>
-                <div class="carbiq-btn">5</div>
-                <div class="carbiq-btn">6</div>
-                <div class="carbiq-btn">7</div>
-                <div class="carbiq-btn">8</div>
-                <div class="carbiq-btn">9</div>
+                <div class="carbiq-btn" data-key="1">1</div>
+                <div class="carbiq-btn" data-key="2">2</div>
+                <div class="carbiq-btn" data-key="3">3</div>
+                <div class="carbiq-btn" data-key="4">4</div>
+                <div class="carbiq-btn" data-key="5">5</div>
+                <div class="carbiq-btn" data-key="6">6</div>
+                <div class="carbiq-btn" data-key="7">7</div>
+                <div class="carbiq-btn" data-key="8">8</div>
+                <div class="carbiq-btn" data-key="9">9</div>
               </div>
             </div>
 
@@ -250,9 +264,52 @@ footer {
   </div>
 </main>
 
-<!-- ⭐ Your existing CarbIQ JS (unchanged) -->
-<script>
-/* Your calculator animation code stays exactly as-is */
+<!-- ⭐ Inline JS: Real CarbIQ Animation -->
+<script type="module">
+/* CarbIQ: sync display typing with button presses, ending in "1 + 4 = 5" */
+
+function initCarbIQButtons() {
+  const buttons = document.querySelectorAll('.carbiq-btn');
+  const screen = document.querySelector('.carbiq-screen-text');
+  if (!buttons.length || !screen) return;
+
+  const keyMap = {};
+  buttons.forEach(btn => {
+    keyMap[btn.dataset.key] = btn;
+  });
+
+  const text = "1 + 4 = 5";
+  const cycleMs = 4000;
+  const typingDuration = 1500;
+  const charInterval = typingDuration / text.length;
+
+  function runCycle() {
+    screen.textContent = "";
+    buttons.forEach(b => b.classList.remove('active'));
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      const delay = i * charInterval;
+
+      setTimeout(() => {
+        screen.textContent += ch;
+
+        if (ch === '1' || ch === '4') {
+          const btn = keyMap[ch];
+          if (btn) {
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 150);
+          }
+        }
+      }, delay);
+    }
+  }
+
+  runCycle();
+  setInterval(runCycle, cycleMs);
+}
+
+initCarbIQButtons();
 </script>
 
 </body>
