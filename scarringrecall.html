@@ -40,7 +40,7 @@ header {
 }
 .brand-tagline { font-size:12px; color:#c3b6e6; }
 
-/* ⭐ UPDATED NAVIGATION (Team added) */
+/* Navigation */
 nav {
   display:flex; align-items:center; gap:14px; font-size:13px; color:#c3b6e6;
 }
@@ -75,22 +75,16 @@ nav {
 .hero-sub { font-size:15px; color:#c3b6e6; margin-bottom:16px; }
 .hero-note { font-size:13px; color:#c3b6e6; }
 
-/* Visual — REAL 3D DOOR SCENE */
-.scarring-visual {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
+/* Door Canvas */
+.door-canvas-wrap {
   width:100%;
+  height:260px;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.8);
+  border:1px solid rgba(255,255,255,0.08);
 }
-
-.canvas-wrap {
-  width:260px;
-  height:220px;
-  position:relative;
-}
-
-.canvas-wrap canvas {
+#doorCanvas {
   width:100%;
   height:100%;
   display:block;
@@ -138,7 +132,6 @@ footer {
         </div>
       </a>
 
-      <!-- ⭐ UPDATED NAVIGATION -->
       <nav>
         <a href="survivalsummit.html" class="nav-link">Survival Summit</a>
         <a href="scarringrecall.html" class="nav-link">Scarring Recall</a>
@@ -159,31 +152,27 @@ footer {
       <div class="hero-inner">
         <div>
           <div class="hero-label">Game · Scarring Recall</div>
-          <h1 class="hero-title">A narrative mystery about the memories you avoid.</h1>
+          <h1 class="hero-title">Face what you forgot.</h1>
           <p class="hero-sub">
-            Two brothers, a fractured childhood, and the emotional weight that was never spoken aloud.
+            A psychological mystery where memory, emotion, and perception collide.
           </p>
           <p class="hero-note">
-            Scarring Recall invites players into the space between memory, fear, and loyalty — and asks what it takes to truly understand someone you thought you knew.
+            Every step forward brings you closer to the truth — and to yourself.
           </p>
         </div>
 
-        <!-- ⭐ REAL 3D DOOR SCENE -->
-        <div class="scarring-visual">
-          <div class="canvas-wrap">
-            <canvas id="doorCanvas"></canvas>
-          </div>
+        <!-- ⭐ Door Animation -->
+        <div class="door-canvas-wrap">
+          <canvas id="doorCanvas"></canvas>
         </div>
 
       </div>
     </section>
 
     <section class="content">
-      <p>Scarring Recall is a narrative mystery game about a man returning to the memories he has avoided for most of his life. The story follows Ryan as he searches for the truth behind a fractured childhood and the distance that grew between him and his brother. What begins as a simple attempt to understand the past becomes a journey through the emotional weight they both carried but never spoke about.</p>
+      <p>Scarring Recall is a narrative psychological thriller built around emotional clarity and self-confrontation. The world shifts as you do — revealing more of itself as you choose courage over avoidance.</p>
 
-      <p>Players explore key moments, uncover clues, and move through a series of intimate confrontations that reveal how misunderstandings, silence, and trauma shaped the brothers in different ways. Each encounter focuses on connection, perspective, and the difficulty of facing the people who mattered most when things went wrong.</p>
-
-      <p>Scarring Recall is not only a mystery to solve. It is a story about two brothers trying to understand each other when communication has failed. The game invites players to step into the emotional space between them and witness how memory, fear, and loyalty collide as Ryan pieces together what truly happened.</p>
+      <p>The experience is designed to be intimate, atmospheric, and transformative, guiding players through a journey of memory, identity, and healing.</p>
     </section>
 
     <footer>
@@ -193,9 +182,181 @@ footer {
   </div>
 </main>
 
-<!-- ⭐ THREE.JS DOOR SCENE (unchanged) -->
+<!-- ⭐ Inline JS: Full Door Animation -->
 <script type="module">
-/* your existing Three.js door code remains untouched */
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+function createRenderer(canvas) {
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true
+  });
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+
+  const resize = () => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      renderer.setSize(rect.width, rect.height, false);
+    }
+  };
+
+  resize();
+  window.addEventListener('resize', resize);
+  return renderer;
+}
+
+function initDoor() {
+  const canvas = document.getElementById('doorCanvas');
+  if (!canvas) return;
+
+  const renderer = createRenderer(canvas);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+  scene.fog = new THREE.FogExp2(0x000000, 0.22);
+
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.set(0, 1.8, 5.2);
+  camera.lookAt(0, 1.4, 0);
+
+  const ambient = new THREE.AmbientLight(0x222233, 0.6);
+  scene.add(ambient);
+
+  const spot = new THREE.SpotLight(0xfff2d0, 1.8, 20, Math.PI / 6, 0.5, 1.0);
+  spot.position.set(0, 3.6, 1.2);
+  spot.target.position.set(0, 1.4, 0);
+  scene.add(spot);
+  scene.add(spot.target);
+
+  const lampGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16);
+  const lampMat = new THREE.MeshStandardMaterial({
+    color: 0xdddddd,
+    metalness: 0.7,
+    roughness: 0.3,
+    emissive: 0xffffee,
+    emissiveIntensity: 0.6
+  });
+  const lamp = new THREE.Mesh(lampGeo, lampMat);
+  lamp.position.set(0, 3.4, 0.2);
+  scene.add(lamp);
+
+  const catcherGeo = new THREE.PlaneGeometry(6, 6);
+  const catcherMat = new THREE.MeshStandardMaterial({
+    color: 0x111111,
+    roughness: 0.9,
+    metalness: 0.0,
+  });
+  catcherMat.colorWrite = false;
+  const catcher = new THREE.Mesh(catcherGeo, catcherMat);
+  catcher.position.set(0, 1.5, -2.5);
+  scene.add(catcher);
+
+  const doorGroup = new THREE.Group();
+  scene.add(doorGroup);
+
+  const doorWidth = 1.6;
+  const doorHeight = 3.0;
+  const doorDepth = 0.18;
+
+  const doorGeo = new THREE.BoxGeometry(doorWidth, doorHeight, doorDepth);
+  const doorMat = new THREE.MeshStandardMaterial({
+    color: 0x3a2626,
+    metalness: 0.4,
+    roughness: 0.35,
+    emissive: 0x1a0505,
+    emissiveIntensity: 0.25
+  });
+  const door = new THREE.Mesh(doorGeo, doorMat);
+  door.position.x = doorWidth / 2;
+  doorGroup.add(door);
+  doorGroup.position.set(-doorWidth / 2, 1.5, 0);
+
+  const frameMat = new THREE.MeshStandardMaterial({
+    color: 0x555555,
+    metalness: 0.7,
+    roughness: 0.3
+  });
+
+  const frameThickness = 0.12;
+
+  const topBeamGeo = new THREE.BoxGeometry(doorWidth + 0.18, frameThickness, frameThickness);
+  const topBeam = new THREE.Mesh(topBeamGeo, frameMat);
+  topBeam.position.set(0, 1.5 + doorHeight/2, 0.01);
+  scene.add(topBeam);
+
+  const bottomBeamGeo = new THREE.BoxGeometry(doorWidth + 0.18, frameThickness, frameThickness);
+  const bottomBeam = new THREE.Mesh(bottomBeamGeo, frameMat);
+  bottomBeam.position.set(0, 1.5 - doorHeight/2, 0.01);
+  scene.add(bottomBeam);
+
+  const leftBeamGeo = new THREE.BoxGeometry(frameThickness, doorHeight + 0.18, frameThickness);
+  const leftBeam = new THREE.Mesh(leftBeamGeo, frameMat);
+  leftBeam.position.set(-(doorWidth/2 + 0.09), 1.5, 0.01);
+  scene.add(leftBeam);
+
+  const rightBeamGeo = new THREE.BoxGeometry(frameThickness, doorHeight + 0.18, frameThickness);
+  const rightBeam = new THREE.Mesh(rightBeamGeo, frameMat);
+  rightBeam.position.set(doorWidth/2 + 0.09, 1.5, 0.01);
+  scene.add(rightBeam);
+
+  const handleGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.3, 16);
+  const handleMat = new THREE.MeshStandardMaterial({
+    color: 0xdedede,
+    metalness: 0.9,
+    roughness: 0.2
+  });
+  const handle = new THREE.Mesh(handleGeo, handleMat);
+  handle.rotation.z = Math.PI / 2;
+  handle.position.set(doorWidth - 0.25, 1.4, 0.1);
+  door.add(handle);
+
+  const knobGeo = new THREE.SphereGeometry(0.06, 16, 16);
+  const knob = new THREE.Mesh(knobGeo, handleMat);
+  knob.position.set(doorWidth - 0.1, 1.4, 0.12);
+  door.add(knob);
+
+  const floorFogGeo = new THREE.PlaneGeometry(4, 3);
+  const floorFogMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.10
+  });
+  const floorFog = new THREE.Mesh(floorFogGeo, floorFogMat);
+  floorFog.rotation.x = -Math.PI / 2;
+  floorFog.position.set(0, 0.01, 0.4);
+  scene.add(floorFog);
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const t = clock.getElapsedTime();
+    const cycle = 6.0;
+    const phase = (t % cycle) / cycle;
+    const ease = phase < 0.5
+      ? 2 * phase * phase
+      : -2 * (phase - 1) * (phase - 1) + 1;
+
+    const angle = - (Math.PI / 2) * ease;
+    doorGroup.rotation.y = angle;
+
+    floorFog.position.z = 0.4 + Math.sin(t * 0.2) * 0.2;
+
+    camera.position.z = 5.2 - ease * 1.2;
+    camera.lookAt(0, 1.4, 0);
+
+    const rect = canvas.getBoundingClientRect();
+    camera.aspect = rect.width / rect.height;
+    camera.updateProjectionMatrix();
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+}
+
+initDoor();
 </script>
 
 </body>
