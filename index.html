@@ -9,19 +9,6 @@
 
 <style>
 
-/* Beyond Entertainment */
-
-.beyond-section {
-  margin: 32px 0;
-  padding: 26px 24px;
-  border-radius: var(--radius-lg);
-  background:
-    radial-gradient(circle at top left,
-      rgba(179,140,255,0.16), transparent 65%),
-    linear-gradient(145deg, var(--bg-alt), #050008);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
-}
   
 :root {
   --bg: #070010;
@@ -485,18 +472,26 @@ nav {
 }
 
 
-<section class="beyond-section">
-  <div class="beyond-inner">
-    <div class="section-label">05 — Emerging Technologies</div>
-    <h2>Beyond Entertainment</h2>
-    <p>
-      Polymathic Industries is expanding its horizons through
-      innovative software development in healthcare technology,
-      legacy system modernization, and artificial intelligence
-      and machine learning. Feel free to review our services page.
-    </p>
-  </div>
-</section>
+/* Beyond Entertainment */
+
+.beyond-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.beyond-inner h2 {
+  font-size: 21px;
+  margin: 8px 0 10px;
+  color: var(--text);
+}
+
+.beyond-inner p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 0;
+}
   
 /* Footer */
 
@@ -728,6 +723,25 @@ footer {
       </div>
     </section>
 
+
+
+<!-- Beyond Entertainment -->
+
+<section class="beyond-section">
+  <div class="beyond-inner">
+    <div class="section-label">05 — Emerging Technologies</div>
+    <h2>Beyond Entertainment</h2>
+    <p>
+      Polymathic Industries is expanding its horizons through
+      innovative software development in healthcare technology,
+      legacy system modernization, and artificial intelligence
+      and machine learning. Feel free to explore our services.
+    </p>
+  </div>
+</section>
+
+
+    
     <footer>
       <div>© Polymathic Industries · 2026</div>
       <div>Emotionally intelligent play for human growth.</div>
